@@ -128,11 +128,11 @@ public class ProductModel extends AbsDBAPI<Product> {
                 products = loadProductsByKeyWord(database);
                 break;
             case 2:
-                //通过ID加载Product数据
+                //通过商品类型ID加载Product数据
                 products = loadProductByCategory(database);
                 break;
             case 3:
-                //通过商品类型加载Product数据
+                //通过商品ID加载Product数据
                 products = loadProductByID(database);
                 break;
             case 4:
@@ -164,7 +164,7 @@ public class ProductModel extends AbsDBAPI<Product> {
      */
     private List<Product> loadProductsByKeyWord(SQLiteDatabase database){
         Cursor cursor = database.rawQuery("select * from " + DatabaseHelper.TABLE_PRODUCT
-            + "where title like ? and author like ?", new String[]{"%" + whereArgs + "%"});
+            + " where title like ? and author like ?", new String[]{"%" + whereArgs + "%", "%" + whereArgs + "%"});
         return parseResult(cursor);
     }
 
@@ -174,7 +174,7 @@ public class ProductModel extends AbsDBAPI<Product> {
      * @return
      */
     private List<Product> loadProductByID(SQLiteDatabase database){
-        Log.e("ProductModel", "whereArgs=" + whereArgs);
+//        Log.e("ProductModel", "whereArgs=" + whereArgs);
         Cursor cursor = database.rawQuery("select * from " + DatabaseHelper.TABLE_PRODUCT
             + " where id = ?", new String[]{whereArgs});
         return parseResult(cursor);

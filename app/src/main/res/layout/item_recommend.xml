@@ -5,11 +5,25 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/iv_head_recommend_img"
+        android:id="@+id/iv_head_recm_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:contentDescription="@string/app_name"
         android:src="@drawable/books"
         />
+    <TextView
+        android:id="@+id/tv_head_recm_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#33555555"
+        android:paddingBottom="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="2dp"
+        android:text="@string/title"
+        android:textColor="@color/text_while"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 </RelativeLayout>
