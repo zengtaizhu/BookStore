@@ -32,12 +32,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.project.zeng.bookstore.adapter.ProductRecyclerAdapter.*;
+
 /**
  * Created by zeng on 2017/3/2.
  * 搜索后的商品列表（注：每次都从网络加载数据，不保存商品信息到数据库）
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class ProductsActivity extends Activity implements OnClickListener, OnScrollChangeListener, ProductRecyclerAdapter.MyItemClickListener{
+public class ProductsActivity extends Activity implements OnClickListener,
+        OnScrollChangeListener, MyItemClickListener{
 
     //组件
     private ScrollView mScrollView;
