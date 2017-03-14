@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/sv_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/toolbar_product"
+                android:id="@+id/toolbar_pro"/>
+            <include layout="@layout/list_product_order"></include>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
+    <ImageView
+        android:id="@+id/iv_pro_go_top"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:layout_alignBottom="@id/sv_product"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_go_top"
+        android:visibility="gone"/>
+</RelativeLayout>

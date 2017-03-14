@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_category"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:orientation="horizontal"
+        android:background="#fbfbfb"
+        android:layout_weight="10">
+        <ListView
+            android:id="@+id/lv_category"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:background="@drawable/category_bg"></ListView>
+        <!--分隔条-->
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#cdcdcd"></View>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <GridView
+                android:id="@+id/gv_category_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:numColumns="3"
+                android:horizontalSpacing="3dp"
+                android:gravity="center"
+                android:stretchMode="columnWidth"
+                android:columnWidth="15dp"
+                android:background="@color/white"
+                android:scrollbars="none"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"></View>
+</LinearLayout>
