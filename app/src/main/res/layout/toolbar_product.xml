@@ -26,6 +26,8 @@
             android:drawableLeft="@mipmap/toolbar_search"
             android:drawablePadding="5dp"
             android:background="@mipmap/toolbar_input"
+            android:maxLines="1"
+            android:ellipsize="middle"
             android:textSize="16sp"
             android:focusable="false"
             android:hint="搜索商品/类型"

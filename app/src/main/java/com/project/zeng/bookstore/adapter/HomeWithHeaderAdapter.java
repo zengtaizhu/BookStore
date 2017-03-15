@@ -50,14 +50,15 @@ public class HomeWithHeaderAdapter extends Adapter<ViewHolder>{
         AutoScrollViewPager viewPager = mHeaderViewHolder.mAutoScrollViewPager;
         mRecommendAdapter = new RecommendAdapter(viewPager, mRecommends);
         mRecommendAdapter.setOnItemClickListener(mRecommendListener);
+        viewPager.setInterval(4000);//播放间隔4s
         //设置ViewPager
-        viewPager.setInterval(5000);//播放间隔5s
-        viewPager.startAutoScroll();
-        viewPager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % mRecommends.size());
-        viewPager.setAdapter(mRecommendAdapter);
-        viewPager.setCycle(true);//设置循环播放
-        mHeaderViewHolder.mIndicator.setViewPager(viewPager);
-        setupItemViewClickListener(holder, mRecommends.get(position));
+        if(mRecommends.size() > 0){
+            viewPager.startAutoScroll();
+            viewPager.setCurrentItem(position % mRecommends.size());
+            viewPager.setAdapter(mRecommendAdapter);
+            mHeaderViewHolder.mIndicator.setViewPager(viewPager);
+            setupItemViewClickListener(holder, mRecommends.get(position));
+        }
     }
 
     @Override

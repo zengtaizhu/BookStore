@@ -18,7 +18,7 @@ public interface ProductAPI {
      * @param proId
      * @param listener
      */
-    public void fetchProductByID(String proId, DataListener<List<Product>> listener);
+    public void fetchProductByID(String proId, DataListener<Product> listener);
 
     /**
      * 通过商品类型的ID来获取商品

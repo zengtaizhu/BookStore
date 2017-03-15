@@ -37,4 +37,9 @@
     <string name="password_limit">密码:6-20个字母或数字</string>
     <string name="finish">完成</string>
     <string name="reset_password">重设密码</string>
+    <string name="buying">立即购买</string>
+    <string name="user_id">用户ID</string>
+    <string name="comment_grade">评价等级：</string>
+    <string name="comment_time">评论时间</string>
+    <string name="comment_string">评论内容</string>
 </resources>

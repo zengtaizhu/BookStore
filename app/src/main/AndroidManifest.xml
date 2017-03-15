@@ -27,14 +27,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.project.zeng.bookstore.ui.MainActivity">
+        <activity android:name="com.project.zeng.bookstore.ui.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.project.zeng.bookstore.ui.LoginActivity" />
+        <activity android:name="com.project.zeng.bookstore.ui.LoginActivity"
+            android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.SearchActivity"
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.ProductsActivity"></activity>
@@ -45,6 +47,8 @@
         <activity android:name="com.project.zeng.bookstore.ui.FindPasswordActivity"
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.RegisterPswActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.frgm.CartActivity"
             android:launchMode="singleTask"/>
     </application>
 

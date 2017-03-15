@@ -27,19 +27,15 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
         mRespHandler = new ProductHandler();
     }
 
-    public static void setUrl(String url) {
-        ProductAPIImpl.url = url;
-    }
-
     @Override
-    public void fetchProductByID(String proId, final DataListener<List<Product>> listener) {
+    public void fetchProductByID(String proId, final DataListener<Product> listener) {
         String newUrl = url + proId;
         StringRequest request = new StringRequest(newUrl, new Listener<String>() {
             @Override
             public void onResponse(String response) {
-//                Log.e("ProductAPIImpl", "response=" + response);
+//                Log.e("ProductAPIImplByID", "response=" + response);
                 if(listener != null){
-                    listener.onComplete(mRespHandler.parse(response));
+                    listener.onComplete(ProductHandler.parseOne(response));
                 }
             }
         }, new Response.ErrorListener() {

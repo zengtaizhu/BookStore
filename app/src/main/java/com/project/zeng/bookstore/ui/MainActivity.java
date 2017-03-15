@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
+import com.project.zeng.bookstore.ui.frgm.CartActivity;
 import com.project.zeng.bookstore.ui.frgm.CartFragment;
 import com.project.zeng.bookstore.ui.frgm.CategoryFragment;
 import com.project.zeng.bookstore.ui.frgm.FindFragment;

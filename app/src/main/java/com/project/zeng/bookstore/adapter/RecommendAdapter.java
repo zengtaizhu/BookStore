@@ -2,6 +2,7 @@ package com.project.zeng.bookstore.adapter;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,13 +33,18 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
     public RecommendAdapter(ViewPager viewPager, List<Recommend> recommends) {
         this.mViewPager = viewPager;
         this.mRecommends = recommends;
-        mContext = viewPager.getContext();
+        mContext = mViewPager.getContext();
+    }
+
+    private int getPosition(int position){
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup container) {
+    public View getView(final int position, View convertView, ViewGroup container) {
         ViewHolder viewHolder;
-        final Recommend item = mRecommends.get(position);
+        final Recommend item = getItem(position);
+//        Log.e("RecommendAdapter", "Recommend的id=" + item.getProId() + ",title=" + item.getProName());
         if(null == convertView){
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_recommend, container, false);
@@ -61,6 +67,10 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
         return convertView;
     }
 
+    private Recommend getItem(int position){
+        return mRecommends.get(getPosition(position));
+    }
+
     @Override
     public int getCount() {
         return mRecommends.size();
@@ -74,7 +84,6 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
      * 广告的ViewHolder
      */
     private static class ViewHolder{
-
         private ImageView mProImgView;
         private TextView mTitleTxtView;
     }

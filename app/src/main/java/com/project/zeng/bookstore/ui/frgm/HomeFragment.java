@@ -96,7 +96,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
             @Override
             public void onClick(Recommend item) {
                 Intent intent = new Intent(mMainContext, ProductsActivity.class);
+//                Log.e("HomeFragment", "Recommend的id=" + item.getProId() + ", name=" + item.getProName());
                 intent.putExtra("key", item.getProId());
+                intent.putExtra("name", item.getProName());
                 intent.putExtra("type", "3");//3：通过商品ID加载Product数据
                 startActivity(intent);
             }
@@ -117,7 +119,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
         mRecmDbAPI.loadDatasFromDb(new DataListener<List<Recommend>>() {
             @Override
             public void onComplete(List<Recommend> result) {
-                Log.e("HomeFragment","尝试从数据库加载Recommend=" + result.size());
+//                Log.e("HomeFragment","尝试从数据库加载Recommend=" + result.size());
                 mRecommendAPI.fetchRecommends(new DataListener<List<Recommend>>() {
                     @Override
                     public void onComplete(List<Recommend> result) {

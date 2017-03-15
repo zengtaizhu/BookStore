@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductHandler implements RespHandler<List<Product>, String>{
 
     /**
-     * 用Gson解析出商品数据
+     * 用Gson解析出商品列表数据
      * @param data
      * @return
      */
@@ -22,5 +22,15 @@ public class ProductHandler implements RespHandler<List<Product>, String>{
         List<Product> products = null;
         products = gson.fromJson(data, Products.class).getProducts();
         return products;
+    }
+
+    /**
+     * 用Gson解析出一个商品数据
+     * @param data
+     * @return
+     */
+    public static Product parseOne(String data){
+        Product product = gson.fromJson(data, Product.class);
+        return  product;
     }
 }

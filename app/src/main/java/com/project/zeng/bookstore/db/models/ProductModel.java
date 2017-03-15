@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ProductModel extends AbsDBAPI<Product> {
 
-    //选择加载Product的方式：0：全部，1：ID，2：商品类型，3：suitableGrade
+    //选择加载Product的方式：0：全部，1：商品ID，2：商品类型ID，3：suitableGrade
     private static int type = 0;
     private static String whereArgs;
 

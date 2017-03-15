@@ -89,31 +89,42 @@ public class ProductsActivity extends Activity implements OnClickListener,
             String name = intent.getStringExtra("name");
             init(name);
         }
+        initListener();
         //获取数据并更新界面
         fetchData(keyWord, type);
     }
 
+    /**
+     * 初始化组件
+     * @param keyWord
+     */
     private void init(String keyWord){
-        mProducts = new ArrayList<>();
+        mProducts = new ArrayList<>();//初始化Product列表
         mScrollView = (ScrollView)findViewById(R.id.sv_product);
-        mScrollView.setOnScrollChangeListener(this);
         mSearchEditText = (EditText)findViewById(R.id.et_search_category);
-        mSearchEditText.setText(keyWord);
-        mSearchEditText.setOnClickListener(this);
+        mSearchEditText.setText(keyWord);//设置搜索框内容
         mBackView = (ImageView)findViewById(R.id.iv_search_back);
-        mBackView.setOnClickListener(this);
         mFilterView = (TextView) findViewById(R.id.tv_pro_filter);
         mDefaultOrderView = (TextView)findViewById(R.id.tv_pro_order_default);
         mPriceOrderView = (TextView)findViewById(R.id.tv_pro_order_price);
         mPressOrderView = (TextView)findViewById(R.id.tv_pro_order_press);
         mIndicatorView = (ImageView) findViewById(R.id.iv_search_indicator);
-        mIndicatorView.setOnClickListener(this);
         mRecyProView = (RecyclerView)findViewById(R.id.recyclerView_product);
+        mGoTopView = (ImageView)findViewById(R.id.iv_pro_go_top);
+    }
+
+    /**
+     * 初始化组件的事件及适配器
+     */
+    private void initListener(){
+        mSearchEditText.setOnClickListener(this);
+        mScrollView.setOnScrollChangeListener(this);
+        mBackView.setOnClickListener(this);
+        mIndicatorView.setOnClickListener(this);
         mProductRecyAdapter = new ProductRecyclerAdapter(this);
         mProductRecyAdapter.setItemClickListener(this);
         mRecyProView.setAdapter(mProductRecyAdapter);
         mRecyProView.setLayoutManager(new LinearLayoutManager(this));
-        mGoTopView = (ImageView)findViewById(R.id.iv_pro_go_top);
         mGoTopView.setOnClickListener(this);
     }
 
@@ -122,6 +133,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
      */
     public void fetchData(final String keyWord, int type){
         switch (type){
+            //通过关键字搜索
             case 1:
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("type", "1");
@@ -162,15 +174,14 @@ public class ProductsActivity extends Activity implements OnClickListener,
                 });
                 break;
             case 3:
-                mProductAPI.fetchProductByID(keyWord, new DataListener<List<Product>>() {
+//                Log.e("ProductsActivity", "keyword=" + keyWord);
+                mProductAPI.fetchProductByID(keyWord, new DataListener<Product>() {
                     @Override
-                    public void onComplete(List<Product> result) {
+                    public void onComplete(Product result) {
                         if(null != result){
-                            Log.e("ProductsActivity", "从网络获取的result的数量为：" + result.size());
-                            mProductRecyAdapter.updateData(result);
-                            mProducts = result;
-                        }else{
-                            Log.e("ProductsActivity", "从网络获取的result的数量为:0");
+                            mProducts.clear();
+                            mProducts.add(result);
+                            mProductRecyAdapter.updateData(mProducts);
                         }
                     }
                 });
@@ -226,11 +237,14 @@ public class ProductsActivity extends Activity implements OnClickListener,
 
     @Override
     public void onItemClick(View view, int position) {
-        String id = mProducts.get(position).getId();
-        String title = mProducts.get(position).getTitle();
-        Toast.makeText(this, "id=" + id + ",title=" + title, Toast.LENGTH_SHORT).show();
+//        String id = mProducts.get(position).getId();
+//        String title = mProducts.get(position).getTitle();
+//        Toast.makeText(this, "id=" + id + ",title=" + title, Toast.LENGTH_SHORT).show();
         //通过商品ID，进入该商品的ProductDetailActivity
         Intent intent = new Intent(this, ProductDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", mProducts.get(position));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }
