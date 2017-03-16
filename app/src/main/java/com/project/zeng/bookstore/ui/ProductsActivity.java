@@ -147,11 +147,11 @@ public class ProductsActivity extends Activity implements OnClickListener,
                             @Override
                             public void onComplete(List<Product> result) {
                                 if(null != result){
-                                    Log.e("ProductsActivity", "从网络获取的result的数量为：" + result.size());
+                                    Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
                                     mProductRecyAdapter.updateData(result);
                                     mProducts = result;
                                 }else{
-                                    Log.e("ProductsActivity", "从网络获取的result的数量为:0");
+                                    Log.e("ProductsActivity", "从网络获取的product的数量为:0");
                                 }
                             }
                         });
@@ -164,11 +164,11 @@ public class ProductsActivity extends Activity implements OnClickListener,
                     @Override
                     public void onComplete(List<Product> result) {
                         if(null != result){
-                            Log.e("ProductsActivity", "从网络获取的result的数量为：" + result.size());
+                            Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
                             mProductRecyAdapter.updateData(result);
                             mProducts = result;
                         }else{
-                            Log.e("ProductsActivity", "从网络获取的result的数量为:0");
+                            Log.e("ProductsActivity", "从网络获取的product的数量为:0");
                         }
                     }
                 });
@@ -227,7 +227,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
 
     @Override
     public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        Log.e("ProductsActivity", "scrollY=" + scrollX + ",oldScrollY" + oldScrollY);
+//        Log.e("ProductsActivity", "scrollY=" + scrollX + ",oldScrollY" + oldScrollY);
         if(scrollY >= 200){
             mGoTopView.setVisibility(View.VISIBLE);
         }else{

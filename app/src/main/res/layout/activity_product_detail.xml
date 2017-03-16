@@ -9,7 +9,7 @@
     <ScrollView
         android:id="@+id/sv_pro_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="45dp">
         <LinearLayout
@@ -22,8 +22,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/books"
-                android:visibility="visible"/>
+                android:src="@drawable/books"/>
             <TextView
                 android:id="@+id/tv_pro_detail_title"
                 android:layout_width="match_parent"
@@ -203,11 +202,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/divide_color"></View>
-            <ListView
+            <com.project.zeng.bookstore.widgets.MyListView
                 android:id="@+id/lv_pro_comment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"></ListView>
+                android:layout_height="400dp"></com.project.zeng.bookstore.widgets.MyListView>
         </LinearLayout>
     </ScrollView>
     <RelativeLayout

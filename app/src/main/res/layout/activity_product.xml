@@ -15,11 +15,10 @@
             <include layout="@layout/toolbar_product"
                 android:id="@+id/toolbar_pro"/>
             <include layout="@layout/list_product_order"></include>
-            <android.support.v7.widget.RecyclerView
+            <com.project.zeng.bookstore.widgets.MyRecyclerView
                 android:id="@+id/recyclerView_product"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"></com.project.zeng.bookstore.widgets.MyRecyclerView>
         </LinearLayout>
     </ScrollView>
     <ImageView

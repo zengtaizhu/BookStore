@@ -1,15 +1,24 @@
 package com.project.zeng.bookstore.adapter;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.entities.Comment;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by zeng on 2017/3/15.
@@ -37,12 +46,28 @@ public class CommentAdapter extends BaseAdapter{
 
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(mComments.get(position).getId());
+        return Integer.valueOf(mComments.get(position).getId());
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        ViewHolder viewHolder;
+        if(null == convertView){
+            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, parent, false);
+            viewHolder.mUserIdView = (TextView)convertView.findViewById(R.id.tv_comment_user_id);
+            viewHolder.mCommentGradeView = (TextView)convertView.findViewById(R.id.tv_comment_grade);
+            viewHolder.mCommentTimeView = (TextView)convertView.findViewById(R.id.tv_comment_time);
+            viewHolder.mCommentView = (TextView)convertView.findViewById(R.id.tv_comment);
+            convertView.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        viewHolder.mUserIdView.setText(mComments.get(position).getBuyer_id());
+        viewHolder.mCommentGradeView.setText(mComments.get(position).getGrade());
+        viewHolder.mCommentTimeView.setText(mComments.get(position).getComment_time());
+        viewHolder.mCommentView.setText(mComments.get(position).getComment());
+        return convertView;
     }
 
     /**
@@ -56,9 +81,9 @@ public class CommentAdapter extends BaseAdapter{
     }
 
     private static class ViewHolder{
-        private TextView mUserIdTxtView;
-        private TextView mCommentGradeTxtView;
-        private TextView mCommentTimeTxtView;
-        private TextView mCommentTxtView;
+        private TextView mUserIdView;
+        private TextView mCommentGradeView;
+        private TextView mCommentTimeView;
+        private TextView mCommentView;
     }
 }

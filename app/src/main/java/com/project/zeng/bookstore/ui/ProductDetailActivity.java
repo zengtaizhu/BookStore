@@ -3,20 +3,26 @@ package com.project.zeng.bookstore.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.adapter.CommentAdapter;
+import com.project.zeng.bookstore.entities.Comment;
 import com.project.zeng.bookstore.entities.Product;
+import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.net.CommentAPI;
+import com.project.zeng.bookstore.net.impl.CommentAPIImpl;
 import com.project.zeng.bookstore.ui.frgm.CartActivity;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by zeng on 2017/3/4.
@@ -35,7 +41,6 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
     private TextView mProAuthorTxtView;
     private TextView mProPressTxtView;
     private TextView mProSellerTxtView;
-//    private TextView mProGradeTxtView;
     private ListView mProCommentsView;
 
     private ImageView mCartImgView;
@@ -45,6 +50,12 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
     private ImageView mGoTopImgView;
 
     private Product product;
+
+    //商品评论列表的适配器
+    private CommentAdapter mCommentAdapter;
+
+    //商品评论的请求API
+    private CommentAPI mCommentAPI = new CommentAPIImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +69,8 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
 //        Toast.makeText(this, "product的id=" + product.getId(), Toast.LENGTH_SHORT).show();
         init();
         initListener();
-        //获取数据，更新界面
-        fetchData();
+        //获取商品评论数据，更新界面
+        fetchCommentData();
     }
 
     /**
@@ -74,7 +85,6 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
         mProAuthorTxtView = (TextView)findViewById(R.id.tv_pro_detail_author);
         mProPressTxtView = (TextView)findViewById(R.id.tv_pro_detail_press);
         mProSellerTxtView = (TextView)findViewById(R.id.tv_pro_detail_seller);
-//        mProGradeTxtView = (TextView)findViewById(R.id.tv_pro_detail_grade);
         mProCommentsView = (ListView)findViewById(R.id.lv_pro_comment);
         mCartImgView = (ImageView)findViewById(R.id.iv_pro_to_cart);
         mBuyView = (TextView)findViewById(R.id.tv_pro_buy);
@@ -106,14 +116,25 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
         mBuyView.setOnClickListener(this);
         mAddToCartView.setOnClickListener(this);
         mGoTopImgView.setOnClickListener(this);
-        mProCommentsView.setAdapter(new CommentAdapter(getApplicationContext()));
+        mCommentAdapter = new CommentAdapter(getApplicationContext());
+        mProCommentsView.setAdapter(mCommentAdapter);
     }
 
     /**
      * 获取商品评价数据，渲染到界面
      */
-    public void fetchData(){
-
+    public void fetchCommentData(){
+        mCommentAPI.fetchComment(product.getId(), new DataListener<List<Comment>>() {
+            @Override
+            public void onComplete(List<Comment> result) {
+                if(null != result){
+//                    Log.e("ProductDetailActivity", "从网络获取的comment的数量为：" + result.size());
+                    mCommentAdapter.updateData(result);
+                }else{
+//                    Log.e("ProductDetailActivity", "从网络获取的comment的数量为0");
+                }
+            }
+        });
     }
 
     @Override

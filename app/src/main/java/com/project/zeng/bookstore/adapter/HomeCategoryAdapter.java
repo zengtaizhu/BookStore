@@ -49,7 +49,7 @@ public class HomeCategoryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if(null == convertView){
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(mContext);

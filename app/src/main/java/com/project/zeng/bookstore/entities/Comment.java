@@ -1,6 +1,7 @@
 package com.project.zeng.bookstore.entities;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by zeng on 2017/3/15.
@@ -13,7 +14,8 @@ public class Comment {
      * Comment的域
      */
     private String id;
-    private Date comment_time;
+    private String buyer_id;
+    private String comment_time;
     private String grade;
     private String comment;
 
@@ -25,11 +27,19 @@ public class Comment {
         this.id = id;
     }
 
-    public Date getComment_time() {
+    public String getBuyer_id() {
+        return buyer_id;
+    }
+
+    public void setBuyer_id(String buyer_id) {
+        this.buyer_id = buyer_id;
+    }
+
+    public String getComment_time() {
         return comment_time;
     }
 
-    public void setComment_time(Date comment_time) {
+    public void setComment_time(String comment_time) {
         this.comment_time = comment_time;
     }
 
