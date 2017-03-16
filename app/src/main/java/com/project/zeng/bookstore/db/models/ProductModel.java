@@ -94,7 +94,9 @@ public class ProductModel extends AbsDBAPI<Product> {
             sDbExecutor.execute(new Command.ProductsCommand(listener) {
                 @Override
                 protected List<Product> doInBackground(SQLiteDatabase database) {
-                    analysisHashMap(args);
+                    if(args != null){
+                        analysisHashMap(args);
+                    }
                     List<Product> products = findProductsFromDB(database);
                     return products;
                 }

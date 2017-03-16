@@ -43,6 +43,12 @@ public interface ProductAPI {
     public void fetchProductsByWord(String word, DataListener<List<Product>> listener);
 
     /**
+     * 加载广告
+     * @param listener
+     */
+    public void fetchRecommends(DataListener<List<Product>> listener);
+
+    /**
      * 通过适合年级来加载商品
      * @param grade
      * @param listener

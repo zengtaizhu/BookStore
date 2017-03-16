@@ -25,12 +25,16 @@ import com.project.zeng.bookstore.adapter.HomeWithHeaderAdapter;
 import com.project.zeng.bookstore.db.AbsDBAPI;
 import com.project.zeng.bookstore.db.models.DbFactory;
 import com.project.zeng.bookstore.entities.Category;
+import com.project.zeng.bookstore.entities.Product;
 import com.project.zeng.bookstore.entities.Recommend;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.CategoryAPI;
+import com.project.zeng.bookstore.net.ProductAPI;
 import com.project.zeng.bookstore.net.RecommendAPI;
 import com.project.zeng.bookstore.net.impl.CategoryAPIImpl;
+import com.project.zeng.bookstore.net.impl.ProductAPIImpl;
 import com.project.zeng.bookstore.net.impl.RecommendAPIImpl;
+import com.project.zeng.bookstore.ui.ProductDetailActivity;
 import com.project.zeng.bookstore.ui.ProductsActivity;
 
 import java.lang.ref.WeakReference;
@@ -54,12 +58,14 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
     private HomeCategoryAdapter mCategoryAdapter;
 
     //商品推荐网络请求API
-    RecommendAPI mRecommendAPI = new RecommendAPIImpl();
+//    RecommendAPI mRecommendAPI = new RecommendAPIImpl();
+    ProductAPI mProductAPI = new ProductAPIImpl();
     //商品类型网络请求API
     CategoryAPI mCategoryAPI = new CategoryAPIImpl();
 
     //操作商品推荐的数据库对象
-    AbsDBAPI<Recommend> mRecmDbAPI = DbFactory.createRecommendModel();
+//    AbsDBAPI<Recommend> mRecmDbAPI = DbFactory.createRecommendModel();
+    AbsDBAPI<Product> mProDbAPI = DbFactory.createProductModel();
     //操作商品类型数据的数据库对象
     AbsDBAPI<Category> mCatgDbAPI = DbFactory.createCategoryModel();
 
@@ -92,14 +98,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
     private void initListener(){
         mCategories = new ArrayList<>();
         mRecmAdapter = new HomeWithHeaderAdapter(getActivity().getApplication());
-        mRecmAdapter.setRecommendClickListener(new com.project.zeng.bookstore.listeners.OnItemClickListener<Recommend>() {
+        mRecmAdapter.setRecommendClickListener(new com.project.zeng.bookstore.listeners.OnItemClickListener<Product>() {
             @Override
-            public void onClick(Recommend item) {
-                Intent intent = new Intent(mMainContext, ProductsActivity.class);
-//                Log.e("HomeFragment", "Recommend的id=" + item.getProId() + ", name=" + item.getProName());
-                intent.putExtra("key", item.getProId());
-                intent.putExtra("name", item.getProName());
-                intent.putExtra("type", "3");//3：通过商品ID加载Product数据
+            public void onClick(Product item) {
+                Intent intent = new Intent(mMainContext, ProductDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product", item);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -113,18 +118,33 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
     }
 
     /**
-     * 获取数据后自动播放
+     * 获取广告栏和商品类型数据后自动播放
      */
     public void fetchData(){
-        mRecmDbAPI.loadDatasFromDb(new DataListener<List<Recommend>>() {
+//        mRecmDbAPI.loadDatasFromDb(new DataListener<List<Recommend>>() {
+//            @Override
+//            public void onComplete(List<Recommend> result) {
+////                Log.e("HomeFragment","尝试从数据库加载Recommend=" + result.size());
+//                mRecommendAPI.fetchRecommends(new DataListener<List<Recommend>>() {
+//                    @Override
+//                    public void onComplete(List<Recommend> result) {
+////                        Log.e("HomeFragment", "获取的Recommend数量为：" + result.size());
+//                        if(null != result){
+//                            mRecmAdapter.updateData(result);
+//                        }
+//                    }
+//                });
+//            }
+//        });
+        mProDbAPI.loadDatasFromDb(new DataListener<List<Product>>() {
             @Override
-            public void onComplete(List<Recommend> result) {
-//                Log.e("HomeFragment","尝试从数据库加载Recommend=" + result.size());
-                mRecommendAPI.fetchRecommends(new DataListener<List<Recommend>>() {
+            public void onComplete(List<Product> result) {
+//                Log.e("HomeFragment","尝试从数据库加载Product的数量为" + result.size());
+                mProductAPI.fetchRecommends(new DataListener<List<Product>>() {
                     @Override
-                    public void onComplete(List<Recommend> result) {
-//                        Log.e("HomeFragment", "获取的Recommend数量为：" + result.size());
+                    public void onComplete(List<Product> result) {
                         if(null != result){
+//                            Log.e("HomeFragment", "获取的Recommend数量为：" + result.size());
                             mRecmAdapter.updateData(result);
                         }
                     }

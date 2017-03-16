@@ -78,7 +78,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
         setContentView(R.layout.activity_product);
         Intent intent = getIntent();
         String keyWord = intent.getStringExtra("key");//搜索关键字
-        //搜索类型：1--关键字，2--商品类型ID，3--商品ID，4--适合年级
+        //搜索类型：1--关键字，2--商品类型ID，4--适合年级
         int type = Integer.valueOf(intent.getStringExtra("type"));
 //        Toast.makeText(this, "keyWord=" + keyWord + ", type=" + type, Toast.LENGTH_SHORT).show();
         //若通过关键字搜索，则显示关键字
@@ -158,6 +158,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
                     }
                 }, hashMap);
                 break;
+            //通过商品类型ID
             case 2:
                 //从网络加载数据
                 mProductAPI.fetchProductsByCategory(keyWord, new DataListener<List<Product>>() {
@@ -173,19 +174,20 @@ public class ProductsActivity extends Activity implements OnClickListener,
                     }
                 });
                 break;
-            case 3:
-//                Log.e("ProductsActivity", "keyword=" + keyWord);
-                mProductAPI.fetchProductByID(keyWord, new DataListener<Product>() {
-                    @Override
-                    public void onComplete(Product result) {
-                        if(null != result){
-                            mProducts.clear();
-                            mProducts.add(result);
-                            mProductRecyAdapter.updateData(mProducts);
-                        }
-                    }
-                });
-                break;
+//            //通过商品ID
+//            case 3:
+////                Log.e("ProductsActivity", "keyword=" + keyWord);
+//                mProductAPI.fetchProductByID(keyWord, new DataListener<Product>() {
+//                    @Override
+//                    public void onComplete(Product result) {
+//                        if(null != result){
+//                            mProducts.clear();
+//                            mProducts.add(result);
+//                            mProductRecyAdapter.updateData(mProducts);
+//                        }
+//                    }
+//                });
+//                break;
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.zeng.bookstore.R;
 import com.jakewharton.utils.RecyclingPagerAdapter;
+import com.project.zeng.bookstore.entities.Product;
 import com.project.zeng.bookstore.entities.Recommend;
 import com.project.zeng.bookstore.listeners.OnItemClickListener;
 import com.squareup.picasso.Picasso;
@@ -26,13 +27,13 @@ import java.util.List;
 public class RecommendAdapter extends RecyclingPagerAdapter {
 
     private Context mContext;
-    private List<Recommend> mRecommends;
+    private List<Product> mProducts;
     private ViewPager mViewPager;
-    OnItemClickListener<Recommend> mItemClickListener;
+    OnItemClickListener<Product> mItemClickListener;
 
-    public RecommendAdapter(ViewPager viewPager, List<Recommend> recommends) {
+    public RecommendAdapter(ViewPager viewPager, List<Product> products) {
         this.mViewPager = viewPager;
-        this.mRecommends = recommends;
+        this.mProducts = products;
         mContext = mViewPager.getContext();
     }
 
@@ -43,7 +44,7 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup container) {
         ViewHolder viewHolder;
-        final Recommend item = getItem(position);
+        final Product item = getItem(position);
 //        Log.e("RecommendAdapter", "Recommend的id=" + item.getProId() + ",title=" + item.getProName());
         if(null == convertView){
             viewHolder = new ViewHolder();
@@ -62,21 +63,21 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Picasso.with(container.getContext()).load(item.getImgUrl()).fit().into(viewHolder.mProImgView);
-        viewHolder.mTitleTxtView.setText(item.getProName());
+        Picasso.with(container.getContext()).load(item.getPictureUrl()).fit().into(viewHolder.mProImgView);
+        viewHolder.mTitleTxtView.setText(item.getTitle());
         return convertView;
     }
 
-    private Recommend getItem(int position){
-        return mRecommends.get(getPosition(position));
+    private Product getItem(int position){
+        return mProducts.get(getPosition(position));
     }
 
     @Override
     public int getCount() {
-        return mRecommends.size();
+        return mProducts.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener<Recommend> onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener<Product> onItemClickListener) {
         this.mItemClickListener = onItemClickListener;
     }
 

@@ -81,6 +81,31 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
             @Override
             public void onResponse(String response) {
                 if(null != listener){
+//                    Log.e("ProductAPIImpl", "response=" + response);
+                    listener.onComplete(mRespHandler.parse(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("ProductAPIImpl", error.getMessage());
+            }
+        });
+        //将网络请求添加到队列中
+        performRequest(request);
+    }
+
+    /**
+     * 获得商品推荐
+     * @param listener
+     */
+    @Override
+    public void fetchRecommends(final DataListener<List<Product>> listener) {
+        String newUrl = url + "recommend/";
+        StringRequest request = new StringRequest(newUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != listener){
                     Log.e("ProductAPIImpl", "response=" + response);
                     listener.onComplete(mRespHandler.parse(response));
                 }

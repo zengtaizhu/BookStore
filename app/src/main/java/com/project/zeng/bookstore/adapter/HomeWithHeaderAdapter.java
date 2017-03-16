@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.entities.Product;
 import com.project.zeng.bookstore.entities.Recommend;
 import com.project.zeng.bookstore.listeners.OnItemClickListener;
 import com.project.zeng.bookstore.widgets.AutoScrollViewPager;
@@ -25,8 +26,8 @@ public class HomeWithHeaderAdapter extends Adapter<ViewHolder>{
 
     private Context mContext;
 
-    OnItemClickListener<Recommend> mRecommendListener;
-    List<Recommend> mRecommends;
+    OnItemClickListener<Product> mRecommendListener;
+    List<Product> mProducts;
     //广告栏的Adapter
     HeaderViewHolder mHeaderViewHolder;
 
@@ -35,7 +36,7 @@ public class HomeWithHeaderAdapter extends Adapter<ViewHolder>{
 
     public HomeWithHeaderAdapter(Context context) {
         this.mContext = context;
-        mRecommends = new ArrayList<>();
+        mProducts = new ArrayList<>();
     }
 
     @Override
@@ -48,35 +49,35 @@ public class HomeWithHeaderAdapter extends Adapter<ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         mHeaderViewHolder = (HeaderViewHolder)holder;
         AutoScrollViewPager viewPager = mHeaderViewHolder.mAutoScrollViewPager;
-        mRecommendAdapter = new RecommendAdapter(viewPager, mRecommends);
+        mRecommendAdapter = new RecommendAdapter(viewPager, mProducts);
         mRecommendAdapter.setOnItemClickListener(mRecommendListener);
         viewPager.setInterval(4000);//播放间隔4s
         //设置ViewPager
-        if(mRecommends.size() > 0){
+        if(mProducts.size() > 0){
             viewPager.startAutoScroll();
-            viewPager.setCurrentItem(position % mRecommends.size());
+            viewPager.setCurrentItem(position % mProducts.size());
             viewPager.setAdapter(mRecommendAdapter);
             mHeaderViewHolder.mIndicator.setViewPager(viewPager);
-            setupItemViewClickListener(holder, mRecommends.get(position));
+            setupItemViewClickListener(holder, mProducts.get(position));
         }
     }
 
     @Override
     public int getItemCount() {
-        return mRecommends.size();
+        return mProducts.size();
     }
 
     /**
      * 更新数据并开始自动播放
-     * @param recommends
+     * @param products
      */
-    public void updateData(List<Recommend> recommends){
-        mRecommends.clear();
-        mRecommends = recommends;
+    public void updateData(List<Product> products){
+        mProducts.clear();
+        mProducts = products;
         notifyDataSetChanged();
     }
 
-    public void setRecommendClickListener(OnItemClickListener<Recommend> recommendListener) {
+    public void setRecommendClickListener(OnItemClickListener<Product> recommendListener) {
         this.mRecommendListener = recommendListener;
     }
 
@@ -85,7 +86,7 @@ public class HomeWithHeaderAdapter extends Adapter<ViewHolder>{
      * @param viewHolder
      * @param item
      */
-    public void setupItemViewClickListener(ViewHolder viewHolder, final Recommend item){
+    public void setupItemViewClickListener(ViewHolder viewHolder, final Product item){
         viewHolder.itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
