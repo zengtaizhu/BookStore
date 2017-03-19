@@ -21,6 +21,7 @@ public class Product implements Serializable{
     private double price;
     private int count;
     private String describe;
+    public boolean isSelected = false;//购物车是否被选中
 
     public String getId() {
         return id;

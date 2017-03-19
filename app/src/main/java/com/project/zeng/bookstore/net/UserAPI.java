@@ -5,7 +5,7 @@ import com.project.zeng.bookstore.listeners.DataListener;
 
 /**
  * Created by zeng on 2017/3/8.
- * 登录令牌的获取及用户信息的获取
+ * 登录令牌及用户信息的网络请求的接口
  */
 
 public interface UserAPI {

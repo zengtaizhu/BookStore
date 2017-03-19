@@ -2,23 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/background_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:background="@color/background_white">
         <CheckBox
-            android:id="@+id/cb_cart_select_cart"
+            android:id="@+id/cb_cart_select_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:button="@drawable/cart_checkbox"/>
         <TextView
             android:id="@+id/tv_cart_seller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/cb_cart_select_cart"
+            android:layout_toRightOf="@id/cb_cart_select_one"
             android:layout_centerVertical="true"
             android:text="@string/seller"
             android:textColor="@color/text_black"
@@ -30,19 +32,5 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_right_arrow"
             android:layout_marginLeft="10dp"/>
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="@string/edit"
-            android:textSize="16sp"
-            android:textColor="@color/text_black"/>-->
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/lv_cart_products"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
 </LinearLayout>

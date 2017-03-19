@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/1.
- * 商品类型的Handler
+ * 商品类型网络响应的处理Handler
  */
 
 public class CategoryHandler implements RespHandler<List<Category>, String> {

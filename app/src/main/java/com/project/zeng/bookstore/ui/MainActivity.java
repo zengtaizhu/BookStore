@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 if(mCartFragment == null){
                     mCartFragment = new CartFragment();
                 }
+                mCartFragment.fetchData();
                 replaceFragment(mCartFragment);
                 setRadioButtonImg(3);
                 break;
@@ -149,7 +150,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
             case 0:
                 //模拟点击“分类”RadioButton
                 mRdoGroupMenu.getChildAt(1).performClick();
-                Log.e("MainActivity", "接收消息");
+//                Log.e("MainActivity", "接收消息");
                 break;
             case 1:
                 //进入商品搜索Activity

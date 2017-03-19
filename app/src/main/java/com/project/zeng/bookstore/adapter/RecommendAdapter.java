@@ -51,6 +51,7 @@ public class RecommendAdapter extends RecyclingPagerAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_recommend, container, false);
             viewHolder.mProImgView = (ImageView)convertView.findViewById(R.id.iv_head_recm_img);
             viewHolder.mTitleTxtView = (TextView)convertView.findViewById(R.id.tv_head_recm_title);
+            //为每一个推荐的商品添加点击事件
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

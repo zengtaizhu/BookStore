@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/2.
- * 获取商品的接口
+ * 商品网络请求的接口
  */
 
 public interface ProductAPI {

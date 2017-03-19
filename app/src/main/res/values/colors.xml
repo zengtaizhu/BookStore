@@ -18,8 +18,8 @@
     <color name="text_blue">#2326ff</color>
     <color name="text_while">#ffffff</color>
     <color name="text_orange">#ff4e19</color>
-    <color name="background_white">#ebedf0</color>
-    <color name="background_gray">#e1e1e1</color>
+    <color name="background_white">#ffffff</color>
+    <color name="background_gray">#f2f2f2</color>
     <color name="background_blue">#00b0ec</color>
     <color name="background_red">#ff1222</color>
     <color name="background_orange">#ff5623</color>

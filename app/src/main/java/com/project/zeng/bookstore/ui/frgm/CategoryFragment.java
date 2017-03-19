@@ -26,6 +26,7 @@ import com.project.zeng.bookstore.net.CategoryAPI;
 import com.project.zeng.bookstore.net.ProductAPI;
 import com.project.zeng.bookstore.net.impl.CategoryAPIImpl;
 import com.project.zeng.bookstore.net.impl.ProductAPIImpl;
+import com.project.zeng.bookstore.ui.ProductDetailActivity;
 import com.project.zeng.bookstore.ui.SearchActivity;
 
 import java.util.HashMap;
@@ -85,6 +86,17 @@ public class CategoryFragment extends Fragment implements OnItemClickListener, O
         mListView.setAdapter(mCategoryAdapter);
         mListView.setOnItemClickListener(this);
         mProductAdapter = new CategoryProductAdapter(getActivity().getApplication());
+        mProductAdapter.setOnItemClickListener(new com.project.zeng.bookstore.listeners.OnItemClickListener<Product>() {
+            @Override
+            public void onClick(Product item) {
+//                Log.e("CategoryFragment", item.getTitle());
+                Intent intent = new Intent(getActivity().getApplicationContext(), ProductDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product", item);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         mGridView.setAdapter(mProductAdapter);
         mSearchText.setOnClickListener(this);
     }
@@ -135,7 +147,7 @@ public class CategoryFragment extends Fragment implements OnItemClickListener, O
                     @Override
                     public void onComplete(List<Product> result) {
 //                        Log.e("CategoryFragment", "从网络获取的Product数量=" + result.size());
-                        mProductAdapter.updataData(result);
+                        mProductAdapter.updateData(result);
                         mProdDbAPI.saveItems(result);
                     }
                 });

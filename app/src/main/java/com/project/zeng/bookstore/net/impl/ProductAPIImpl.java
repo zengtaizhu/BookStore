@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/2.
- * 获得商品的实现类
+ * 商品网络请求的实现类
  */
 
 public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements ProductAPI{
@@ -106,7 +106,7 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
             @Override
             public void onResponse(String response) {
                 if(null != listener){
-                    Log.e("ProductAPIImpl", "response=" + response);
+//                    Log.e("ProductAPIImpl", "response=" + response);
                     listener.onComplete(mRespHandler.parse(response));
                 }
             }

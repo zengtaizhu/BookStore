@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/16.
- * 商品评论的Handler
+ * 商品评论网络响应的处理Handler
  */
 
 public class CommentHandler implements RespHandler<List<Comment>, String>{

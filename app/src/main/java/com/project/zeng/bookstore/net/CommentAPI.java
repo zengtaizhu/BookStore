@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/16.
- * 获得商品评论的接口
+ * 商品评论网络请求的接口
  */
 
 public interface CommentAPI {

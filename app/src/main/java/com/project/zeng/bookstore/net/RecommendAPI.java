@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/2/20.
- * 首页商品推荐的接口
+ * 首页商品推荐网络请求的接口
  */
 public interface RecommendAPI {
     /**

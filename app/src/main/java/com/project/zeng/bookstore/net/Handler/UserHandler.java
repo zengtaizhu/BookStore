@@ -6,6 +6,7 @@ import com.project.zeng.bookstore.entities.User;
 
 /**
  * Created by zeng on 2017/3/8.
+ * 用户信息网络响应的处理Handler
  */
 
 public class UserHandler implements RespHandler<User, String> {

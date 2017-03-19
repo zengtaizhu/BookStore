@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/2/28.
+ * 商品推荐网络请求的实现类
  */
 
 public class RecommendAPIImpl extends AbsNetwork<List<Recommend>, String> implements RecommendAPI {

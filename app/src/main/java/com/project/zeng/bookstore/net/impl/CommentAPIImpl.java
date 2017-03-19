@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/16.
+ * 商品评论网络请求的实现类
  */
 
 public class CommentAPIImpl extends AbsNetwork<List<Comment>, String> implements CommentAPI{

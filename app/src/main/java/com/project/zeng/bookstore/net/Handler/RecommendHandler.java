@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/2/28.
+ * 商品推荐网络响应的处理Handler
  */
 
 public class RecommendHandler implements RespHandler<List<Recommend>,String> {

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/1.
- * 获得商品类型的实现类
+ * 商品类型网络请求的实现类
  */
 
 public class CategoryAPIImpl extends AbsNetwork<List<Category>, String> implements CategoryAPI {

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
+        android:id="@+id/rl_pro_detail_top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp"
-        android:layout_weight="1">
+        android:layout_alignParentTop="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,26 +21,39 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/ic_message"/>
     </RelativeLayout>
-    <ListView
-        android:id="@+id/lv_cart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="20"></ListView>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divide_color"></View>
+        android:background="@color/divide_color"
+        android:layout_marginTop="50dp"></View>
+    <ExpandableListView
+        android:id="@+id/exListView_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_pro_detail_top"
+        android:layout_marginBottom="111dp"
+        android:childIndicator="@null"
+        android:groupIndicator="@null"></ExpandableListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divide_color"
+        android:layout_marginBottom="110dp"
+        android:layout_alignParentBottom="true"></View>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1">
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp">
         <CheckBox
             android:id="@+id/cb_cart_select_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="@style/CheckBoxStyle"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,4 +101,10 @@
             android:textSize="18sp"
             android:textColor="@color/text_black"/>
     </RelativeLayout>
-</LinearLayout>
+    <!--首页RadioButton的控件-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/divide_color"
+        android:layout_alignParentBottom="true"></View>
+</RelativeLayout>

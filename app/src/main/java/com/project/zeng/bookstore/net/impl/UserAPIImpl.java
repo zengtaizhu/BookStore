@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * Created by zeng on 2017/3/8.
+ * 用户信息网络请求的实现类
  */
 
 public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
