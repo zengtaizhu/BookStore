@@ -147,11 +147,11 @@ public class ProductsActivity extends Activity implements OnClickListener,
                             @Override
                             public void onComplete(List<Product> result) {
                                 if(null != result){
-                                    Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
+//                                    Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
                                     mProductRecyAdapter.updateData(result);
                                     mProducts = result;
                                 }else{
-                                    Log.e("ProductsActivity", "从网络获取的product的数量为:0");
+//                                    Log.e("ProductsActivity", "从网络获取的product的数量为:0");
                                 }
                             }
                         });
@@ -230,6 +230,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
     @Override
     public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //        Log.e("ProductsActivity", "scrollY=" + scrollX + ",oldScrollY" + oldScrollY);
+        //设置置顶按钮的显示与否
         if(scrollY >= 200){
             mGoTopView.setVisibility(View.VISIBLE);
         }else{
@@ -239,9 +240,6 @@ public class ProductsActivity extends Activity implements OnClickListener,
 
     @Override
     public void onItemClick(View view, int position) {
-//        String id = mProducts.get(position).getId();
-//        String title = mProducts.get(position).getTitle();
-//        Toast.makeText(this, "id=" + id + ",title=" + title, Toast.LENGTH_SHORT).show();
         //通过商品ID，进入该商品的ProductDetailActivity
         Intent intent = new Intent(this, ProductDetailActivity.class);
         Bundle bundle = new Bundle();

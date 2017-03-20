@@ -10,7 +10,7 @@
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentLeft="true"
-        android:src="@mipmap/toolbar_back"/>
+        android:src="@mipmap/ic_back"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -48,7 +48,7 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.RegisterPswActivity"
             android:launchMode="singleTask"/>
-        <activity android:name="com.project.zeng.bookstore.ui.frgm.CartActivity"
+        <activity android:name="com.project.zeng.bookstore.ui.CartActivity"
             android:launchMode="singleTask"/>
     </application>
 

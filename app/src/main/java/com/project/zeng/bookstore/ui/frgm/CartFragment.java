@@ -2,7 +2,9 @@ package com.project.zeng.bookstore.ui.frgm;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -12,8 +14,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,13 +42,17 @@ import static com.project.zeng.bookstore.adapter.CartAdapter.*;
  * 购物车的Fragment
  */
 
-public class CartFragment extends Fragment implements OnClickListener, CheckInterface, ModifyCountInterface{
+@RequiresApi(api = Build.VERSION_CODES.M)
+public class CartFragment extends Fragment implements OnClickListener,
+        CheckInterface, ModifyCountInterface{
 
     //组件
+    private ImageView mBackImgView;
     private ExpandableListView mExListView;
     private CheckBox mAllCheckBox;
     private TextView mTotalPriceTxtView;
     private TextView mSettleTxtView;
+
     private Context mContext;
 
     private List<Cart> mCarts;//购物车列表
@@ -62,6 +70,8 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
     //购物车的网络请求API
     CartAPI mCartAPI = new CartAPIImpl();
 
+    private boolean isShowBack;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);//允许Fragment添加item到选项菜单
@@ -77,6 +87,10 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
      * @param view
      */
     private void init(View view){
+        mBackImgView = (ImageView)view.findViewById(R.id.iv_cart_back);
+        if(isShowBack){
+            mBackImgView.setVisibility(View.VISIBLE);
+        }
         mExListView = (ExpandableListView) view.findViewById(R.id.exListView_cart);
         mAllCheckBox = (CheckBox) view.findViewById(R.id.cb_cart_select_all);
         mTotalPriceTxtView = (TextView)view.findViewById(R.id.tv_cart_total_price);
@@ -89,6 +103,7 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
      * 初始化事件
      */
     private void initListener(){
+        mBackImgView.setOnClickListener(this);
         mSettleTxtView.setOnClickListener(this);
         mAllCheckBox.setOnClickListener(this);
     }
@@ -138,6 +153,10 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //返回按钮
+            case R.id.iv_cart_back:
+                getActivity().finish();
+                break;
             //结算按钮
             case R.id.tv_cart_settle:
                 Toast.makeText(getActivity().getApplication(), "结算", Toast.LENGTH_SHORT).show();
@@ -284,5 +303,13 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
         ((TextView) showCountView).setText(currentCount + "");
         mCartAdapter.notifyDataSetChanged();
         calculate();
+    }
+
+    /**
+     * 是否显示返回按钮
+     * @param isShow
+     */
+    public void showBackImageView(boolean isShow){
+        isShowBack = isShow;
     }
 }

@@ -2,14 +2,11 @@ package com.project.zeng.bookstore.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
-import com.project.zeng.bookstore.ui.frgm.CartActivity;
 import com.project.zeng.bookstore.ui.frgm.CartFragment;
 import com.project.zeng.bookstore.ui.frgm.CategoryFragment;
 import com.project.zeng.bookstore.ui.frgm.FindFragment;

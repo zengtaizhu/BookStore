@@ -1,4 +1,4 @@
-package com.project.zeng.bookstore.ui.frgm;
+package com.project.zeng.bookstore.ui;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Window;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.ui.frgm.CartFragment;
+import com.project.zeng.bookstore.ui.frgm.HomeFragment;
 
 /**
  * Created by zeng on 2017/3/15.
@@ -15,6 +17,7 @@ import com.example.zeng.bookstore.R;
 
 public class CartActivity extends Activity {
 
+    //Fragment布局管理器
     private FragmentManager fm;
 
     @Override
@@ -24,6 +27,10 @@ public class CartActivity extends Activity {
         setContentView(R.layout.activity_cart);
         fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fl_cart_container, new HomeFragment());
+        CartFragment cartFragment = new CartFragment();
+        cartFragment.showBackImageView(true);//显示返回按钮
+        cartFragment.fetchData();
+        ft.add(R.id.fl_cart_container,cartFragment);
+        ft.commit();
     }
 }

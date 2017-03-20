@@ -2,13 +2,17 @@ package com.project.zeng.bookstore.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnScrollChangeListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +23,6 @@ import com.project.zeng.bookstore.entities.Product;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.CommentAPI;
 import com.project.zeng.bookstore.net.impl.CommentAPIImpl;
-import com.project.zeng.bookstore.ui.frgm.CartActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,11 +32,13 @@ import java.util.List;
  * 商品详细Activity
  */
 
-public class ProductDetailActivity extends Activity implements OnClickListener{
+@RequiresApi(api = Build.VERSION_CODES.M)
+public class ProductDetailActivity extends Activity implements OnClickListener, OnScrollChangeListener{
 
     //组件
     private ImageView mBackImgView;
 
+    private ScrollView mScrollView;
     private ImageView mProImgView;
     private TextView mProTitleTxtView;
     private TextView mProDescTxtView;
@@ -49,7 +54,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
 
     private ImageView mGoTopImgView;
 
-    private Product product;
+    private Product product;//浏览的商品
 
     //商品评论列表的适配器
     private CommentAdapter mCommentAdapter;
@@ -77,6 +82,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
      * 初始化组件
      */
     private void init(){
+        mScrollView = (ScrollView)findViewById(R.id.sv_pro_detail);
         mBackImgView = (ImageView)findViewById(R.id.iv_pro_detail_back);
         mProImgView = (ImageView)findViewById(R.id.iv_pro_detail_img);
         mProTitleTxtView = (TextView)findViewById(R.id.tv_pro_detail_title);
@@ -97,6 +103,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
      * 初始化界面
      */
     private void initView(){
+        mScrollView.setOnScrollChangeListener(this);
         Picasso.with(getApplicationContext()).load(product.getPictureUrl()).fit().into(mProImgView);//加载图片
         mProTitleTxtView.setText(product.getTitle());
         mProDescTxtView.setText(product.getDescribe());
@@ -144,6 +151,10 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
             case R.id.iv_pro_detail_back:
                 finish();
                 break;
+            //跳转到顶部
+            case R.id.iv_pro_detail_go_top:
+                mScrollView.scrollTo(0, 0);
+                break;
             //跳转到商品卖家
             case R.id.tv_pro_detail_seller:
                 Toast.makeText(this, "跳转到商品卖家", Toast.LENGTH_SHORT).show();
@@ -161,10 +172,17 @@ public class ProductDetailActivity extends Activity implements OnClickListener{
             case R.id.tv_pro_add_to_cart:
                 Toast.makeText(this, "添加到购物车", Toast.LENGTH_SHORT).show();
                 break;
-            //跳转到顶部
-            case R.id.iv_pro_detail_go_top:
-                Toast.makeText(this, "跳转到顶部", Toast.LENGTH_SHORT).show();
-                break;
+        }
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        //设置置顶按钮的显示与否
+//        Log.e("ProductDetailActivity", "scrollY=" + scrollY + ",oldScrollY" + oldScrollY);
+        if(scrollY >= 1000){
+            mGoTopImgView.setVisibility(View.VISIBLE);
+        }else{
+            mGoTopImgView.setVisibility(View.GONE);
         }
     }
 }
