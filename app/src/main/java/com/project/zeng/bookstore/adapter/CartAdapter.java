@@ -1,9 +1,13 @@
 package com.project.zeng.bookstore.adapter;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
@@ -14,12 +18,13 @@ import android.widget.TextView;
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.entities.Cart;
 import com.project.zeng.bookstore.entities.Product;
+import com.project.zeng.bookstore.listeners.OnItemLongClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
- * Created by zeng on 2017/3/19.参考自http://www.codeforge.cn/article/258051
+ * Created by zeng on 2017/3/19.参考自 http://www.codeforge.cn/article/258051
  * CartFragment的购物车Adapter
  */
 
@@ -27,8 +32,11 @@ public class CartAdapter extends BaseExpandableListAdapter{
 
     private Context mContext;
     private List<Cart> mCarts;
-    private CheckInterface mCheckInterface;
-    private ModifyCountInterface mModifyCountInterface;
+
+    private CheckInterface mCheckInterface;//CheckBox的选中接口
+    private ModifyCountInterface mModifyCountInterface;//数量修改的接口
+
+    private OnItemLongClickListener<Product> mProLongClickListener;
 
     public CartAdapter(Context mContext, List<Cart> carts) {
         this.mContext = mContext;
@@ -152,8 +160,26 @@ public class CartAdapter extends BaseExpandableListAdapter{
                             childPosition, child.mCountEdView, child.mSelectCheckBox.isChecked());//暴露删减接口
                 }
             });
+            convertView.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mProLongClickListener.onLongClick(item);
+                    v.setOnCreateContextMenuListener(mContextMenuListener);
+                    return false;
+                }
+            });
         }
         return convertView;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<Product>listener) {
+        this.mProLongClickListener = listener;
+    }
+
+    private OnCreateContextMenuListener mContextMenuListener;
+
+    public void setOnCreateContextMenu(OnCreateContextMenuListener listener){
+        mContextMenuListener = listener;
     }
 
     @Override

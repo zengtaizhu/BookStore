@@ -3,9 +3,14 @@ package com.project.zeng.bookstore.ui.frgm;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
@@ -18,6 +23,7 @@ import com.project.zeng.bookstore.adapter.CartAdapter;
 import com.project.zeng.bookstore.entities.Cart;
 import com.project.zeng.bookstore.entities.Product;
 import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.listeners.OnItemLongClickListener;
 import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
 
@@ -41,7 +47,8 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
     private TextView mSettleTxtView;
     private Context mContext;
 
-    private List<Cart> mCarts;
+    private List<Cart> mCarts;//购物车列表
+    private Product mProduct;//长按点击的商品
 
     private double totalPrice = 0.0;//购买的商品总价
     private int totalCount = 0;//购买商品的数量
@@ -57,6 +64,7 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);//允许Fragment添加item到选项菜单
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         init(view);
         initListener();
@@ -98,6 +106,19 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
                     mCartAdapter = new CartAdapter(mContext, result);
                     mCartAdapter.setCheckInterface(CartFragment.this);//1.设置复选框接口
                     mCartAdapter.setModifyCountInterface(CartFragment.this);//2.设置数量改变接口
+                    mCartAdapter.setOnItemLongClickListener(new OnItemLongClickListener<Product>() {
+                        @Override
+                        public void onLongClick(Product item) {
+//                            Log.e("CartFragment", "点击了" + item.getTitle());
+                            mProduct = item;
+                        }
+                    });
+                    mCartAdapter.setOnCreateContextMenu(new OnCreateContextMenuListener() {
+                        @Override
+                        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                            menu.add(Menu.NONE, 0, 0, "删除");
+                        }
+                    });
                     mExListView.setAdapter(mCartAdapter);
                     for(int i = 0; i < mCartAdapter.getGroupCount(); i++){
                         mExListView.expandGroup(i);//3.初始化时，将ExpandableListView以展开的方式呈现
@@ -105,6 +126,13 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+//        Toast.makeText(mContext, "item的title=" + item.getTitle(), Toast.LENGTH_SHORT).show();
+        deDelete();
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -134,6 +162,22 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
         }
         calculate();
         mCartAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 删除商品的操作
+     */
+    private void deDelete(){
+        for(int i = 0; i < mCarts.size(); i++){
+            List<Product> products = mCarts.get(i).getProducts();
+            for(int j = 0; j < products.size(); j++){
+                if(products.get(j).equals(mProduct)){
+                    products.remove(mProduct);
+                    mCartAdapter.notifyDataSetChanged();
+                    return;
+                }
+            }
+        }
     }
 
     @Override
@@ -205,7 +249,7 @@ public class CartFragment extends Fragment implements OnClickListener, CheckInte
             for(int j = 0; j < products.size(); j++){
                 Product product = products.get(j);
                 if(product.isSelected){
-                    totalCount += product.getCount();
+                    totalCount++;
                     totalPrice += product.getPrice() * product.getCount();
                 }
             }

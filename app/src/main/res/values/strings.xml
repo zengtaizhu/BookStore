@@ -42,4 +42,5 @@
     <string name="comment_grade">评价等级：</string>
     <string name="comment_time">评论时间</string>
     <string name="comment_string">评论内容</string>
+    <string name="delete">删除</string>
 </resources>
