@@ -43,4 +43,17 @@
     <string name="comment_time">评论时间</string>
     <string name="comment_string">评论内容</string>
     <string name="delete">删除</string>
+    <string name="username">用户名</string>
+    <string name="my_order">我的订单</string>
+    <string name="all_order">全部</string>
+    <string name="obligation">待付款</string>
+    <string name="delivering">待发货</string>
+    <string name="receiving">待收货</string>
+    <string name="commenting">待评价</string>
+    <string name="returning">退款</string>
+    <string name="order_state">订单状态</string>
+    <string name="product_count">商品数量</string>
+    <string name="order_pro_total">共0件商品</string>
+    <string name="confirm_received">确认收货</string>
+    <string name="order_detail">查看详情</string>
 </resources>

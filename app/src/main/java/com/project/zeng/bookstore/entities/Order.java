@@ -1,10 +1,10 @@
 package com.project.zeng.bookstore.entities;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
  * Created by zeng on 2017/2/25.
+ * 订单的实体
  */
 
 public class Order {
@@ -13,9 +13,11 @@ public class Order {
      * Order的域
      */
     private String id;
-    private List<Product> products;//products包含多个商品,格式为：ID|count,ID2|count2-----待修改，将products替代为List<Product>
-    private Date submit_time;
-    private Date deliver_time;
+    private List<Product> products;//商品列表
+    private String submit_time;
+    private String deliver_time;
+    private String seller_id;
+    private String seller_img;
     private String state;
     private String phone;
     private String address;
@@ -38,20 +40,36 @@ public class Order {
         this.products = products;
     }
 
-    public Date getSubmit_time() {
+    public String getSubmit_time() {
         return submit_time;
     }
 
-    public void setSubmit_time(Date submit_time) {
+    public void setSubmit_time(String submit_time) {
         this.submit_time = submit_time;
     }
 
-    public Date getDeliver_time() {
+    public String getDeliver_time() {
         return deliver_time;
     }
 
-    public void setDeliver_time(Date deliver_time) {
+    public void setDeliver_time(String deliver_time) {
         this.deliver_time = deliver_time;
+    }
+
+    public String getSeller_id() {
+        return seller_id;
+    }
+
+    public void setSeller_id(String seller_id) {
+        this.seller_id = seller_id;
+    }
+
+    public String getSeller_img() {
+        return seller_img;
+    }
+
+    public void setSeller_img(String seller_img) {
+        this.seller_img = seller_img;
     }
 
     public String getState() {

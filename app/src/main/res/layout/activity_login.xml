@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_red_bg"
             android:text="@string/login"
             android:textColor="@color/text_while"/>
         <RelativeLayout

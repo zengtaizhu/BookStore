@@ -20,11 +20,11 @@
     <color name="text_orange">#ff4e19</color>
     <color name="background_white">#ffffff</color>
     <color name="background_gray">#f2f2f2</color>
-    <color name="background_blue">#00b0ec</color>
     <color name="background_red">#ff1222</color>
     <color name="background_orange">#ff5623</color>
     <color name="background_pink">#fd295d</color>
     <color name="background_yellow">#dfd71e</color>
+    <color name="background_blue">#2e5afc</color>
     <color name="gray_light">#ffCCCCCC</color>
     <color name="bg_page">#ffebebeb</color>
     <color name="bg_tab_pressed">#6633b5e5</color>

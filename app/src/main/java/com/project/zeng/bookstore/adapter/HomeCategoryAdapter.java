@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/1.
+ * 首页的分类的Adapter
  */
 
 public class HomeCategoryAdapter extends BaseAdapter{

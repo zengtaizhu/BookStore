@@ -1,7 +1,9 @@
 package com.project.zeng.bookstore.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -73,6 +75,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         mMeFragment = new MeFragment();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         //初始化RadioGroup的图标

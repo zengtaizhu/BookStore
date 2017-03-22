@@ -2,13 +2,11 @@ package com.project.zeng.bookstore.net.impl;
 
 import android.util.Log;
 
-import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.entities.Cart;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.CartAPI;

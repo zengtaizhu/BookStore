@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/18.
- * 购物车网络请求的Handler
+ * 购物车网络响应的Handler
  */
 
 public class CartHandler implements RespHandler<List<Cart>, String>{
