@@ -29,14 +29,15 @@ public class UserModel extends AbsDBAPI<User>{
     protected List<User> parseResult(Cursor cursor) {
         User user = new User();
         user.setId(cursor.getString(0));
-        user.setPasswordOrToken(cursor.getString(1));
-        user.setUsername(cursor.getString(2));
-        user.setGrade(cursor.getString(3));
-        user.setSex(cursor.getString(4));
-        user.setMajor(cursor.getString(5));
-        user.setLocation(cursor.getString(6));
-        user.setPhone(cursor.getString(7));
-        user.setMore(cursor.getString(8));
+        user.setPictureUrl(cursor.getString(1));
+        user.setPasswordOrToken(cursor.getString(2));
+        user.setUsername(cursor.getString(3));
+        user.setGrade(cursor.getString(4));
+        user.setSex(cursor.getString(5));
+        user.setMajor(cursor.getString(6));
+        user.setLocation(cursor.getString(7));
+        user.setPhone(cursor.getString(8));
+        user.setMore(cursor.getString(9));
         List<User> users = new ArrayList<>();
         users.add(user);
         return users;
@@ -51,14 +52,15 @@ public class UserModel extends AbsDBAPI<User>{
     protected ContentValues toContentValues(User item) {
         ContentValues newValues = new ContentValues();
         newValues.put("id", item.getId());
-        newValues.put("passwordOrToken", item.getPasswordOrToken());
+        newValues.put("pictureUrl", item.getPictureUrl());
+        newValues.put("password", item.getPasswordOrToken());
         newValues.put("username", item.getUsername());
         newValues.put("grade", item.getGrade());
         newValues.put("sex", item.getSex());
         newValues.put("major", item.getMajor());
         newValues.put("location", item.getLocation());
         newValues.put("phone", item.getPhone());
-        newValues.put("phone", item.getMore());
+        newValues.put("more", item.getMore());
         return newValues;
     }
 }

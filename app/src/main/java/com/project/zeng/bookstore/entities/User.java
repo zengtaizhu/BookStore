@@ -11,6 +11,7 @@ public class User {
      * User的域
      */
     private String id;
+    private String pictureUrl;
     private String passwordOrToken;//密码或账号
     private String username;
     private String grade;
@@ -26,6 +27,14 @@ public class User {
     public User(String id, String password) {
         this.id = id;
         this.passwordOrToken = password;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public String getId() {

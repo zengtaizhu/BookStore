@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 if(mMeFragment == null){
                     mMeFragment = new MeFragment();
                 }
+                mMeFragment.fetchData();
                 replaceFragment(mMeFragment);
                 setRadioButtonImg(4);
                 break;

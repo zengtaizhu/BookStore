@@ -18,12 +18,21 @@
             android:layout_marginBottom="20dp"
             android:src="@mipmap/ic_user"/>
         <TextView
+            android:id="@+id/tv_me_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_me_user_img"
+            android:text="@string/user_id"
+            android:textSize="24sp"
+            android:textColor="@color/text_black"/>
+        <TextView
             android:id="@+id/tv_me_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_me_user_img"
+            android:layout_below="@id/tv_me_user_id"
             android:text="@string/username"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textColor="@color/text_black"/>
         <ImageView
             android:id="@+id/iv_me_setting"

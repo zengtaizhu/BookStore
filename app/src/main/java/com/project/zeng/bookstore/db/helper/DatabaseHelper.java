@@ -41,12 +41,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //创建表的SQL语句
     private static final  String CREATE_USER_TABLE_SQL = "CREATE TABLE users( "
             + "id INTEGER PRIMARY KEY UNIQUE,"
+            + "pictureUrl VARCHAR(80) NOT NULL,"
             + "password VARCHAR(100) NOT NULL,"
             + "username VARCHAR(30) NOT NULL,"
             + "grade VARCHAR(30) NOT NULL,"
             + "sex VARCHAR(10) NOT NULL,"
             + "major VARCHAR(30) NOT NULL,"
-            + "dorm VARCHAR(50) NOT NULL,"
+            + "location VARCHAR(50) NOT NULL,"
             + "phone INTEGER NOT NULL,"
             + "more VARCHAR(100)"
             + ")";
@@ -55,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + "id INTEGER PRIMARY KEY UNIQUE,"
             + "name VARCHAR(30) NOT NULL,"
             + "suitableGrade VARCHAR(30) NOT NULL,"
-            + "pictureUrl VARCHAR(30) NOT NULL,"
+            + "pictureUrl VARCHAR(80) NOT NULL,"
             + "describe VARCHAR(50) NOT NULL"
             + ")";
 
@@ -63,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + "id INTEGER PRIMARY KEY UNIQUE,"
             + "category_id INTEGER NOT NULL,"
             + "seller_id INTEGER NOT NULL,"
-            + "pictureUrl VARCHAR(30) NOT NULL,"
+            + "pictureUrl VARCHAR(80) NOT NULL,"
             + "title VARCHAR(30) NOT NULL,"
             + "author VARCHAR(30) NOT NULL,"
             + "press VARCHAR(50) NOT NULL,"

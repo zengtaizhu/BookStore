@@ -137,6 +137,8 @@ public class LoginActivity extends Activity implements OnClickListener{
                             app.setToken(result.getPasswordOrToken());
                             //跳转到首页
                             mHandler.sendEmptyMessage(0x123);
+                            //将数据添加到数据库
+                            mUserDbAPI.saveItem(result);
                         }
                     }
                 });
