@@ -82,8 +82,8 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token", token);
                 params.put("state", ORDER_STATE[state]);
+                params.put("token", token);
 //                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
                 return params;
             }

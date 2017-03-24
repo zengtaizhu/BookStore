@@ -56,4 +56,17 @@
     <string name="order_pro_total">共0件商品</string>
     <string name="confirm_received">确认收货</string>
     <string name="order_detail">查看详情</string>
+    <string name="receive_location">我的收货地址</string>
+    <string name="change_password">修改登录密码</string>
+    <string name="commit_problem">问题反馈</string>
+    <string name="logout">退出当前账户</string>
+    <string name="setting">设置</string>
+    <string name="user_profile">个人资料</string>
+    <string name="user_header">用户头像</string>
+    <string name="sex">性别</string>
+    <string name="sex_man">男</string>
+    <string name="major_network">网络工程</string>
+    <string name="grade">年级</string>
+    <string name="grade_default">大一</string>
+    <string name="modify_username">修改用户名</string>
 </resources>

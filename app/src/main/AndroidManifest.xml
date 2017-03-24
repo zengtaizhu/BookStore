@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zeng.bookstore">
 
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="24"></uses-sdk>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -19,7 +23,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
+    
     <application
         android:name="com.project.zeng.bookstore.MyApplication"
         android:allowBackup="true"
@@ -49,6 +53,10 @@
         <activity android:name="com.project.zeng.bookstore.ui.RegisterPswActivity"
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.CartActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.SettingActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.UserSettingActivity"
             android:launchMode="singleTask"/>
     </application>
 

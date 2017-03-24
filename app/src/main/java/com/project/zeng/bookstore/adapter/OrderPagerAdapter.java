@@ -91,10 +91,10 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         OrderFragment fragment = mFragments.get(position);
         if(!fragment.isAdded()){//若未添加，则将Fragment添加到ViewPager中
             FragmentTransaction ft = mFrgmManager.beginTransaction();
-            fragment.fetchData(position);
             ft.add(fragment, fragment.getClass().getSimpleName());
             ft.commit();
             mFrgmManager.executePendingTransactions();//立即执行添加操作
+            fragment.fetchData(position);
         }
         if(null == fragment.getView().getParent()){
             container.addView(fragment.getView());//为ViewPager添加布局

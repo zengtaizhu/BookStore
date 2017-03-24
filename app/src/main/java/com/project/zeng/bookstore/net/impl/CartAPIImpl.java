@@ -28,7 +28,7 @@ public class CartAPIImpl extends AbsNetwork<List<Cart>, String> implements CartA
     }
 
     /**
-     * 通过买家ID，获得购物车列表
+     * 通过令牌，获得购物车列表
      * @param token
      * @param listener
      */

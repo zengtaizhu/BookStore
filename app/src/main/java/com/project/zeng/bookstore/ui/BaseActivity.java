@@ -46,5 +46,6 @@ public class BaseActivity extends Activity{
      */
     protected void replaceFragment(Fragment fragment){
         mFrgmManager.beginTransaction().replace(mFrgmContainer, fragment).commit();
+        mFrgmManager.executePendingTransactions();//立刻执行添加Fragment
     }
 }

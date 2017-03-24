@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TextView的背景-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--指定使用渐变的背景颜色-->
+    <gradient android:startColor="#f5c043"
+        android:endColor="#f54600"></gradient>
+</shape>

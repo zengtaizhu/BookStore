@@ -17,13 +17,14 @@ import cn.smssdk.SMSSDK;
 public class MyApplication extends Application {
 
     //全局变量
-    private String token = "";//token令牌
+    private String token;//token令牌
     private String url;//网络地址
 
     @Override
     public void onCreate() {
         super.onCreate();
         setUrl("http://192.168.191.1:5000/api/v1.0/");
+        setToken("");
         //初始化短信验证
         SMSSDK.initSDK(this, getString(R.string.APPKEY), getString(R.string.APPSECRET));
         //初始化数据库

@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/21.
+ * MeFragment的订单Fragment
  */
 
 public class OrderFragment extends Fragment{
@@ -35,15 +36,15 @@ public class OrderFragment extends Fragment{
     //适配器
     private OrderAdapter mOrderAdapter;
 
-
     //获得订单的网络请求API
     OrderAPI mOrderAPI = new OrderAPIImpl();
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-        mContext = getActivity().getApplication();
+        mContext = getActivity().getApplicationContext();
         app = (MyApplication) mContext;
 //        Log.e("OrderFragment", "token=" + app.getToken());
         init(view);
@@ -74,7 +75,7 @@ public class OrderFragment extends Fragment{
         switch (state){
             //全部
             case 0:
-                mOrderAPI.fetchOrders("201330350322", new DataListener<List<Order>>() {//-------待修改为app.getToken()
+                mOrderAPI.fetchOrders(app.getToken(), new DataListener<List<Order>>() {
                     @Override
                     public void onComplete(List<Order> result) {
                         if(null != result){
@@ -88,7 +89,7 @@ public class OrderFragment extends Fragment{
             case 1:
             case 2:
             case 3:
-                mOrderAPI.fetchOrdersByState("201330350322", state, new DataListener<List<Order>>() {//-------待修改为app.getToken()
+                mOrderAPI.fetchOrdersByState(app.getToken(), state, new DataListener<List<Order>>() {
                     @Override
                     public void onComplete(List<Order> result) {
                         if(null != result){

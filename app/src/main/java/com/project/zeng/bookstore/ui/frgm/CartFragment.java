@@ -78,7 +78,9 @@ public class CartFragment extends Fragment implements OnClickListener,
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         init(view);
         initListener();
-        app = (MyApplication) getActivity().getApplication();
+        mContext = getActivity().getApplication();
+        app = (MyApplication) mContext;
+//        Log.e("CartFragment", "token=" + app.getToken());
         return view;
     }
 
@@ -112,7 +114,7 @@ public class CartFragment extends Fragment implements OnClickListener,
      * 获取购物车数据
      */
     public void fetchData(){
-        mCartAPI.fetchCarts("201330350312", new DataListener<List<Cart>>() {//------先用Id测试
+        mCartAPI.fetchCarts(app.getToken(), new DataListener<List<Cart>>() {
             @Override
             public void onComplete(List<Cart> result) {
                 if(result != null){

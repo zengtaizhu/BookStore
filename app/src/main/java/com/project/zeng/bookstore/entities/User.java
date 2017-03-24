@@ -1,11 +1,13 @@
 package com.project.zeng.bookstore.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by zeng on 2017/2/25.
  * User的实体
  */
 
-public class User {
+public class User implements Serializable{
 
     /**
      * User的域

@@ -2,6 +2,7 @@ package com.project.zeng.bookstore.ui.frgm;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.adapter.OrderPagerAdapter;
 import com.project.zeng.bookstore.db.AbsDBAPI;
 import com.project.zeng.bookstore.db.models.DbFactory;
@@ -20,6 +22,7 @@ import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.UserAPI;
 import com.project.zeng.bookstore.net.impl.UserAPIImpl;
+import com.project.zeng.bookstore.ui.SettingActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -32,6 +35,7 @@ import java.util.List;
 public class MeFragment extends Fragment implements OnClickListener{
 
     private Context mContext;
+    private MyApplication app;
 
     private ViewHolder mViewHolder;
     //适配器
@@ -46,8 +50,10 @@ public class MeFragment extends Fragment implements OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         mContext = getActivity().getApplication();//获得Fragment的Context
+        app = (MyApplication) mContext;
         init(view);
         initListener();
+        fetchData();
         return view;
     }
 
@@ -107,7 +113,11 @@ public class MeFragment extends Fragment implements OnClickListener{
         switch (v.getId()){
             //设置按钮
             case R.id.iv_me_setting:
-
+                Intent intent = new Intent(mContext, SettingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", mUser);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }

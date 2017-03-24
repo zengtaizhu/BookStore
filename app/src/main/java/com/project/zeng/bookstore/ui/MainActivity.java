@@ -1,14 +1,21 @@
 package com.project.zeng.bookstore.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
+import com.project.zeng.bookstore.entities.User;
+import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.net.UserAPI;
+import com.project.zeng.bookstore.net.impl.UserAPIImpl;
 import com.project.zeng.bookstore.ui.frgm.CartFragment;
 import com.project.zeng.bookstore.ui.frgm.CategoryFragment;
 import com.project.zeng.bookstore.ui.frgm.FindFragment;
@@ -40,11 +47,27 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        app = (MyApplication)getApplication();
+        testCase();
         //初始化Fragment
         initFragment();
         init();
-        app = (MyApplication)getApplication();
-//        Toast.makeText(this, "token=" + app.getToken(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 用于测试------------------------替代登录获取token的步骤，实验完即删除
+     */
+    private void testCase(){
+        UserAPI userAPI = new UserAPIImpl();
+        userAPI.fetchUserById(new User("201330350312", "123"), new DataListener<User>() {
+            @Override
+            public void onComplete(User result) {
+                if(result != null){
+                    app.setToken(result.getPasswordOrToken());
+                    Log.e("MainActivity", "token = " + app.getToken());
+                }
+            }
+        });
     }
 
     /**
@@ -105,8 +128,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 if(mCartFragment == null){
                     mCartFragment = new CartFragment();
                 }
-                mCartFragment.fetchData();
                 replaceFragment(mCartFragment);
+                mCartFragment.fetchData();
                 setRadioButtonImg(3);
                 break;
             }
@@ -114,7 +137,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 if(mMeFragment == null){
                     mMeFragment = new MeFragment();
                 }
-                mMeFragment.fetchData();
                 replaceFragment(mMeFragment);
                 setRadioButtonImg(4);
                 break;
