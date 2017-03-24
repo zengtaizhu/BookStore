@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.de.hdodenhof.circleimageview.CircleImageView;
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.entities.User;
 import com.squareup.picasso.Picasso;
 
@@ -28,12 +29,16 @@ public class SettingActivity extends Activity implements OnClickListener{
     private ViewHolder mViewHolder;
     //当前的用户
     private User mUser;
+    //全部变量
+    private MyApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_settting);
+        app = (MyApplication) getApplication();
+        mUser = app.getUser();
         init();
         initListener();
     }
@@ -43,8 +48,6 @@ public class SettingActivity extends Activity implements OnClickListener{
      */
     private void init(){
         mViewHolder = new ViewHolder(this);
-        Bundle bundle = getIntent().getExtras();
-        mUser = (User) bundle.getSerializable("user");
         Picasso.with(this).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
         mViewHolder.mUserIdView.setText(mUser.getId());
         mViewHolder.mUserNameView.setText("会员名:" + mUser.getUsername());
@@ -72,10 +75,7 @@ public class SettingActivity extends Activity implements OnClickListener{
             case R.id.rl_setting_user:
 //                Toast.makeText(this, "用户", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, UserSettingActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", mUser);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
             //我的收货地址
             case R.id.rl_setting_location:
@@ -90,6 +90,15 @@ public class SettingActivity extends Activity implements OnClickListener{
                 Toast.makeText(this, "退出登录", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 0){
+            Picasso.with(this).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);//更新用户头像
+            mViewHolder.mUserNameView.setText(mUser.getUsername());//更新用户名
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.project.zeng.bookstore.net.impl;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -9,13 +11,18 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.project.zeng.bookstore.MyApplication;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.Handler.UserHandler;
 import com.project.zeng.bookstore.net.UserAPI;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -192,6 +199,200 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
                 return params;
             }
         };
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，更新用户头像
+     * @param token
+     * @param userImg
+     * @param listener
+     */
+    @Override
+    public void modifyUserImg(final String token, final Bitmap userImg, final DataListener<Result> listener) {
+        String realUrl = url + "users/modifyUserImg/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+//                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("image", changeImageToString(userImg));
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 将图片转化为字符串
+     * @param bmp
+     * @return
+     */
+    private String changeImageToString(Bitmap bmp){
+        if(null == bmp){
+            return null;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();//转为Byte数组
+        String str = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return str;
+    }
+
+    /**
+     * 通过令牌，修改用户名
+     * @param token
+     * @param listener
+     */
+    @Override
+    public void modifyUserName(final String token, final String newUserName, final DataListener<Result> listener) {
+        String realUrl = url + "modify/userName/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+//                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("userName", newUserName);
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，修改用户性别
+     * @param token
+     * @param newSex
+     * @param listener
+     */
+    @Override
+    public void modifyUserSex(final String token, final String newSex, final DataListener<Result> listener) {
+        String realUrl = url + "modify/userSex/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+//                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("sex", newSex);
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，修改用户专业
+     * @param token
+     * @param newMajor
+     * @param listener
+     */
+    @Override
+    public void modifyUserMajor(String token, String newMajor, DataListener<Result> listener) {
+
+    }
+
+    /**
+     * 通过令牌，修改用户年级
+     * @param token
+     * @param Grade
+     * @param listener
+     */
+    @Override
+    public void modifyUserGrade(String token, String Grade, DataListener<Result> listener) {
+
+    }
+
+    /**
+     * 获得专业列表
+     * @param listener
+     */
+    @Override
+    public void fetchMajors(final DataListener<String[]> listener) {
+        final String realUrl = url + "user/majors/";
+        StringRequest request = new StringRequest(realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    String majors = UserHandler.getResult(response).getMessage();
+                    listener.onComplete(majors.split(","));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        });
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 获得年级列表
+     * @param listener
+     */
+    @Override
+    public void fetchGrades(final DataListener<String[]> listener) {
+        final String realUrl = url + "user/grades/";
+        StringRequest request = new StringRequest(realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    String grades = UserHandler.getResult(response).getMessage();
+                    listener.onComplete(grades.split(","));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        });
         //将请求添加到网络请求队列中
         performRequest(request);
     }

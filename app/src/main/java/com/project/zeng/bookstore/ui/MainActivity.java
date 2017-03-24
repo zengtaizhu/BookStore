@@ -64,7 +64,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
             public void onComplete(User result) {
                 if(result != null){
                     app.setToken(result.getPasswordOrToken());
-                    Log.e("MainActivity", "token = " + app.getToken());
+//                    Log.e("MainActivity", "token = " + app.getToken());
+                    app.setUser(result);//----------------在登录后缓存，即此处
                 }
             }
         });

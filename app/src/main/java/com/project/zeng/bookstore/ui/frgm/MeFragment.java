@@ -51,6 +51,7 @@ public class MeFragment extends Fragment implements OnClickListener{
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         mContext = getActivity().getApplication();//获得Fragment的Context
         app = (MyApplication) mContext;
+        mUser = app.getUser();
         init(view);
         initListener();
         fetchData();
@@ -85,19 +86,9 @@ public class MeFragment extends Fragment implements OnClickListener{
      * 获得User的数据 ---------应修改为从数据库加载数据----数据库的用户数据已从登陆的时候加载
      */
     public void fetchData(){
-        mUserAPI.fetchUserById("201330350225", new DataListener<User>() {
-            @Override
-            public void onComplete(User result) {
-                if(result != null){
-                    mUser = result;
-                    Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
-                    mViewHolder.mUserIdView.setText(mUser.getId());
-                    mViewHolder.mUserNameView.setText(mUser.getUsername());
-                    //将用户信息添加到数据库
-                    mUserDBAPI.saveItem(result);
-                }
-            }
-        });
+        Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
+        mViewHolder.mUserIdView.setText(mUser.getId());
+        mViewHolder.mUserNameView.setText(mUser.getUsername());
 //        mUserDBAPI.loadDatasFromDb(new DataListener<List<User>>() {
 //            @Override
 //            public void onComplete(List<User> result) {
@@ -114,12 +105,18 @@ public class MeFragment extends Fragment implements OnClickListener{
             //设置按钮
             case R.id.iv_me_setting:
                 Intent intent = new Intent(mContext, SettingActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", mUser);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 0){
+            Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);//更新用户头像
+            mViewHolder.mUserNameView.setText(mUser.getUsername());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.project.zeng.bookstore.net;
 
+import android.graphics.Bitmap;
+
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 
@@ -44,4 +47,55 @@ public interface UserAPI {
      * @param listener
      */
     public void fetchUserById(User user, DataListener<User> listener);
+
+    /**
+     * 通过令牌，更新用户头像
+     * @param token
+     * @param userImg
+     * @param listener
+     */
+    public void modifyUserImg(String token, Bitmap userImg, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，修改用户名
+     * @param token
+     * @param listener
+     */
+    public void modifyUserName(String token, String newUserName, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，修改用户性别
+     * @param token
+     * @param newSex
+     * @param listener
+     */
+    public void modifyUserSex(String token, String newSex, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，修改用户专业
+     * @param token
+     * @param newMajor
+     * @param listener
+     */
+    public void modifyUserMajor(String token, String newMajor, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，修改用户年级
+     * @param token
+     * @param Grade
+     * @param listener
+     */
+    public void modifyUserGrade(String token, String Grade, DataListener<Result> listener);
+
+    /**
+     * 获得专业列表
+     * @param listener
+     */
+    public void fetchMajors(DataListener<String[]> listener);
+
+    /**
+     * 获得年级列表
+     * @param listener
+     */
+    public void fetchGrades(DataListener<String[]> listener);
 }

@@ -1,7 +1,6 @@
 package com.project.zeng.bookstore.net.Handler;
 
-import android.util.Log;
-
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 
 /**
@@ -21,5 +20,14 @@ public class UserHandler implements RespHandler<User, String> {
         User user = gson.fromJson(data, User.class);
 //        Log.e("UserHandler", user.getPasswordOrToken());
         return user;
+    }
+
+    /**
+     * 用GSON解析出结果
+     * @param data
+     * @return
+     */
+    public static Result getResult(String data){
+        return gson.fromJson(data, Result.class);
     }
 }
