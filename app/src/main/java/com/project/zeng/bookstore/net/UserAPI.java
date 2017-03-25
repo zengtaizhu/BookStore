@@ -82,10 +82,10 @@ public interface UserAPI {
     /**
      * 通过令牌，修改用户年级
      * @param token
-     * @param Grade
+     * @param newGrade
      * @param listener
      */
-    public void modifyUserGrade(String token, String Grade, DataListener<Result> listener);
+    public void modifyUserGrade(String token, String newGrade, DataListener<Result> listener);
 
     /**
      * 获得专业列表

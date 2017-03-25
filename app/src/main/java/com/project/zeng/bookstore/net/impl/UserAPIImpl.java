@@ -330,19 +330,67 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
      * @param listener
      */
     @Override
-    public void modifyUserMajor(String token, String newMajor, DataListener<Result> listener) {
-
+    public void modifyUserMajor(final String token, final String newMajor, final DataListener<Result> listener) {
+        String realUrl = url + "modify/userMajor/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+//                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("major", newMajor);
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
     }
 
     /**
      * 通过令牌，修改用户年级
      * @param token
-     * @param Grade
+     * @param newGrade
      * @param listener
      */
     @Override
-    public void modifyUserGrade(String token, String Grade, DataListener<Result> listener) {
-
+    public void modifyUserGrade(final String token, final String newGrade, final DataListener<Result> listener) {
+        String realUrl = url + "modify/userGrade/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+//                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("grade", newGrade);
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
     }
 
     /**
@@ -356,7 +404,7 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
             @Override
             public void onResponse(String response) {
                 if(null != response){
-                    Log.e("UserAPIImpl", "response=" + response);
+//                    Log.e("UserAPIImpl", "response=" + response);
                     String majors = UserHandler.getResult(response).getMessage();
                     listener.onComplete(majors.split(","));
                 }
@@ -382,7 +430,7 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
             @Override
             public void onResponse(String response) {
                 if(null != response){
-                    Log.e("UserAPIImpl", "response=" + response);
+//                    Log.e("UserAPIImpl", "response=" + response);
                     String grades = UserHandler.getResult(response).getMessage();
                     listener.onComplete(grades.split(","));
                 }

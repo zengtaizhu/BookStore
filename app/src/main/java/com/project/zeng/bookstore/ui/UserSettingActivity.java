@@ -36,9 +36,6 @@ import com.project.zeng.bookstore.net.impl.UserAPIImpl;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by zeng on 2017/3/23.
  * 用户信息设置的Activity
@@ -55,6 +52,13 @@ public class UserSettingActivity extends Activity implements OnClickListener{
     //常量
     private int SELECT_PIC_BY_TACK_PHOTO = 1;//通过拍照获取图片的请求码
     private int SELECT_PIC_BY_PICK_PHOTO = 2;//通过图库获取图片的请求码
+    private String[] majors = null;//专业列表
+    private String[] grades = null;//年级列表
+
+    //用户的网络请求API
+    UserAPI mUserAPI = new UserAPIImpl();
+    //操作用户的数据库API
+    AbsDBAPI<User> mUserDbAPI = DbFactory.createUserModel();
     //Handler
     private Handler mHandler = new Handler(){
         @Override
@@ -70,11 +74,6 @@ public class UserSettingActivity extends Activity implements OnClickListener{
         }
     };
 
-    //用户的网络请求API
-    UserAPI mUserAPI = new UserAPIImpl();
-    //操作用户的数据库API
-    AbsDBAPI<User> mUserDbAPI = DbFactory.createUserModel();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +81,10 @@ public class UserSettingActivity extends Activity implements OnClickListener{
         setContentView(R.layout.activity_user_setting);
         app = (MyApplication) getApplication();
         mUser = app.getUser();
+        //预加载专业和年级信息
         init();
         initListener();
+        loadData();
     }
 
     /**
@@ -109,6 +110,25 @@ public class UserSettingActivity extends Activity implements OnClickListener{
         mViewHolder.mUserSexLayout.setOnClickListener(this);
         mViewHolder.mUserMajorLayout.setOnClickListener(this);
         mViewHolder.mUserGradeLayout.setOnClickListener(this);
+    }
+
+    /**
+     * 预加载数据
+     */
+    private void loadData(){
+        mUserAPI.fetchMajors(new DataListener<String[]>() {
+            @Override
+            public void onComplete(String[] result) {
+                majors = result;
+            }
+        });
+        mUserAPI.fetchGrades(new DataListener<String[]>() {
+            @Override
+            public void onComplete(String[] result) {
+                grades = result;
+            }
+        });
+        Log.e("UserSettingActivity", "预加载完毕");
     }
 
     @Override
@@ -140,7 +160,8 @@ public class UserSettingActivity extends Activity implements OnClickListener{
                 break;
             //修改年级
             case R.id.rl_user_grade:
-                Toast.makeText(this, "修改年级", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "修改年级", Toast.LENGTH_SHORT).show();
+                showUserGradeDialog();
                 break;
         }
     }
@@ -229,36 +250,56 @@ public class UserSettingActivity extends Activity implements OnClickListener{
         dialog.show();
     }
 
-    private String[] majors = null;
-
     /**
      * 修改专业
      */
     private void showUserMajorDialog(){
-        if(majors == null){//为未加载专业，则加载数据
-            mUserAPI.fetchMajors(new DataListener<String[]>() {
-                @Override
-                public void onComplete(String[] result) {
-                    majors = result;
-                }
-            });
-        }
         if(majors == null){
             return;
         }
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("修改性别");
+        dialog.setTitle("修改专业");
         dialog.setItems(majors, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final String major = majors[which];
-                Log.e("UserSettingActivity", "major=" + major);
+//                Log.e("UserSettingActivity", "major=" + major);
                 mUserAPI.modifyUserMajor(app.getToken(), major, new DataListener<Result>() {
                     @Override
                     public void onComplete(Result result) {
                         if(result.getResult().contains("success")){
                             mViewHolder.mUserMajorView.setText(major);
                             mUser.setMajor(major);
+                        }else{
+                            Toast.makeText(UserSettingActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+        dialog.show();
+    }
+
+    /**
+     * 修改年级
+     */
+    private void showUserGradeDialog(){
+        if(grades == null){
+            return;
+        }
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("修改年级");
+        dialog.setItems(grades, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final String grade = grades[which];
+//                Log.e("UserSettingActivity", "grade=" + grade);
+                mUserAPI.modifyUserGrade(app.getToken(), grade, new DataListener<Result>() {
+                    @Override
+                    public void onComplete(Result result) {
+                        if(result.getResult().contains("success")){
+                            mViewHolder.mUserGradeView.setText(grade);
+                            mUser.setGrade(grade);
                         }else{
                             Toast.makeText(UserSettingActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         }
