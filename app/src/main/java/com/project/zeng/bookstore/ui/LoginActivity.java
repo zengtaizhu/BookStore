@@ -135,6 +135,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                         if(null != result){
                             //将Token令牌设置为程序的全局变量
                             app.setToken(result.getPasswordOrToken());
+                            app.setUser(result);
                             //跳转到首页
                             mHandler.sendEmptyMessage(0x123);
                             //将数据添加到数据库
@@ -143,7 +144,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                     }
                 });
                 //延迟发送账号和密码错误的提示
-                mHandler.sendEmptyMessageDelayed(0x124, 1000);
+                mHandler.sendEmptyMessageDelayed(0x124, 2000);
                 break;
             //忘记密码
             case R.id.tv_forget_password:
@@ -164,11 +165,12 @@ public class LoginActivity extends Activity implements OnClickListener{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-                //跳转到首页
+                //结束当前页面
                 case 0x123:
                     removeMessages(0x124);
-                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
+//                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                    startActivity(mainIntent);
+                    setResult(0);
                     finish();
                     break;
                 //弹出账号和密码错误的提示

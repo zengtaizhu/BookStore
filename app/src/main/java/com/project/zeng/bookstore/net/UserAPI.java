@@ -98,4 +98,12 @@ public interface UserAPI {
      * @param listener
      */
     public void fetchGrades(DataListener<String[]> listener);
+
+    /**
+     * 通过令牌，修改用户收货地址
+     * @param token
+     * @param newLocation
+     * @param listener
+     */
+    public void modifyUserLocation(String token, String newLocation, DataListener<Result> listener);
 }

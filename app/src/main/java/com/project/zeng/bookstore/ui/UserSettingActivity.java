@@ -213,11 +213,12 @@ public class UserSettingActivity extends Activity implements OnClickListener{
                             if(result.getResult().equals("success")){
                                 mViewHolder.mUserNameView.setText(newUsername);
                                 mUser.setUsername(newUsername);
-                            }else{
-                                Toast.makeText(UserSettingActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(UserSettingActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                }else{
+                    Toast.makeText(UserSettingActivity.this, "用户名不能为空!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

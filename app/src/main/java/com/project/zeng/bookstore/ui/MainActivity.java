@@ -1,8 +1,6 @@
 package com.project.zeng.bookstore.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -32,11 +30,11 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     private RadioGroup mRdoGroupMenu;
 
     //Fragment
-    HomeFragment mHomeFragment;//首页
-    CategoryFragment mCategoryFragment;//分类
-    FindFragment mFindFragment;//发现
-    CartFragment mCartFragment;//购物车
-    MeFragment mMeFragment;//我的
+    private HomeFragment mHomeFragment;//首页
+    private CategoryFragment mCategoryFragment;//分类
+    private FindFragment mFindFragment;//发现
+    private CartFragment mCartFragment;//购物车
+    private MeFragment mMeFragment;//我的
 
     public int[] mUpImageIds = new int[]{R.mipmap.menu_home_up, R.mipmap.menu_category_up,
             R.mipmap.menu_find_up, R.mipmap.menu_cart_up, R.mipmap.menu_me_up};
@@ -48,7 +46,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         app = (MyApplication)getApplication();
-        testCase();
+//        testCase();
         //初始化Fragment
         initFragment();
         init();
@@ -182,5 +180,17 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        app.startGetTokenService();//开始获取token的Service
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        app.stopGetTokenService();//停止获取token的Service
+        super.onDestroy();
     }
 }

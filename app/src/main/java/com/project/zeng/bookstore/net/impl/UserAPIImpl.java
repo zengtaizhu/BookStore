@@ -18,11 +18,7 @@ import com.project.zeng.bookstore.net.Handler.UserHandler;
 import com.project.zeng.bookstore.net.UserAPI;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -441,6 +437,41 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
                 VolleyLog.e("UserAPIImpl", error.getMessage());
             }
         });
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，修改用户收货地址
+     * @param token
+     * @param newLocation
+     * @param listener
+     */
+    @Override
+    public void modifyUserLocation(final String token, final String newLocation, final DataListener<Result> listener) {
+        String realUrl = url + "modify/userLocation/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("location", newLocation);
+                return params;
+            }
+        };
         //将请求添加到网络请求队列中
         performRequest(request);
     }

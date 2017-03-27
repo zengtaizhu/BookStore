@@ -2,6 +2,7 @@ package com.project.zeng.bookstore.adapter;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.DataSetObserver;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -96,10 +97,31 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
             mFrgmManager.executePendingTransactions();//立即执行添加操作
             fragment.fetchData(position);
         }
+        if(fragmentChange[position % fragmentChange.length]){
+            FragmentTransaction ft = mFrgmManager.beginTransaction();
+            ft.remove(fragment);
+            ft.add(fragment, fragment.getClass().getSimpleName());
+            ft.commit();
+            mFrgmManager.executePendingTransactions();//立即执行添加操作
+            fragment.fetchData(position);//重新获取数据
+            fragmentChange[position % fragmentChange.length] = false;//将修改复原
+        }
         if(null == fragment.getView().getParent()){
             container.addView(fragment.getView());//为ViewPager添加布局
         }
         return fragment.getView();
+    }
+
+    private boolean[] fragmentChange = {false, false, false, false};
+
+    /**
+     * 更新界面
+     */
+    public void updateView(){
+        for(int i = 0; i < fragmentChange.length; i++){
+            fragmentChange[i] = true;
+        }
+        notifyDataSetChanged();
     }
 
     @Override

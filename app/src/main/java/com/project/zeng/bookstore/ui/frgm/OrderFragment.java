@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
@@ -72,6 +73,10 @@ public class OrderFragment extends Fragment{
      * 根据state的值，获取相应状态的订单
      */
     public void fetchData(int state) {
+        if(app == null || app.getToken().equals("")){
+//            Toast.makeText(mContext, "请先登录!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         switch (state){
             //全部
             case 0:

@@ -1,6 +1,7 @@
 package com.project.zeng.bookstore;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.db.helper.DatabaseMgr;
@@ -26,6 +27,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setUrl("http://192.168.191.1:5000/api/v1.0/");
+        setToken("");
         //初始化短信验证
         SMSSDK.initSDK(this, getString(R.string.APPKEY), getString(R.string.APPSECRET));
         //初始化数据库
@@ -56,6 +58,20 @@ public class MyApplication extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * 开始获取令牌的service
+     */
+    public void startGetTokenService(){
+        startService(new Intent(this, GetTokenService.class));
+    }
+
+    /**
+     * 停止获取令牌的service
+     */
+    public void stopGetTokenService(){
+        stopService(new Intent(this, GetTokenService.class));
     }
 
     /**

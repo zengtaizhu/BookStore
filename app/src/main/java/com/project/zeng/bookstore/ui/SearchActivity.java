@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by zeng on 2017/3/2.
+ * 按关键字查找商品的Activity
  */
 
 public class SearchActivity extends Activity implements OnClickListener, OnItemClickListener {
@@ -44,7 +45,8 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemC
     //操作搜索记录的数据库对象
     AbsDBAPI<Search> mSearchDbAPI = DbFactory.createSearchModel();
 
-    private List<Search> mSearches;
+    private List<Search> mSearches;//搜索记录列表
+    private String SEARCH_BY_KEY = "1";//通过关键字搜索商品
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +117,8 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemC
                     //跳转到Product的Activity
                     Intent intent = new Intent(SearchActivity.this, ProductsActivity.class);
                     intent.putExtra("key", keyWord);
-                    //商品搜索类型：0--代表通过关键字查找商品
-                    intent.putExtra("type", "0");
+                    //商品搜索类型：SEARCH_BY_CODE--代表通过关键字查找商品
+                    intent.putExtra("type", SEARCH_BY_KEY);
                     startActivity(intent);
 //                    Toast.makeText(this, "keyWord=" + keyWord, Toast.LENGTH_SHORT).show();
                 } else {

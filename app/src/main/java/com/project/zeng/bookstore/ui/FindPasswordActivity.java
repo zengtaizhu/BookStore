@@ -22,7 +22,7 @@ import com.project.zeng.bookstore.net.impl.UserAPIImpl;
 
 /**
  * Created by zeng on 2017/3/7.
- * 找回密码的Activity
+ * 重设密码的Activity
  */
 
 public class FindPasswordActivity extends Activity implements OnClickListener{

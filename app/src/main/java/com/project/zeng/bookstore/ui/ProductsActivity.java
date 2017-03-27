@@ -69,7 +69,11 @@ public class ProductsActivity extends Activity implements OnClickListener,
     //切换标记,默认显示线性布局
     private boolean isLinearLayout = true;
 
-    private List<Product> mProducts;
+    private List<Product> mProducts;//商品列表
+    private String SEARCH_ALL = "0";//查找全部
+    private String SEARCH_BY_KEY = "1";//通过关键字查找
+    private String SEARCH_BY_PRO = "2";//通过商品ID查找
+    private String SEARCH_BY_GRADE = "3";//通过适合年级查找
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +83,10 @@ public class ProductsActivity extends Activity implements OnClickListener,
         Intent intent = getIntent();
         String keyWord = intent.getStringExtra("key");//搜索关键字
         //搜索类型：1--关键字，2--商品类型ID，4--适合年级
-        int type = Integer.valueOf(intent.getStringExtra("type"));
+        String type = intent.getStringExtra("type");
 //        Toast.makeText(this, "keyWord=" + keyWord + ", type=" + type, Toast.LENGTH_SHORT).show();
         //若通过关键字搜索，则显示关键字
-        if(type == 1){
+        if(type.equals(SEARCH_BY_KEY)){
             init(keyWord);
         }else{
             //若通过商品类型ID或商品ID搜索，则显示商品类型名称或商品名称
@@ -131,35 +135,29 @@ public class ProductsActivity extends Activity implements OnClickListener,
     /**
      * 获取Product数据后渲染到界面
      */
-    public void fetchData(final String keyWord, int type){
+    public void fetchData(final String keyWord, String type){
         switch (type){
             //通过关键字搜索
-            case 1:
+            case "1":
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("type", "1");
+                hashMap.put("type", SEARCH_BY_KEY);
                 hashMap.put("key", new String[]{"%" + keyWord + "%"});
-                //从数据库加载数据
-                mProDbAPI.loadDatasFromDbByArgs(new DataListener<List<Product>>() {
+                //从网络加载数据
+                mProductAPI.fetchProductsByWord(keyWord, new DataListener<List<Product>>() {
                     @Override
                     public void onComplete(List<Product> result) {
-                        //从网络加载数据
-                        mProductAPI.fetchProductsByWord(keyWord, new DataListener<List<Product>>() {
-                            @Override
-                            public void onComplete(List<Product> result) {
-                                if(null != result){
-//                                    Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
-                                    mProductRecyAdapter.updateData(result);
-                                    mProducts = result;
-                                }else{
-//                                    Log.e("ProductsActivity", "从网络获取的product的数量为:0");
-                                }
-                            }
-                        });
+                        if(null != result){
+//                            Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
+                            mProductRecyAdapter.updateData(result);
+                            mProducts = result;
+                        }else{
+//                            Log.e("ProductsActivity", "从网络获取的product的数量为:0");
+                        }
                     }
-                }, hashMap);
+                });
                 break;
             //通过商品类型ID
-            case 2:
+            case "2":
                 //从网络加载数据
                 mProductAPI.fetchProductsByCategory(keyWord, new DataListener<List<Product>>() {
                     @Override
@@ -174,20 +172,6 @@ public class ProductsActivity extends Activity implements OnClickListener,
                     }
                 });
                 break;
-//            //通过商品ID
-//            case 3:
-////                Log.e("ProductsActivity", "keyword=" + keyWord);
-//                mProductAPI.fetchProductByID(keyWord, new DataListener<Product>() {
-//                    @Override
-//                    public void onComplete(Product result) {
-//                        if(null != result){
-//                            mProducts.clear();
-//                            mProducts.add(result);
-//                            mProductRecyAdapter.updateData(mProducts);
-//                        }
-//                    }
-//                });
-//                break;
         }
     }
 

@@ -22,6 +22,7 @@ import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.UserAPI;
 import com.project.zeng.bookstore.net.impl.UserAPIImpl;
+import com.project.zeng.bookstore.ui.LoginActivity;
 import com.project.zeng.bookstore.ui.SettingActivity;
 import com.squareup.picasso.Picasso;
 
@@ -35,16 +36,15 @@ import java.util.List;
 public class MeFragment extends Fragment implements OnClickListener{
 
     private Context mContext;
-    private MyApplication app;
+    private MyApplication app;//全局变量
 
     private ViewHolder mViewHolder;
     //适配器
     private OrderPagerAdapter mPagerAdapter;
-    //用户的网络请求API
-    UserAPI mUserAPI = new UserAPIImpl();
-    //操作用户的数据库API
-    AbsDBAPI<User> mUserDBAPI = DbFactory.createUserModel();
-    private User mUser;
+    private User mUser;//当前用户
+    private String LOGIN_OR_REGISTER = "登录/注册>";
+    private int SETTING_REQUEST_CODE = 0;//SettingActivity的请求码
+    private int LOGIN_REQUEST_CODE = 1;//LoginActivity的请求码
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MeFragment extends Fragment implements OnClickListener{
         mUser = app.getUser();
         init(view);
         initListener();
-        fetchData();
+        initView();
         return view;
     }
 
@@ -73,6 +73,7 @@ public class MeFragment extends Fragment implements OnClickListener{
     private void initListener(){
         mViewHolder.mOrderPager.setAdapter(mPagerAdapter);
         mViewHolder.mSettingImgView.setOnClickListener(this);
+        mViewHolder.mUserNameView.setOnClickListener(this);
     }
 
     /**
@@ -83,20 +84,18 @@ public class MeFragment extends Fragment implements OnClickListener{
     }
 
     /**
-     * 获得User的数据 ---------应修改为从数据库加载数据----数据库的用户数据已从登陆的时候加载
+     * 初始化界面
      */
-    public void fetchData(){
-        Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
-        mViewHolder.mUserIdView.setText(mUser.getId());
-        mViewHolder.mUserNameView.setText(mUser.getUsername());
-//        mUserDBAPI.loadDatasFromDb(new DataListener<List<User>>() {
-//            @Override
-//            public void onComplete(List<User> result) {
-//                if(result != null){
-//                    mUser = result.get(0);
-//                }
-//            }
-//        });
+    public void initView(){
+        if(null == mUser){
+            mViewHolder.mUserNameView.setText(LOGIN_OR_REGISTER);//替换原来的用户名
+            mViewHolder.mUserImgView.setImageResource(R.mipmap.ic_user);//使用默认头像
+            mViewHolder.mUserIdView.setVisibility(View.INVISIBLE);//隐藏用户ID
+        }else{
+            Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
+            mViewHolder.mUserIdView.setText(mUser.getId());
+            mViewHolder.mUserNameView.setText(mUser.getUsername());
+        }
     }
 
     @Override
@@ -104,19 +103,55 @@ public class MeFragment extends Fragment implements OnClickListener{
         switch (v.getId()){
             //设置按钮
             case R.id.iv_me_setting:
-                Intent intent = new Intent(mContext, SettingActivity.class);
-                startActivityForResult(intent, 0);
+                Intent settingIntent = new Intent(mContext, SettingActivity.class);
+                startActivityForResult(settingIntent, SETTING_REQUEST_CODE);
+                break;
+            //用户名：若为User为空，则跳转到登录界面
+            case R.id.tv_me_username:
+                if(mViewHolder.mUserNameView.getText().equals(LOGIN_OR_REGISTER)&&null == app.getUser()){
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+                }
                 break;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 0){
-            Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);//更新用户头像
-            mViewHolder.mUserNameView.setText(mUser.getUsername());
+        if(requestCode == SETTING_REQUEST_CODE){
+            if(resultCode == 0){//更新用户头像
+                Picasso.with(mContext).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
+                mViewHolder.mUserNameView.setText(mUser.getUsername());
+            }
+            if(resultCode == 1){
+                app.setUser(null);//清空User
+                app.setToken("");//将令牌设置为空
+                mUser = null;
+                initView();
+                initOrderPager();
+            }
+        }
+        if(requestCode == LOGIN_REQUEST_CODE){
+            if(resultCode == 0){//登录成功
+                mUser = app.getUser();
+                mViewHolder.mUserIdView.setVisibility(View.VISIBLE);//显示用户ID
+                initView();
+                initOrderPager();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 初始化订单ViewPager，刷新ViewPager的Fragment
+     */
+    private void initOrderPager(){
+        mPagerAdapter.updateView();//刷新ViewPager的Fragment
+        mViewHolder.mOrderPager.setCurrentItem(0);
+        mViewHolder.mOrderPager.setCurrentItem(1);
+        mViewHolder.mOrderPager.setCurrentItem(2);
+        mViewHolder.mOrderPager.setCurrentItem(3);
+        mViewHolder.mOrderPager.setCurrentItem(OrderPagerAdapter.POSITION_NONE);
     }
 
     /**
