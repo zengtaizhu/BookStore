@@ -35,6 +35,31 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
     }
 
     /**
+     * 查看该用户是否存在
+     * @param phone
+     * @param listener
+     */
+    public void isUserExist(String phone, final DataListener<Result> listener){
+        String realUrl = url + "users/phone/" + phone;
+        StringRequest request = new StringRequest(realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != listener){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(UserHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        });
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
      * 通过账号密码，获得用户信息（包括登录令牌，登录令牌替换本地数据库的密码）
      * @param user
      * @param listener
@@ -49,7 +74,13 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
             public void onResponse(String response) {
 //                Log.e("UserAPIImpl", "user=" + response);
                 if(null != listener){
-                    listener.onComplete(mRespHandler.parse(response));
+                    Result result = UserHandler.getResult(response);//查看返回结果
+                    if(result.getResult().contains("success")){
+//                        Log.e("UserAPIImpl", "message=" + result.getMessage());
+                        listener.onComplete(mRespHandler.parse(result.getMessage()));
+                    }else{
+                        listener.onComplete(null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
@@ -103,14 +134,14 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
      * @param listener
      */
     @Override
-    public void modifyPassword(final User user, final DataListener<String> listener){
+    public void modifyPassword(final User user, final DataListener<Result> listener){
         String realUrl = url + "users/modifyPassword/";
         StringRequest request = new StringRequest(Request.Method.POST, realUrl,
                 new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         if(null != listener){
-                            listener.onComplete(response);
+                            listener.onComplete(UserHandler.getResult(response));
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -137,14 +168,14 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
      * @param listener
      */
     @Override
-    public void registerUser(final User user, final DataListener<String> listener) {
+    public void registerUser(final User user, final DataListener<Result> listener) {
         String realUrl = url + "users/register/";
         StringRequest request = new StringRequest(Request.Method.POST, realUrl,
                 new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         if(null != listener){
-                            listener.onComplete(response);
+                            listener.onComplete(UserHandler.getResult(response));
                         }
                     }
                 }, new Response.ErrorListener() {

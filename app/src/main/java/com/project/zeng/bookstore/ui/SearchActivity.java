@@ -162,7 +162,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemC
         Intent intent = new Intent(SearchActivity.this, ProductsActivity.class);
         intent.putExtra("key", mSearches.get(position).getKey());
         //商品搜索类型：0--代表通过关键字查找商品
-        intent.putExtra("type", "0");
+        intent.putExtra("type", SEARCH_BY_KEY);
         startActivity(intent);
 //        Toast.makeText(this, "keyWord=" + mSearches.get(position).getKey(), Toast.LENGTH_SHORT).show();
     }

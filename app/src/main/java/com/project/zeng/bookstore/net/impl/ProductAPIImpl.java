@@ -74,6 +74,11 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
 
     }
 
+    /**
+     * 通过关键字，获得商品列表
+     * @param word
+     * @param listener
+     */
     @Override
     public void fetchProductsByWord(String word, final DataListener<List<Product>> listener) {
         String newUrl = url + "keyword/" + word;

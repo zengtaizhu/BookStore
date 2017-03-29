@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                     mCartFragment = new CartFragment();
                 }
                 replaceFragment(mCartFragment);
-                mCartFragment.fetchData();
+                mCartFragment.fetchData(app.getToken());
                 setRadioButtonImg(3);
                 break;
             }

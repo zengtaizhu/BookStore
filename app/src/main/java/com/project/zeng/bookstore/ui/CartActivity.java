@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.view.Window;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.ui.frgm.CartFragment;
 import com.project.zeng.bookstore.ui.frgm.HomeFragment;
 
@@ -21,19 +22,21 @@ public class CartActivity extends Activity {
 
     //Fragment布局管理器
     private FragmentManager fm;
-
+    private MyApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_cart);
+        app = (MyApplication) getApplication();
         fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         CartFragment cartFragment = new CartFragment();
         cartFragment.showBackImageView(true);//显示返回按钮
-        cartFragment.fetchData();
         ft.add(R.id.fl_cart_container,cartFragment);
         ft.commit();
+        fm.executePendingTransactions();//立刻执行添加Fragment的事务
+        cartFragment.fetchData(app.getToken());
     }
 }

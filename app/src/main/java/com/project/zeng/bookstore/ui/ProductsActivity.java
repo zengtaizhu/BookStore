@@ -82,14 +82,14 @@ public class ProductsActivity extends Activity implements OnClickListener,
         setContentView(R.layout.activity_product);
         Intent intent = getIntent();
         String keyWord = intent.getStringExtra("key");//搜索关键字
-        //搜索类型：1--关键字，2--商品类型ID，4--适合年级
+        //搜索类型：1--关键字，2--商品类型ID，3--适合年级
         String type = intent.getStringExtra("type");
 //        Toast.makeText(this, "keyWord=" + keyWord + ", type=" + type, Toast.LENGTH_SHORT).show();
         //若通过关键字搜索，则显示关键字
         if(type.equals(SEARCH_BY_KEY)){
             init(keyWord);
-        }else{
-            //若通过商品类型ID或商品ID搜索，则显示商品类型名称或商品名称
+        }else if(type.equals(SEARCH_BY_PRO)){
+            //若通过商品类型ID搜索，则显示商品类型名称
             String name = intent.getStringExtra("name");
             init(name);
         }
@@ -139,9 +139,9 @@ public class ProductsActivity extends Activity implements OnClickListener,
         switch (type){
             //通过关键字搜索
             case "1":
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("type", SEARCH_BY_KEY);
-                hashMap.put("key", new String[]{"%" + keyWord + "%"});
+//                HashMap<String, Object> hashMap = new HashMap<>();
+//                hashMap.put("type", SEARCH_BY_KEY);
+//                hashMap.put("key", new String[]{"%" + keyWord + "%"});
                 //从网络加载数据
                 mProductAPI.fetchProductsByWord(keyWord, new DataListener<List<Product>>() {
                     @Override

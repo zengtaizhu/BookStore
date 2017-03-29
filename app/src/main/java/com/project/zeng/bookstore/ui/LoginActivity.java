@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -149,7 +147,7 @@ public class LoginActivity extends Activity implements OnClickListener{
             //忘记密码
             case R.id.tv_forget_password:
 //                Toast.makeText(this, "忘记密码", Toast.LENGTH_SHORT).show();
-                Intent findPasswordIntent = new Intent(this, FindPasswordActivity.class);
+                Intent findPasswordIntent = new Intent(this, ResetPasswordActivity.class);
                 startActivity(findPasswordIntent);
                 break;
             //注册新账号
@@ -168,8 +166,6 @@ public class LoginActivity extends Activity implements OnClickListener{
                 //结束当前页面
                 case 0x123:
                     removeMessages(0x124);
-//                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-//                    startActivity(mainIntent);
                     setResult(0);
                     finish();
                     break;

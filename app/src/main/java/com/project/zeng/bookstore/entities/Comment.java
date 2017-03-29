@@ -15,6 +15,7 @@ public class Comment {
      */
     private String id;
     private String buyer_id;
+    private String buyer_img;
     private String comment_time;
     private String grade;
     private String comment;
@@ -33,6 +34,14 @@ public class Comment {
 
     public void setBuyer_id(String buyer_id) {
         this.buyer_id = buyer_id;
+    }
+
+    public String getBuyer_img() {
+        return buyer_img;
+    }
+
+    public void setBuyer_img(String buyer_img) {
+        this.buyer_img = buyer_img;
     }
 
     public String getComment_time() {

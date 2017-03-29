@@ -14,6 +14,13 @@ import com.project.zeng.bookstore.listeners.DataListener;
 public interface UserAPI {
 
     /**
+     * 查看该用户是否存在
+     * @param phone
+     * @param listener
+     */
+    public void isUserExist(String phone, DataListener<Result> listener);
+
+    /**
      * 通过账号密码，获得用户信息（包括登录令牌，用令牌替代密码）
      * @param user
      * @param listener
@@ -32,14 +39,14 @@ public interface UserAPI {
      * @param user
      * @param listener
      */
-    public void modifyPassword(User user, DataListener<String> listener);
+    public void modifyPassword(User user, DataListener<Result> listener);
 
     /**
      * 注册新用户
      * @param user
      * @param listener
      */
-    public void registerUser(User user, DataListener<String> listener);
+    public void registerUser(User user, DataListener<Result> listener);
 
     /**
      * 通过用户，获取用户信息（用于重设密码）

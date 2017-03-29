@@ -27,7 +27,7 @@
     <application
         android:name="com.project.zeng.bookstore.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -48,7 +48,7 @@
             android:launchMode="singleTask"></activity>
         <activity android:name="com.project.zeng.bookstore.ui.RegisterActivity"
             android:launchMode="singleTask"/>
-        <activity android:name="com.project.zeng.bookstore.ui.FindPasswordActivity"
+        <activity android:name="com.project.zeng.bookstore.ui.ResetPasswordActivity"
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.RegisterPswActivity"
             android:launchMode="singleTask"/>

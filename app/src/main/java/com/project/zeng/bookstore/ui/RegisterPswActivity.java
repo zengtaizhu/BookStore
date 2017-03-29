@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.TextChangeListener;
@@ -106,18 +107,16 @@ public class RegisterPswActivity extends Activity implements OnClickListener{
                     Toast.makeText(this, "密码不能少于6位!", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                mUserAPI.registerUser(new User(id, password), new DataListener<String>() {
+                mUserAPI.registerUser(new User(id, password), new DataListener<Result>() {
                     @Override
-                    public void onComplete(String result) {
+                    public void onComplete(Result result) {
 //                        Log.e("RegisterPswActivity", "result=" + result);
-                        if(null != result){
-                            if(result.contains("success")){
-                                Toast.makeText(RegisterPswActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                //跳转到登录界面
-                                Intent intent = new Intent(RegisterPswActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
+                        if(result.getResult().contains("success")){
+                            Toast.makeText(RegisterPswActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            //跳转到登录界面
+                            Intent intent = new Intent(RegisterPswActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });

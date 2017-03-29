@@ -95,7 +95,7 @@ public class SettingActivity extends Activity implements OnClickListener{
         switch (v.getId()){
             //返回按钮
             case R.id.iv_setting_back:
-                setResult(1);
+                setResult(0);
                 finish();
                 break;
             //用户
@@ -112,7 +112,7 @@ public class SettingActivity extends Activity implements OnClickListener{
             //重设密码
             case R.id.rl_setting_change_psw:
 //                Toast.makeText(this, "重设密码", Toast.LENGTH_SHORT).show();
-                Intent resetPswIntent = new Intent(this, FindPasswordActivity.class);
+                Intent resetPswIntent = new Intent(this, ResetPasswordActivity.class);
                 startActivity(resetPswIntent);
                 break;
             //退出登录

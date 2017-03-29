@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.TextChangeListener;
@@ -35,6 +36,7 @@ import cn.smssdk.SMSSDK;
 
 /**
  * Created by zeng on 2017/3/7.
+ * 注册的Activity
  */
 
 public class RegisterActivity extends Activity implements OnClickListener{
@@ -59,7 +61,8 @@ public class RegisterActivity extends Activity implements OnClickListener{
     //操作用户的网络API
     UserAPI mUserAPI = new UserAPIImpl();
 
-    private MyApplication app;
+    private MyApplication app;//保存全局变量
+    private String RESET_PASSWORD = "重设密码";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +126,6 @@ public class RegisterActivity extends Activity implements OnClickListener{
                     //返回的用户注册的手机号码
                     String phone = (String)mData.get("phone");
                     Log.e("RegisterActivity", "country:" + country + "，" + "phone:" + phone);
-
                     if(phone.equals(mPhone)){
                         mHandler.sendEmptyMessage(0x102);
                     }else{
@@ -223,12 +225,19 @@ public class RegisterActivity extends Activity implements OnClickListener{
             //若没有输入电话
             Toast.makeText(getApplicationContext(), "号码不能为空！！！", Toast.LENGTH_SHORT).show();
         }else{
-            mUserAPI.fetchUserById(mPhone, new DataListener<User>() {
+            mUserAPI.isUserExist(mPhone, new DataListener<Result>() {
                 @Override
-                public void onComplete(User result) {
-                    if(null != result){
-                        //显示该账号已被注册的Toast
-                        mHandler.sendEmptyMessage(0x100);
+                public void onComplete(Result result) {
+                    boolean isUserExist = result.getResult().contains("success");
+                    if(mTitleTxtView.getText().equals(RESET_PASSWORD)){//若是重设密码，则检验该号码是否已注册
+                        if(!isUserExist){//若用户不存在，则取消发送验证码
+                            mHandler.sendEmptyMessage(0x099);
+                        }
+                    }else{//若是注册，则检验该号码是否已存在
+                        if(isUserExist){
+                            //跳出该手机已注册的Toast，并取消发送验证码
+                            mHandler.sendEmptyMessage(0x100);
+                        }
                     }
                 }
             });
@@ -257,6 +266,11 @@ public class RegisterActivity extends Activity implements OnClickListener{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
+                //显示未注册的Toast
+                case 0x099:
+                    removeMessages(0x101);
+                    Toast.makeText(getApplicationContext(),  mPhone + "未注册，请先注册!", Toast.LENGTH_SHORT).show();
+                    break;
                 //显示已经被注册的Toast
                 case 0x100:
                     removeMessages(0x101);
@@ -267,10 +281,11 @@ public class RegisterActivity extends Activity implements OnClickListener{
                     SMSSDK.getVerificationCode("+86", mPhone);
                     Toast.makeText(getApplicationContext(), "发送成功：" + mPhone, Toast.LENGTH_SHORT).show();
                     break;
+                //验证成功的消息
                 case 0x102:
                     Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_SHORT).show();
                     mWatingDialog.dismiss();
-                    if(mTitleTxtView.getText().toString().equals("重设密码")){
+                    if(mTitleTxtView.getText().toString().equals(RESET_PASSWORD)){
                         //修改密码：跳转到修改密码的界面
                         mUserAPI.fetchUserById(new User(mPhone, ""), new DataListener<User>() {
                             @Override
@@ -278,6 +293,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 //                                Log.e("RegisterActivity", "result=" + result);
                                 if(null != result){
                                     app.setToken(result.getPasswordOrToken());
+                                    app.setUser(result);
                                 }
                             }
                         });

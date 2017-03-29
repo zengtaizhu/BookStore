@@ -113,12 +113,12 @@ public class CartFragment extends Fragment implements OnClickListener,
     /**
      * 获取购物车数据
      */
-    public void fetchData(){
-        if(app.getToken().equals("")){//未登录
+    public void fetchData(String token){
+        if(token.equals("")){//未登录
 //            Toast.makeText(mContext, "请先登录!", Toast.LENGTH_SHORT).show();
             return;
         }
-        mCartAPI.fetchCarts(app.getToken(), new DataListener<List<Cart>>() {
+        mCartAPI.fetchCarts(token, new DataListener<List<Cart>>() {
             @Override
             public void onComplete(List<Cart> result) {
                 if(result != null){

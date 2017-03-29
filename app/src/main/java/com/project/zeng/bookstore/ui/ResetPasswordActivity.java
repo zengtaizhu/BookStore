@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.TextChangeListener;
@@ -25,7 +25,7 @@ import com.project.zeng.bookstore.net.impl.UserAPIImpl;
  * 重设密码的Activity
  */
 
-public class FindPasswordActivity extends Activity implements OnClickListener{
+public class ResetPasswordActivity extends Activity implements OnClickListener{
 
     //组件
     private ImageView mBackImgView;
@@ -83,14 +83,12 @@ public class FindPasswordActivity extends Activity implements OnClickListener{
                     Toast.makeText(this, "密码位数不得少于6位!", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                mUserAPI.modifyPassword(new User(id, newPassword), new DataListener<String>() {
+                mUserAPI.modifyPassword(new User(id, newPassword), new DataListener<Result>() {
                     @Override
-                    public void onComplete(String result) {
-                        if(result.contains("success")){
-                            Toast.makeText(FindPasswordActivity.this, "修改密码成功!", Toast.LENGTH_SHORT).show();
+                    public void onComplete(Result result) {
+                        Toast.makeText(ResetPasswordActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                        if(result.getResult().contains("success")){
                             finish();
-                        }else{
-                            Toast.makeText(FindPasswordActivity.this, "修改密码失败!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
