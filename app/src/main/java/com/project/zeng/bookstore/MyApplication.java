@@ -2,6 +2,8 @@ package com.project.zeng.bookstore;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.db.helper.DatabaseMgr;
@@ -22,6 +24,7 @@ public class MyApplication extends Application {
     private String token;//token令牌------------待修改为用用户代替
     private String url;//网络地址
     private User user;//用户
+    private NetState receiver;
 
     @Override
     public void onCreate() {
@@ -34,6 +37,8 @@ public class MyApplication extends Application {
         DatabaseMgr.init(this);
         //初始化网络请求
         RequestQueueMgr.init(this);
+        //网络监听器
+        initReceiver();
     }
 
     public String getToken() {
@@ -72,6 +77,21 @@ public class MyApplication extends Application {
      */
     public void stopGetTokenService(){
         stopService(new Intent(this, GetTokenService.class));
+    }
+
+    public NetState getReceiver() {
+        return receiver;
+    }
+
+    /**
+     * 初始化网络状态监听器
+     */
+    public void initReceiver() {
+        receiver = new NetState();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(receiver, filter);//注册监听器
+        receiver.onReceive(this, null);
     }
 
     /**

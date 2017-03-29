@@ -60,6 +60,7 @@
             android:launchMode="singleTask"/>
 
         <service android:name="com.project.zeng.bookstore.GetTokenService" />
+        <receiver android:name="com.project.zeng.bookstore.NetState" />
     </application>
 
 </manifest>

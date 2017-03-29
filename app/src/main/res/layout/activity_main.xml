@@ -23,45 +23,38 @@
         android:background="@color/background_gray">
         <RadioButton
             android:id="@+id/rdoBtn_main_home"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
+            android:layout_marginStart="60dp"
             android:background="@mipmap/menu_home_up"
             android:button="@null"
             android:gravity="center"
             />
         <RadioButton
             android:id="@+id/rdoBtn_main_category"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="15dp"
             android:background="@mipmap/menu_category_up"
             android:button="@null"
             android:gravity="center"
             />
         <RadioButton
-            android:id="@+id/rdoBtn_main_find"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@mipmap/menu_find_up"
-            android:button="@null"
-            android:gravity="center"
-            />
-        <RadioButton
             android:id="@+id/rdoBtn_main_cart"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="30dp"
             android:background="@mipmap/menu_cart_up"
             android:button="@null"
             android:gravity="center"
             />
         <RadioButton
             android:id="@+id/rdoBtn_main_mystore"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
+            android:layout_marginEnd="60dp"
             android:background="@mipmap/menu_me_up"
             android:button="@null"
             android:gravity="center"

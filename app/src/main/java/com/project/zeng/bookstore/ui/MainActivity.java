@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.MyApplication;
@@ -16,7 +17,6 @@ import com.project.zeng.bookstore.net.UserAPI;
 import com.project.zeng.bookstore.net.impl.UserAPIImpl;
 import com.project.zeng.bookstore.ui.frgm.CartFragment;
 import com.project.zeng.bookstore.ui.frgm.CategoryFragment;
-import com.project.zeng.bookstore.ui.frgm.FindFragment;
 import com.project.zeng.bookstore.ui.frgm.HomeFragment;
 import com.project.zeng.bookstore.ui.frgm.HomeFragment.OnToolbarClickListener;
 import com.project.zeng.bookstore.ui.frgm.MeFragment;
@@ -32,14 +32,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     //Fragment
     private HomeFragment mHomeFragment;//首页
     private CategoryFragment mCategoryFragment;//分类
-    private FindFragment mFindFragment;//发现
     private CartFragment mCartFragment;//购物车
     private MeFragment mMeFragment;//我的
 
     public int[] mUpImageIds = new int[]{R.mipmap.menu_home_up, R.mipmap.menu_category_up,
-            R.mipmap.menu_find_up, R.mipmap.menu_cart_up, R.mipmap.menu_me_up};
+            R.mipmap.menu_cart_up, R.mipmap.menu_me_up};
     public int[] mDownImageIds = new int[]{R.mipmap.menu_home_down, R.mipmap.menu_category_down,
-            R.mipmap.menu_find_down, R.mipmap.menu_cart_down, R.mipmap.menu_me_down};
+            R.mipmap.menu_cart_down, R.mipmap.menu_me_down};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +91,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     private void initFragment(){
         mHomeFragment = new HomeFragment();
         mCategoryFragment = new CategoryFragment();
-        mFindFragment = new FindFragment();
         mCartFragment = new CartFragment();
         mMeFragment = new MeFragment();
     }
@@ -102,6 +100,9 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         //初始化RadioGroup的图标
         initRadioButtonImg();
+        if(!app.getReceiver().isAvailable){
+            Toast.makeText(this, "您的网络在偷懒，请重试", Toast.LENGTH_SHORT).show();
+        }
         switch (checkedId){
             case R.id.rdoBtn_main_home:{
                 mHomeFragment.fetchData();
@@ -115,21 +116,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 setRadioButtonImg(1);
                 break;
             }
-            case R.id.rdoBtn_main_find:{
-                if(mFindFragment == null){
-                    mFindFragment = new FindFragment();
-                }
-                replaceFragment(mFindFragment);
-                setRadioButtonImg(2);
-                break;
-            }
             case R.id.rdoBtn_main_cart:{
                 if(mCartFragment == null){
                     mCartFragment = new CartFragment();
                 }
                 replaceFragment(mCartFragment);
                 mCartFragment.fetchData(app.getToken());
-                setRadioButtonImg(3);
+                setRadioButtonImg(2);
                 break;
             }
             case R.id.rdoBtn_main_mystore:{
@@ -137,7 +130,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                     mMeFragment = new MeFragment();
                 }
                 replaceFragment(mMeFragment);
-                setRadioButtonImg(4);
+                setRadioButtonImg(3);
                 break;
             }
             default:
