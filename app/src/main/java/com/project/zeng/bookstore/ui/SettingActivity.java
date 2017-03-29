@@ -95,7 +95,11 @@ public class SettingActivity extends Activity implements OnClickListener{
         switch (v.getId()){
             //返回按钮
             case R.id.iv_setting_back:
-                setResult(0);
+                if(!app.getToken().equals("")){
+                    setResult(0);
+                }else{
+                    setResult(1);
+                }
                 finish();
                 break;
             //用户

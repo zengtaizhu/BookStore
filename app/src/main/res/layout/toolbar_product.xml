@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="@drawable/gradual_change_shape">
 
     <ImageView
         android:id="@+id/iv_search_back"
@@ -29,16 +30,9 @@
             android:maxLines="1"
             android:ellipsize="middle"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:focusable="false"
-            android:hint="搜索商品/类型"
-            />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center|right"
-            android:layout_marginRight="20dp"
-            android:background="@mipmap/ic_mic"
-            android:visibility="visible"
+            android:hint="@string/search_product"
             />
     </FrameLayout>
     <TextView
@@ -48,6 +42,6 @@
         android:layout_weight="1"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="筛选"
+        android:text="@string/screen"
         android:textSize="20sp"/>
 </LinearLayout>

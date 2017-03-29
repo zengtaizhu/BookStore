@@ -28,14 +28,6 @@ public interface ProductAPI {
     public void fetchProductsByCategory(String categoryId, DataListener<List<Product>> listener);
 
     /**
-     * 通过页数来，加载更多商品
-     * @param categoryId
-     * @param listener
-     * @param errorListener
-     */
-    public void loadMore(String categoryId, DataListener<List<Product>> listener, ErrorListener errorListener);
-
-    /**
      * 通过关键字来加载商品（商品名称关键字）
      * @param word
      * @param listener
@@ -53,5 +45,5 @@ public interface ProductAPI {
      * @param grade
      * @param listener
      */
-//    public void fetchProductsByGrade(String grade, DataListener<List<Product>> listener);
+    public void fetchProductsByGrade(String grade, DataListener<List<Product>> listener);
 }

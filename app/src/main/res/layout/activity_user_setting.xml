@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_gray">
+        android:background="@drawable/gradual_change_shape">
         <ImageView
             android:id="@+id/iv_user_back"
             android:layout_width="25dp"

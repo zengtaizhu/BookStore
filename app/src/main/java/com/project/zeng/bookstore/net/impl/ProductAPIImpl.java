@@ -69,11 +69,6 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
         performRequest(request);
     }
 
-    @Override
-    public void loadMore(String categoryId, DataListener<List<Product>> listener, Response.ErrorListener errorListener) {
-
-    }
-
     /**
      * 通过关键字，获得商品列表
      * @param word
@@ -123,5 +118,15 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
         });
         //将网络请求添加到队列中
         performRequest(request);
+    }
+
+    /**
+     * 通过适合年级来加载商品
+     * @param grade
+     * @param listener
+     */
+    @Override
+    public void fetchProductsByGrade(String grade, DataListener<List<Product>> listener) {
+
     }
 }

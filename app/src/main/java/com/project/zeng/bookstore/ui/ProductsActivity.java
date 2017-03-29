@@ -51,7 +51,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
 
     private TextView mDefaultOrderView;
     private TextView mPriceOrderView;
-    private TextView mPressOrderView;
+    private ImageView mPriceOrderImgView;
+    private TextView mAuthorOrderView;
     private ImageView mIndicatorView;
 
     private RecyclerView mRecyProView;
@@ -74,6 +75,12 @@ public class ProductsActivity extends Activity implements OnClickListener,
     private String SEARCH_BY_KEY = "1";//通过关键字查找
     private String SEARCH_BY_PRO = "2";//通过商品ID查找
     private String SEARCH_BY_GRADE = "3";//通过适合年级查找
+
+    private int DEFAULT = 0;//默认排列
+    private int PRICE_ASC = 1;//价格升序排列
+    private int PRICE_DESC = 2;//价格降序排列
+    private boolean isPriceAsc = true;//判断是否是降序，默认升序
+    private int AUTHOR = 3;//作者名排序
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +118,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
         mFilterView = (TextView) findViewById(R.id.tv_pro_filter);
         mDefaultOrderView = (TextView)findViewById(R.id.tv_pro_order_default);
         mPriceOrderView = (TextView)findViewById(R.id.tv_pro_order_price);
-        mPressOrderView = (TextView)findViewById(R.id.tv_pro_order_press);
+        mPriceOrderImgView = (ImageView)findViewById(R.id.iv_pro_order_price);
+        mAuthorOrderView = (TextView)findViewById(R.id.tv_pro_order_press);
         mIndicatorView = (ImageView) findViewById(R.id.iv_search_indicator);
         mRecyProView = (RecyclerView)findViewById(R.id.recyclerView_product);
         mGoTopView = (ImageView)findViewById(R.id.iv_pro_go_top);
@@ -130,6 +138,9 @@ public class ProductsActivity extends Activity implements OnClickListener,
         mRecyProView.setAdapter(mProductRecyAdapter);
         mRecyProView.setLayoutManager(new LinearLayoutManager(this));
         mGoTopView.setOnClickListener(this);
+        mDefaultOrderView.setOnClickListener(this);
+        mPriceOrderView.setOnClickListener(this);
+        mAuthorOrderView.setOnClickListener(this);
     }
 
     /**
@@ -150,6 +161,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
 //                            Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
                             mProductRecyAdapter.updateData(result);
                             mProducts = result;
+                            mProDbAPI.deleteAll();//清空原先的缓存
+                            mProDbAPI.saveItems(result);//保存数据到数据库
                         }else{
 //                            Log.e("ProductsActivity", "从网络获取的product的数量为:0");
                         }
@@ -166,6 +179,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
                             Log.e("ProductsActivity", "从网络获取的product的数量为：" + result.size());
                             mProductRecyAdapter.updateData(result);
                             mProducts = result;
+                            mProDbAPI.deleteAll();//清空原先的缓存
+                            mProDbAPI.saveItems(result);//保存数据到数据库
                         }else{
                             Log.e("ProductsActivity", "从网络获取的product的数量为:0");
                         }
@@ -173,11 +188,26 @@ public class ProductsActivity extends Activity implements OnClickListener,
                 });
                 break;
         }
+        //若无联网，则从数据库加载旧数据----------------待删除
+        if(mProducts == null){
+            mProDbAPI.loadDatasFromDb(new DataListener<List<Product>>() {
+                @Override
+                public void onComplete(List<Product> result) {
+                    if(null != result){
+                        Log.e("ProductsActivity", "从数据库加载Product的数量为：" + result.size());
+                        mProductRecyAdapter.updateData(result);
+                    }else{
+                        Log.e("ProductsActivity", "从数据库加载的product的数量为:0");
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //切换布局
             case R.id.iv_search_indicator:
                 if(isLinearLayout){
                     //切换成网格布局
@@ -195,20 +225,65 @@ public class ProductsActivity extends Activity implements OnClickListener,
                     mIndicatorView.setImageResource(R.mipmap.toolbar_search_indicator_list);
                 }
                 break;
+            //搜索栏
             case R.id.et_search_category:
                 Intent intent = new Intent(ProductsActivity.this, SearchActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+            //返回按钮
             case R.id.iv_search_back:
                 finish();
                 break;
+            //置顶按钮
             case R.id.iv_pro_go_top:
                 mScrollView.scrollTo(0, 0);
                 break;
-            default:
+            //商品默认排序
+            case R.id.tv_pro_order_default:
+                fetchDateByOrder(DEFAULT);
+                mPriceOrderImgView.setImageResource(R.mipmap.ic_pro_price_normal);
+                isPriceAsc = true;
+                break;
+            //商品按价格排序
+            case R.id.tv_pro_order_price:
+                if(isPriceAsc){//价格升序
+                    fetchDateByOrder(PRICE_ASC);
+                    isPriceAsc = false;
+                    mPriceOrderImgView.setImageResource(R.mipmap.ic_pro_price_down);
+                }else{//价格降序
+                    fetchDateByOrder(PRICE_DESC);
+                    isPriceAsc = true;
+                    mPriceOrderImgView.setImageResource(R.mipmap.ic_pro_price_up);
+                }
+                break;
+            //商品按作者排序
+            case R.id.tv_pro_order_press:
+                fetchDateByOrder(AUTHOR);
+                mPriceOrderImgView.setImageResource(R.mipmap.ic_pro_price_normal);
+                isPriceAsc = true;
                 break;
         }
+    }
+
+    /**
+     * 获取按照type排序的Product列表
+     * @param type
+     */
+    private void fetchDateByOrder(int type){
+        HashMap<String, Integer> params = new HashMap<>();
+        params.put("type", type);
+        mProDbAPI.loadDatasFromDbByOrder(new DataListener<List<Product>>() {//从数据库加载数据
+            @Override
+            public void onComplete(List<Product> result) {
+                if(null != result){
+                    Log.e("ProductsActivity", "从数据库加载Product的数量为：" + result.size());
+                    mProductRecyAdapter.updateData(result);
+                }else{
+                    Log.e("ProductsActivity", "从数据库加载Product的数量为：0");
+                }
+            }
+        }, params);
     }
 
     @Override

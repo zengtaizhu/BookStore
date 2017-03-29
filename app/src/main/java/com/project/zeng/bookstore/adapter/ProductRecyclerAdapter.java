@@ -100,7 +100,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     }
 
     public interface MyItemClickListener{
-        public void onItemClick(View view, int position);
+        void onItemClick(View view, int position);
     }
 
     public static class BaseViewHolder extends RecyclerView.ViewHolder{

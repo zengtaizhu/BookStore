@@ -97,6 +97,25 @@ public abstract class AbsDBAPI<T> {
         };
     }
 
+
+    /**
+     * 根据参数，从数据库中按排序加载所有数据
+     * @param listener
+     * @param args
+     */
+    public void loadDatasFromDbByOrder(DataListener<List<T>> listener, Object args){
+        new Command<List<T>>(listener) {
+            @Override
+            protected List<T> doInBackground(SQLiteDatabase database) {
+                Cursor cursor = database.query(mTableName, null, null, null,
+                        null, null, loadDatasOrderBy());
+                List<T> result = parseResult(cursor);
+                cursor.close();
+                return result;
+            }
+        };
+    }
+
     /**
      * 返回排序的参数
      * @return

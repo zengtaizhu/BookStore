@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:padding="20dp"
         android:gravity="center"
-        android:background="@color/background_blue"
+        android:background="@drawable/gradual_change_shape"
         android:text="二手书登录"
         android:textSize="28sp"
         android:textColor="@color/text_color"/>

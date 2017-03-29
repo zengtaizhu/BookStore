@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="@drawable/gradual_change_shape">
 
     <ImageView
         android:id="@+id/iv_category_scan"
-        android:layout_width="10dp"
+        android:layout_width="2dp"
         android:layout_height="25dp"
-        android:layout_margin="10dp"
         android:layout_weight="1"
-        android:background="@mipmap/ic_scan"
         android:layout_gravity="center"
         android:focusableInTouchMode="true"
         />
@@ -29,18 +28,10 @@
             android:drawablePadding="5dp"
             android:background="@mipmap/toolbar_input"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:imeOptions="actionSearch"
             android:focusable="false"
-            android:hint="搜索商品/类型"
-            />
-        <ImageView
-            android:id="@+id/iv_category_toolbar_search_scan"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center|right"
-            android:layout_marginRight="20dp"
-            android:background="@mipmap/ic_mic"
-            android:visibility="visible"
+            android:hint="@string/search_product"
             />
     </FrameLayout>
 </LinearLayout>

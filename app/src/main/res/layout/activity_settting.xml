@@ -9,10 +9,10 @@
         android:id="@+id/rl_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_gray">
+        android:background="@drawable/gradual_change_shape">
         <ImageView
             android:id="@+id/iv_setting_back"
-            android:layout_width="25dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="8dp"
             android:background="@mipmap/ic_back"
@@ -165,7 +165,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:padding="10dp"
-        android:background="@drawable/tv_shape"
+        android:background="@drawable/gradual_change_shape"
         android:text="@string/logout"
         android:textSize="20sp"
         android:textColor="@color/text_while"/>

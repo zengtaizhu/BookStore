@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="@drawable/gradual_change_shape">
 
     <ImageView
         android:id="@+id/iv_search_back"
-        android:layout_width="20dp"
-        android:layout_height="match_parent"
+        android:layout_width="15dp"
+        android:layout_height="30dp"
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:background="@mipmap/ic_back"
         android:layout_gravity="center" />
+
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -26,16 +28,9 @@
             android:drawablePadding="5dp"
             android:background="@mipmap/toolbar_input"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:inputType="text"
             android:hint="搜索商品/类型"
-            />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center|right"
-            android:layout_marginRight="20dp"
-            android:background="@mipmap/ic_mic"
-            android:visibility="visible"
             />
     </FrameLayout>
     <TextView
@@ -44,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="搜索"
+        android:text="@string/search"
         android:textSize="18sp"
-        android:textColor="#111111"/>
+        android:textColor="@color/text_black"/>
 </LinearLayout>
