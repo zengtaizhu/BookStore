@@ -15,7 +15,9 @@ import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.Handler.CartHandler;
+import com.project.zeng.bookstore.net.Handler.ResultHandler;
 import com.project.zeng.bookstore.net.Handler.UserHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +69,7 @@ public class CartAPIImpl extends AbsNetwork<List<Cart>, String> implements CartA
      * @param listener
      */
     @Override
-    public void addProToCart(final String token, final String proId, final DataListener<Result> listener){
+    public void addProToCart(final String token, final String proId, final int count, final DataListener<Result> listener){
         String realUrl = url + "carts/add/";
         StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
             @Override
@@ -88,6 +90,79 @@ public class CartAPIImpl extends AbsNetwork<List<Cart>, String> implements CartA
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("id", proId);
+                params.put("count", count + "");
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，删除购物车
+     * @param token
+     * @param id
+     * @param listener
+     */
+    @Override
+    public void deleteCart(final String token, final String id, final DataListener<Result> listener) {
+        String realUrl = url + "carts/deleteCart/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", id);
+                return params;
+            }
+        };
+        //将请求添加到网络请求队列中
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，删除购物车上的商品
+     * @param token
+     * @param proId
+     * @param cartId
+     * @param listener
+     */
+    @Override
+    public void deleteProFromCart(final String token, final String proId, final String cartId, final DataListener<Result> listener) {
+        String realUrl = url + "carts/delete/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(null != response){
+                    Log.e("UserAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("UserAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", cartId);
+                params.put("proId", proId);
                 return params;
             }
         };

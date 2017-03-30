@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -26,6 +28,7 @@ import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.adapter.CartAdapter;
 import com.project.zeng.bookstore.entities.Cart;
 import com.project.zeng.bookstore.entities.Product;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.OnItemLongClickListener;
 import com.project.zeng.bookstore.net.CartAPI;
@@ -70,7 +73,7 @@ public class CartFragment extends Fragment implements OnClickListener,
     //购物车的网络请求API
     CartAPI mCartAPI = new CartAPIImpl();
 
-    private boolean isShowBack;
+    private boolean isShowBack;//是否显示返回按钮
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class CartFragment extends Fragment implements OnClickListener,
         }
         mExListView = (ExpandableListView) view.findViewById(R.id.exListView_cart);
         mAllCheckBox = (CheckBox) view.findViewById(R.id.cb_cart_select_all);
+        mAllCheckBox.setChecked(false);
         mTotalPriceTxtView = (TextView)view.findViewById(R.id.tv_cart_total_price);
         mSettleTxtView = (TextView)view.findViewById(R.id.tv_cart_settle);
         mContext = getActivity().getApplication();
@@ -114,6 +118,7 @@ public class CartFragment extends Fragment implements OnClickListener,
      * 获取购物车数据
      */
     public void fetchData(String token){
+        mAllCheckBox.setChecked(false);
         if(token.equals("")){//未登录
 //            Toast.makeText(mContext, "请先登录!", Toast.LENGTH_SHORT).show();
             return;
@@ -178,6 +183,9 @@ public class CartFragment extends Fragment implements OnClickListener,
      * 全选和反选
      */
     private void doCheckAll(){
+        if(null == mCartAdapter){
+            return;
+        }
         for(int i = 0; i < mCarts.size(); i++){
             mCarts.get(i).isSelectAll = mAllCheckBox.isChecked();//设置所有的Cart的选中与否
             List<Product> products = mCarts.get(i).getProducts();
@@ -194,12 +202,41 @@ public class CartFragment extends Fragment implements OnClickListener,
      */
     private void deDelete(){
         for(int i = 0; i < mCarts.size(); i++){
-            List<Product> products = mCarts.get(i).getProducts();
+            final List<Product> products = mCarts.get(i).getProducts();
             for(int j = 0; j < products.size(); j++){
                 if(products.get(j).equals(mProduct)){
-                    products.remove(mProduct);
-                    mCartAdapter.notifyDataSetChanged();
-                    return;
+                    if(products.size() == 1){//若Cart只有该商品，则删除Cart
+                        //删除数据库数据
+                        final int index = i;//当前的购物车
+//                        Log.e("CartFragment", "id=" + mCarts.get(i).getId());
+                        mCartAPI.deleteCart(app.getToken(), mCarts.get(i).getId(), new DataListener<Result>() {
+                            @Override
+                            public void onComplete(Result result) {
+                                Toast.makeText(mContext, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                if(result.getResult().contains("error")){
+                                    return;
+                                }
+                                mCarts.remove(index);
+                                mCartAdapter.notifyDataSetChanged();
+                                return;
+                            }
+                        });
+                    }else {
+                        //删除数据库数据
+                        mCartAPI.deleteProFromCart(app.getToken(), mProduct.getId(),
+                                mCarts.get(i).getId(), new DataListener<Result>() {
+                                    @Override
+                                    public void onComplete(Result result) {
+                                        Toast.makeText(mContext, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                        if(result.getResult().contains("error")){
+                                            return;
+                                        }
+                                        products.remove(mProduct);
+                                        mCartAdapter.notifyDataSetChanged();
+                                        return;
+                                    }
+                                });
+                    }
                 }
             }
         }

@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.adapter.HomeCategoryAdapter;
 import com.project.zeng.bookstore.adapter.HomeWithHeaderAdapter;
 import com.project.zeng.bookstore.db.AbsDBAPI;
@@ -45,6 +46,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements OnClickListener, OnItemClickListener{
 
+    private Context mContext;
+    private MyApplication app;
     //组件
     private RecyclerView mViewPager;
     private GridView mGridView;
@@ -71,6 +74,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        mContext = getActivity().getApplication();
+        app = (MyApplication) mContext;
         init(view);
         initListener();
         return view;
@@ -118,7 +123,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
     public void fetchData(){
         mProDbAPI.loadDatasFromDb(new DataListener<List<Product>>() {
             @Override
-            public void onComplete(List<Product> result) {
+            public void onComplete(final List<Product> dbResult) {
+                Log.e("HomeFragment","尝试从数据库加载Product的数量为" + dbResult.size());
                 mProductAPI.fetchRecommends(new DataListener<List<Product>>() {
                     @Override
                     public void onComplete(List<Product> result) {
@@ -126,18 +132,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
 //                            Log.e("HomeFragment", "获取的Recommend数量为：" + result.size());
                             mRecmAdapter.updateData(result);
                             mProDbAPI.saveItems(result);
-                        }else{//若网络请求失败或无返回数据，则加载数据库数据
-                            mProDbAPI.loadDatasFromDb(new DataListener<List<Product>>() {
-                                @Override
-                                public void onComplete(List<Product> result) {
-                                    if(null != result){
-                                        Log.e("HomeFragment","尝试从数据库加载Product的数量为" + result.size());
-                                        List<Product> products = new ArrayList<>();//加载前三个
-                                        products.addAll(result.subList(0, result.size() > 3 ? 2:result.size()));
-                                        mRecmAdapter.updateData(products);
-                                    }
-                                }
-                            });
+                        }else{//若网络请求失败则加载数据库数据
+                            if(null != dbResult || !app.getReceiver().isAvailable){
+                                List<Product> products = new ArrayList<>();//加载前三个
+                                products.addAll(dbResult.subList(0, dbResult.size() > 3 ? 2:dbResult.size()));
+                                mRecmAdapter.updateData(products);
+                            }
                         }
                     }
                 });
@@ -145,8 +145,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
         });
         mCatgDbAPI.loadDatasFromDb(new DataListener<List<Category>>() {
             @Override
-            public void onComplete(List<Category> result) {
-                mCategoryAPI.fetchRecommends(new DataListener<List<Category>>() {
+            public void onComplete(final List<Category> dbResult) {
+                mCategoryAPI.fetchCategories(new DataListener<List<Category>>() {
                     @Override
                     public void onComplete(List<Category> result) {
 //                        Log.e("HeadFragment", "获得的Category数量为：" + result.size());
@@ -156,16 +156,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnItemCli
                             //将数据存储到数据库中
                             mCatgDbAPI.saveItems(result);
                         }else{//若网络请求失败或无返回数据，则加载数据库数据
-                            Log.e("HomeFragment", "尝试从数据库加载Category");
-                            mCatgDbAPI.loadDatasFromDb(new DataListener<List<Category>>() {
-                                @Override
-                                public void onComplete(List<Category> result) {
-                                    if(null != result){
-                                        mCategories = result;
-                                        mCategoryAdapter.updateData(result);
-                                    }
-                                }
-                            });
+                            if(null != dbResult || !app.getReceiver().isAvailable){
+                                mCategories = dbResult;
+                                mCategoryAdapter.updateData(dbResult);
+                            }
                         }
                     }
                 });

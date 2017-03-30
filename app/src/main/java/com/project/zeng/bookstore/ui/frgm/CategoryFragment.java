@@ -1,6 +1,7 @@
 package com.project.zeng.bookstore.ui.frgm;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.zeng.bookstore.R;
+import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.adapter.CategoryAdapter;
 import com.project.zeng.bookstore.adapter.CategoryProductAdapter;
 import com.project.zeng.bookstore.db.AbsDBAPI;
@@ -38,6 +40,8 @@ import java.util.List;
 
 public class CategoryFragment extends Fragment implements OnItemClickListener, OnClickListener{
 
+    private Context mContext;
+    private MyApplication app;
     //组件
     private GridView mGridView;
     private ListView mListView;
@@ -64,6 +68,8 @@ public class CategoryFragment extends Fragment implements OnItemClickListener, O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
+        mContext = getActivity().getApplication();
+        app = (MyApplication) mContext;
         init(view);
         initListener();
         return view;
@@ -102,21 +108,29 @@ public class CategoryFragment extends Fragment implements OnItemClickListener, O
     }
 
     /**
-     * 获取数据 --------------待修改，应该检测网络状态，若无联网，则加载离线数据
+     * 获取数据
      */
-    public void fetchRecommends(){
+    public void fetchCategories(){
         mCatgDbAPI.loadDatasFromDb(new DataListener<List<Category>>() {
             @Override
-            public void onComplete(List<Category> result) {
-//                Log.e("CategoryFragment", "从数据库加载的category数量为:" + result.size());
-                mCategoryAPI.fetchRecommends(new DataListener<List<Category>>() {
+            public void onComplete(final List<Category> dbResult) {
+                mCategoryAPI.fetchCategories(new DataListener<List<Category>>() {
                     @Override
                     public void onComplete(List<Category> result) {
-//                        Log.e("CategoryFragment", "获得的Category数量为：" + result.size());
-                        mCategories = result;
-                        mCategoryAdapter.updateData(result);
-                        //默认加载第一个商品类型
-                        mListView.performItemClick(mListView.getChildAt(mPosition), mPosition, mListView.getItemIdAtPosition(mPosition));
+                        if(null != result){
+                            Log.e("CategoryFragment", "获得的Category数量为：" + result.size());
+                            mCategories = result;
+                            mCategoryAdapter.updateData(result);
+                            //默认加载第一个商品类型
+                            mListView.performItemClick(mListView.getChildAt(mPosition), mPosition, mListView.getItemIdAtPosition(mPosition));
+                            mCatgDbAPI.saveItems(result);//保存数据到数据库
+                        }else{//若网络请求失败或无返回数据，则加载数据库数据
+                            if(null != dbResult || !app.getReceiver().isAvailable){
+                                Log.e("CategoryFragment", "从数据库加载的category数量为:" + dbResult.size());
+                                mCategories = dbResult;
+                                mCategoryAdapter.updateData(dbResult);
+                            }
+                        }
                     }
                 });
             }

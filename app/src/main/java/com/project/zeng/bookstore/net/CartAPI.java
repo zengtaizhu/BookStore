@@ -19,7 +19,7 @@ public interface CartAPI{
      * @param token 令牌
      * @param listener
      */
-    public void fetchCarts(String token, DataListener<List<Cart>> listener);
+    void fetchCarts(String token, DataListener<List<Cart>> listener);
 
     /**
      * 通过令牌，将商品ID为proId的商品添加到购物车中
@@ -27,5 +27,22 @@ public interface CartAPI{
      * @param proId
      * @param listener
      */
-    public void addProToCart(String token, String proId, DataListener<Result> listener);
+    void addProToCart(String token, String proId, int count, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，删除购物车
+     * @param token
+     * @param id
+     * @param listener
+     */
+    void deleteCart(String token, String id, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，删除购物车上的商品
+     * @param token
+     * @param proId
+     * @param cartId
+     * @param listener
+     */
+    void deleteProFromCart(String token, String proId, String cartId, DataListener<Result> listener);
 }

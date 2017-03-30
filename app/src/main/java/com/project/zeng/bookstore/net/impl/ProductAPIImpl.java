@@ -114,6 +114,7 @@ public class ProductAPIImpl extends AbsNetwork<List<Product>, String> implements
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("ProductAPIImpl", error.getMessage());
+                listener.onComplete(null);
             }
         });
         //将网络请求添加到队列中

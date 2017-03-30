@@ -1,15 +1,22 @@
 package com.project.zeng.bookstore.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnScrollChangeListener;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -27,6 +34,7 @@ import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.CommentAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
 import com.project.zeng.bookstore.net.impl.CommentAPIImpl;
+import com.project.zeng.bookstore.ui.CartDialog.OnDialogClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,9 +65,9 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
     private TextView mBuyView;
     private TextView mAddToCartView;
 
-    private ImageView mGoTopImgView;
+    private ImageView mGoTopImgView;//置顶按钮
 
-    private Product product;//浏览的商品
+    private Product mProduct;//浏览的商品
 
     //商品评论列表的适配器
     private CommentAdapter mCommentAdapter;
@@ -78,7 +86,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
         //获取intent的数据
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        product = (Product) bundle.getSerializable("product");
+        mProduct = (Product) bundle.getSerializable("product");
 //        Toast.makeText(this, "product的id=" + product.getId(), Toast.LENGTH_SHORT).show();
         init();
         initListener();
@@ -112,13 +120,13 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
      */
     private void initView(){
         mScrollView.setOnScrollChangeListener(this);
-        Picasso.with(getApplicationContext()).load(product.getPictureUrl()).fit().into(mProImgView);//加载图片
-        mProTitleTxtView.setText(product.getTitle());
-        mProDescTxtView.setText(product.getDescribe());
-        mProPriceTxtView.setText(String.valueOf(product.getPrice()));
-        mProAuthorTxtView.setText(product.getAuthor());
-        mProPressTxtView.setText(product.getPress());
-        mProSellerTxtView.setText("ID：" + product.getSellerId());
+        Picasso.with(getApplicationContext()).load(mProduct.getPictureUrl()).fit().into(mProImgView);//加载图片
+        mProTitleTxtView.setText(mProduct.getTitle());
+        mProDescTxtView.setText(mProduct.getDescribe());
+        mProPriceTxtView.setText(String.valueOf(mProduct.getPrice()));
+        mProAuthorTxtView.setText(mProduct.getAuthor());
+        mProPressTxtView.setText(mProduct.getPress());
+        mProSellerTxtView.setText("ID：" + mProduct.getSellerId());
     }
 
     /**
@@ -139,7 +147,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
      * 获取商品评价数据，渲染到界面
      */
     public void fetchCommentData(){
-        mCommentAPI.fetchComment(product.getId(), new DataListener<List<Comment>>() {
+        mCommentAPI.fetchComment(mProduct.getId(), new DataListener<List<Comment>>() {
             @Override
             public void onComplete(List<Comment> result) {
                 if(null != result){
@@ -179,20 +187,34 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
             //添加到购物车
             case R.id.tv_pro_add_to_cart:
 //                Toast.makeText(this, "添加到购物车", Toast.LENGTH_SHORT).show();
-                addToCart();
+                showAddToCartDialog();
                 break;
         }
     }
 
     /**
+     * 显示添加到购物车的Dialog
+     */
+    private void showAddToCartDialog(){
+        CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {
+            @Override
+            public void add(int count) {
+                addToCart(count);
+            }
+        });
+        dialog.show();
+    }
+
+    /**
      * 添加商品到购物车
      */
-    private void addToCart(){
+    private void addToCart(int count){
+//        Log.e("ProductActivity", "count=" + count);
         if(app.getToken().equals("")){
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
             return;
         }
-        mCartAPI.addProToCart(app.getToken(), product.getId(), new DataListener<Result>() {
+        mCartAPI.addProToCart(app.getToken(), mProduct.getId(), count, new DataListener<Result>() {
             @Override
             public void onComplete(Result result) {
                 Toast.makeText(ProductDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();

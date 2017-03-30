@@ -102,6 +102,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         initRadioButtonImg();
         if(!app.getReceiver().isAvailable){
             Toast.makeText(this, "您的网络在偷懒，请重试", Toast.LENGTH_SHORT).show();
+        }else if(app.getToken().equals("")){
+            Toast.makeText(this, "请先登录，不然买不了东西哦!", Toast.LENGTH_SHORT).show();
         }
         switch (checkedId){
             case R.id.rdoBtn_main_home:{
@@ -111,7 +113,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 break;
             }
             case R.id.rdoBtn_main_category:{
-                mCategoryFragment.fetchRecommends();
+                mCategoryFragment.fetchCategories();
                 replaceFragment(mCategoryFragment);
                 setRadioButtonImg(1);
                 break;

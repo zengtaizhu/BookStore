@@ -29,7 +29,7 @@ public class CategoryAPIImpl extends AbsNetwork<List<Category>, String> implemen
     }
 
     @Override
-    public void fetchRecommends(final DataListener<List<Category>> listener) {
+    public void fetchCategories(final DataListener<List<Category>> listener) {
         StringRequest request = new StringRequest(url,
                 new Response.Listener<String>() {
                     @Override
@@ -44,6 +44,7 @@ public class CategoryAPIImpl extends AbsNetwork<List<Category>, String> implemen
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("categoryAPIImpl", error.getMessage());
+                listener.onComplete(null);
             }
         });
         //将请求添加到网络请求队列中

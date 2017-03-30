@@ -17,5 +17,5 @@ public interface CategoryAPI {
      * 获取商品类型列表
      * @param listener
      */
-    public void fetchRecommends(DataListener<List<Category>> listener);
+    void fetchCategories(DataListener<List<Category>> listener);
 }
