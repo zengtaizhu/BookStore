@@ -1,6 +1,7 @@
 package com.project.zeng.bookstore.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnScrollChangeListener;
@@ -23,14 +25,21 @@ import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.adapter.ProductRecyclerAdapter;
 import com.project.zeng.bookstore.db.AbsDBAPI;
 import com.project.zeng.bookstore.db.models.DbFactory;
+import com.project.zeng.bookstore.entities.Category;
 import com.project.zeng.bookstore.entities.Product;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.net.CategoryAPI;
 import com.project.zeng.bookstore.net.ProductAPI;
+import com.project.zeng.bookstore.net.impl.CategoryAPIImpl;
 import com.project.zeng.bookstore.net.impl.ProductAPIImpl;
+import com.project.zeng.bookstore.widgets.GradeDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.project.zeng.bookstore.adapter.ProductRecyclerAdapter.*;
 
@@ -44,19 +53,15 @@ public class ProductsActivity extends Activity implements OnClickListener,
 
     //组件
     private ScrollView mScrollView;
-
     private EditText mSearchEditText;
     private ImageView mBackView;
     private TextView mFilterView;
-
     private TextView mDefaultOrderView;
     private TextView mPriceOrderView;
     private ImageView mPriceOrderImgView;
     private TextView mAuthorOrderView;
     private ImageView mIndicatorView;
-
     private RecyclerView mRecyProView;
-
     private ImageView mGoTopView;
 
     //适配器
@@ -66,6 +71,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
     ProductAPI mProductAPI = new ProductAPIImpl();
     //操作商品数据的数据库对象
     AbsDBAPI<Product> mProDbAPI = DbFactory.createProductModel();
+    //商品类型网络请求API
+    CategoryAPI mCategoryAPI = new CategoryAPIImpl();
 
     //切换标记,默认显示线性布局
     private boolean isLinearLayout = true;
@@ -81,6 +88,8 @@ public class ProductsActivity extends Activity implements OnClickListener,
     private int PRICE_DESC = 2;//价格降序排列
     private boolean isPriceAsc = true;//判断是否是降序，默认升序
     private int AUTHOR = 3;//作者名排序
+
+    private List<String> grades = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +141,7 @@ public class ProductsActivity extends Activity implements OnClickListener,
         mSearchEditText.setOnClickListener(this);
         mScrollView.setOnScrollChangeListener(this);
         mBackView.setOnClickListener(this);
+        mFilterView.setOnClickListener(this);
         mIndicatorView.setOnClickListener(this);
         mProductRecyAdapter = new ProductRecyclerAdapter(this);
         mProductRecyAdapter.setItemClickListener(this);
@@ -144,15 +154,12 @@ public class ProductsActivity extends Activity implements OnClickListener,
     }
 
     /**
-     * 获取Product数据后渲染到界面
+     * 获取Product数据后渲染到界面，同时获取商品类型信息
      */
     public void fetchData(final String keyWord, String type){
         switch (type){
             //通过关键字搜索
             case "1":
-//                HashMap<String, Object> hashMap = new HashMap<>();
-//                hashMap.put("type", SEARCH_BY_KEY);
-//                hashMap.put("key", new String[]{"%" + keyWord + "%"});
                 //从网络加载数据
                 mProductAPI.fetchProductsByWord(keyWord, new DataListener<List<Product>>() {
                     @Override
@@ -188,20 +195,15 @@ public class ProductsActivity extends Activity implements OnClickListener,
                 });
                 break;
         }
-        //若无联网，则从数据库加载旧数据----------------待删除
-        if(mProducts == null){
-            mProDbAPI.loadDatasFromDb(new DataListener<List<Product>>() {
-                @Override
-                public void onComplete(List<Product> result) {
-                    if(null != result){
-                        Log.e("ProductsActivity", "从数据库加载Product的数量为：" + result.size());
-                        mProductRecyAdapter.updateData(result);
-                    }else{
-                        Log.e("ProductsActivity", "从数据库加载的product的数量为:0");
-                    }
+        //获取适合的年级列表
+        mCategoryAPI.fetchGrades(new DataListener<Result>() {
+            @Override
+            public void onComplete(Result result) {
+                if(result.getResult().contains("success")){
+                    Collections.addAll(grades, result.getMessage().split(","));
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
@@ -235,6 +237,10 @@ public class ProductsActivity extends Activity implements OnClickListener,
             case R.id.iv_search_back:
                 finish();
                 break;
+            //筛选按钮
+            case R.id.tv_pro_filter:
+                showGradeDialog();
+                break;
             //置顶按钮
             case R.id.iv_pro_go_top:
                 mScrollView.scrollTo(0, 0);
@@ -264,6 +270,28 @@ public class ProductsActivity extends Activity implements OnClickListener,
                 isPriceAsc = true;
                 break;
         }
+    }
+
+    /**
+     * 显示年级筛选的Dialog
+     */
+    private void showGradeDialog(){
+        GradeDialog dialog = new GradeDialog(this, grades, new GradeDialog.OnGradeClickListener() {
+            @Override
+            public void filterProducts(String name) {
+//                Toast.makeText(ProductsActivity.this, "选择了" + name, Toast.LENGTH_SHORT).show();
+                List<Product> filterPros = new ArrayList<>();
+                for(Product p : mProducts){
+//                    Log.e("ProductsActivity", "id=" + p.getId() + ",grade=" + p.getSuitableGrade());
+                    if(p.getSuitableGrade().equals(name)){
+                        filterPros.add(p);
+                    }
+                }
+//                Log.e("ProductsActivity", "筛选后的数量：" + filterPros.size());
+                mProductRecyAdapter.updateData(filterPros);
+            }
+        });
+        dialog.show();
     }
 
     /**

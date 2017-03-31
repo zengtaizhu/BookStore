@@ -54,6 +54,7 @@ public class ProductModel extends AbsDBAPI<Product> {
             product.setCount(cursor.getInt(7));
             product.setPrice(cursor.getDouble(8));
             product.setDescribe(cursor.getString(9));
+            product.setSuitableGrade(cursor.getString(10));
             //解析数据
             products.add(product);
         }
@@ -78,6 +79,7 @@ public class ProductModel extends AbsDBAPI<Product> {
         newValues.put("count", item.getCount());
         newValues.put("price", item.getPrice());
         newValues.put("describe", item.getDescribe());
+        newValues.put("suitableGrade", item.getSuitableGrade());
         return newValues;
     }
 
@@ -280,13 +282,6 @@ public class ProductModel extends AbsDBAPI<Product> {
                 + " order by " + price_asc, null);
         return parseResult(cursor);
     }
-
-//    private List<Product> loadProductsByPriceAsc(SQLiteDatabase database){
-    //按照关键字
-//        Cursor cursor = database.rawQuery("select * from " + DatabaseHelper.TABLE_PRODUCT
-//                + " where title like ? and author like ?", new String[]{"%" + whereArgs + "%", "%" + whereArgs + "%"});
-//        return parseResult(cursor);
-//    }
 
     /**
      * 价格降序，加载Product

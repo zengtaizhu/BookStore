@@ -1,4 +1,4 @@
-package com.project.zeng.bookstore.ui;
+package com.project.zeng.bookstore.widgets;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -70,7 +70,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + "press VARCHAR(50) NOT NULL,"
             + "count INTEGER NOT NULL,"
             + "price REAL NOT NULL,"
-            + "describe VARCHAR(100) NOT NULL"
+            + "describe VARCHAR(100) NOT NULL,"
+            + "suitableGrade VARCHAR(30) NOT NULL"
             + ")";
 
     private static final String CREATE_ORDER_TABLE_SQL = "CREATE TABLE orders( "

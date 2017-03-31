@@ -93,7 +93,6 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
      * @param products
      */
     public void updateData(List<Product> products){
-        mProducts.clear();
         mProducts = products;
 //        mProducts.addAll(products);//增加数据量
         notifyDataSetChanged();

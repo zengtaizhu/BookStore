@@ -1,22 +1,14 @@
 package com.project.zeng.bookstore.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnScrollChangeListener;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -34,7 +26,8 @@ import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.CommentAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
 import com.project.zeng.bookstore.net.impl.CommentAPIImpl;
-import com.project.zeng.bookstore.ui.CartDialog.OnDialogClickListener;
+import com.project.zeng.bookstore.widgets.CartDialog;
+import com.project.zeng.bookstore.widgets.CartDialog.OnDialogClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -173,9 +166,12 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
                 break;
             //跳转到商品卖家
             case R.id.tv_pro_detail_seller:
-                Toast.makeText(this, "跳转到商品卖家", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "跳转到商品卖家", Toast.LENGTH_SHORT).show();
+                Intent sellerIntent = new Intent(this, SellerActivity.class);
+                sellerIntent.putExtra("sellerId", mProduct.getSellerId());
+                startActivity(sellerIntent);
                 break;
-            //跳转到购物车Fragment
+            //跳转到购物车Activity
             case R.id.iv_pro_to_cart:
                 Intent intent = new Intent(this, CartActivity.class);
                 startActivity(intent);

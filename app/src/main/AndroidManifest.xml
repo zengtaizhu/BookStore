@@ -58,8 +58,11 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.UserSettingActivity"
             android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.SellerActivity" />
+
         <service android:name="com.project.zeng.bookstore.GetTokenService" />
         <receiver android:name="com.project.zeng.bookstore.NetState" />
+        <activity android:name="cn.bmob.pay.v3.act.PayAct" />
     </application>
 
 </manifest>

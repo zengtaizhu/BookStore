@@ -76,4 +76,8 @@
     <string name="buy_count">购买数量</string>
     <string name="pro_count_1">1</string>
     <string name="commit">确认</string>
+    <string name="filter">筛选</string>
+    <string name="major">专业</string>
+    <string name="more">卖家简介</string>
+    <string name="location">地址</string>
 </resources>

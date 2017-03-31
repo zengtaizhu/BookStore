@@ -57,6 +57,7 @@ public class CartFragment extends Fragment implements OnClickListener,
     private TextView mSettleTxtView;
 
     private Context mContext;
+    private MyApplication app;//全局配置
 
     private List<Cart> mCarts;//购物车列表
     private Product mProduct;//长按点击的商品
@@ -66,9 +67,6 @@ public class CartFragment extends Fragment implements OnClickListener,
 
     //适配器
     private CartAdapter mCartAdapter;
-
-    //全局配置
-    private MyApplication app;
 
     //购物车的网络请求API
     CartAPI mCartAPI = new CartAPIImpl();
@@ -118,7 +116,9 @@ public class CartFragment extends Fragment implements OnClickListener,
      * 获取购物车数据
      */
     public void fetchData(String token){
-        mAllCheckBox.setChecked(false);
+        if(mAllCheckBox != null){
+            mAllCheckBox.setChecked(false);
+        }
         if(token.equals("")){//未登录
 //            Toast.makeText(mContext, "请先登录!", Toast.LENGTH_SHORT).show();
             return;

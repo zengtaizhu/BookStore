@@ -21,6 +21,7 @@ public class Product implements Serializable{
     private double price;
     private int count;
     private String describe;
+    private String suitableGrade;//适合的年级
     public boolean isSelected = false;//购物车是否被选中
 
     public String getId() {
@@ -101,5 +102,13 @@ public class Product implements Serializable{
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public String getSuitableGrade() {
+        return suitableGrade;
+    }
+
+    public void setSuitableGrade(String suitableGrade) {
+        this.suitableGrade = suitableGrade;
     }
 }
