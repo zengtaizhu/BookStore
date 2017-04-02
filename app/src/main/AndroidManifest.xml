@@ -43,7 +43,8 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.SearchActivity"
             android:launchMode="singleTask"/>
-        <activity android:name="com.project.zeng.bookstore.ui.ProductsActivity"></activity>
+        <activity android:name="com.project.zeng.bookstore.ui.ProductsActivity"
+            android:launchMode="singleTask"></activity>
         <activity android:name="com.project.zeng.bookstore.ui.ProductDetailActivity"
             android:launchMode="singleTask"></activity>
         <activity android:name="com.project.zeng.bookstore.ui.RegisterActivity"
@@ -58,11 +59,15 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.project.zeng.bookstore.ui.UserSettingActivity"
             android:launchMode="singleTask"/>
-        <activity android:name="com.project.zeng.bookstore.ui.SellerActivity" />
+        <activity android:name="com.project.zeng.bookstore.ui.SellerActivity"
+            android:launchMode="singleTask"/>
 
         <service android:name="com.project.zeng.bookstore.GetTokenService" />
         <receiver android:name="com.project.zeng.bookstore.NetState" />
         <activity android:name="cn.bmob.pay.v3.act.PayAct" />
+        <activity android:name="com.project.zeng.bookstore.ui.OrderActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

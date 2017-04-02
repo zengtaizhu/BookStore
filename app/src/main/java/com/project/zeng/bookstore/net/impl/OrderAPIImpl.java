@@ -10,8 +10,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.project.zeng.bookstore.entities.Order;
+import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.Handler.OrderHandler;
+import com.project.zeng.bookstore.net.Handler.ResultHandler;
 import com.project.zeng.bookstore.net.OrderAPI;
 
 import java.util.HashMap;
@@ -84,6 +86,45 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 Map<String, String> params = new HashMap<>();
                 params.put("state", ORDER_STATE[state]);
                 params.put("token", token);
+//                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 提交订单
+     * @param token
+     * @param newOrder
+     * @param listener
+     */
+    @Override
+    public void submitOrder(final String token, final Order newOrder, final String products, final DataListener<Result> listener) {
+        String realUrl = url + "orders/add/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+                    Log.e("OrderAPIImpl", "state:response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("products", products);
+                params.put("totalprice", newOrder.getTotalprice() + "");
+                params.put("comment", newOrder.getComment());
+                params.put("seller", newOrder.getSeller_id());
 //                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
                 return params;
             }

@@ -2,10 +2,9 @@ package com.project.zeng.bookstore.ui.frgm;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.OnItemLongClickListener;
 import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
+import com.project.zeng.bookstore.ui.OrderActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -170,13 +169,48 @@ public class CartFragment extends Fragment implements OnClickListener,
                 break;
             //结算按钮
             case R.id.tv_cart_settle:
-                Toast.makeText(getActivity().getApplication(), "结算", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity().getApplication(), "结算", Toast.LENGTH_SHORT).show();
+                settle();
                 break;
             //全选按钮
             case R.id.cb_cart_select_all:
                 doCheckAll();
                 break;
         }
+    }
+
+    /**
+     * 结算
+     */
+    private void settle(){
+        if(mCarts.size() <= 0){
+            Toast.makeText(mContext, "没有选择商品，请重新选择", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int count = 0;//选择的购物车数量
+        List<Product> products = new ArrayList<>();
+        for(Cart cart : mCarts){
+            for(Product p : cart.getProducts()){
+                if(p.isSelected == true){
+                    count++;
+                    products.add(p);//添加选中的商品
+                    break;
+                }
+            }
+        }
+        Log.e("CartFragment", "count=" + count);
+        if(count > 1){
+            Toast.makeText(mContext, "对不起，本版本只支持同时购买同一卖家的商品，请重选", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(mContext, OrderActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("sellerId", products.get(0).getSellerId());
+        ArrayList list = new ArrayList();
+        list.add(products);
+        bundle.putParcelableArrayList("products", list);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, 0);
     }
 
     /**
@@ -354,5 +388,15 @@ public class CartFragment extends Fragment implements OnClickListener,
      */
     public void showBackImageView(boolean isShow){
         isShowBack = isShow;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 0){//跳转到支付Activity
+            if(resultCode == 0){//支付成功，则更新购物车数据
+                fetchData(app.getToken());
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

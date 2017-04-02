@@ -14,6 +14,7 @@ public class Order {
      */
     private String id;
     private List<Product> products;//商品列表
+    private String orderId;//第三方订单ID
     private String submit_time;
     private String deliver_time;
     private String seller_id;
@@ -30,6 +31,14 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public List<Product> getProducts() {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnScrollChangeListener;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
+import com.nostra13.universalimageloader.utils.L;
 import com.project.zeng.bookstore.MyApplication;
 import com.project.zeng.bookstore.adapter.CommentAdapter;
 import com.project.zeng.bookstore.entities.Comment;
@@ -30,6 +32,7 @@ import com.project.zeng.bookstore.widgets.CartDialog;
 import com.project.zeng.bookstore.widgets.CartDialog.OnDialogClickListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -178,7 +181,8 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
                 break;
             //购买商品
             case R.id.tv_pro_buy:
-                Toast.makeText(this, "购买商品", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "购买商品", Toast.LENGTH_SHORT).show();
+                showBuyDialog();
                 break;
             //添加到购物车
             case R.id.tv_pro_add_to_cart:
@@ -192,6 +196,10 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
      * 显示添加到购物车的Dialog
      */
     private void showAddToCartDialog(){
+        if(app.getToken().equals("")){
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
         CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {
             @Override
             public void add(int count) {
@@ -202,14 +210,38 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
     }
 
     /**
+     * 显示购买的Dialog
+     */
+    private void showBuyDialog(){
+        if(app.getToken().equals("")){
+            Toast.makeText(ProductDetailActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {
+            @Override
+            public void add(int count) {
+                Intent payIntent = new Intent(ProductDetailActivity.this, OrderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("sellerId", mProduct.getSellerId());
+                Log.e("ProductDetailActivity", "sellerId=" + mProduct.getSellerId());
+                ArrayList list = new ArrayList();
+                List<Product> products = new ArrayList<>();
+                mProduct.setCount(count);
+                products.add(mProduct);
+                list.add(products);
+                bundle.putParcelableArrayList("products", list);
+                payIntent.putExtras(bundle);
+                startActivity(payIntent);
+            }
+        });
+        dialog.show();
+    }
+
+    /**
      * 添加商品到购物车
      */
     private void addToCart(int count){
 //        Log.e("ProductActivity", "count=" + count);
-        if(app.getToken().equals("")){
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-            return;
-        }
         mCartAPI.addProToCart(app.getToken(), mProduct.getId(), count, new DataListener<Result>() {
             @Override
             public void onComplete(Result result) {

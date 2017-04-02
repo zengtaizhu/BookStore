@@ -2,6 +2,7 @@
     <string name="app_name">BookStore</string>
     <string name="APPKEY">1a96ba0e16400</string>
     <string name="APPSECRET">89222288c7ddfd70b26e4770e46d6e01</string>
+    <string name="APPID">e5829069f0afbd7f1d47ddb00c26a0b2</string>
     <string name="title">书名</string>
     <string name="author">作者</string>
     <string name="price">价格</string>
@@ -80,4 +81,10 @@
     <string name="major">专业</string>
     <string name="more">卖家简介</string>
     <string name="location">地址</string>
+    <string name="pay_order">确认订单</string>
+    <string name="receiver">收货人</string>
+    <string name="receiver_location">收货地址</string>
+    <string name="send_way">配送方式</string>
+    <string name="buyer_comment">买家留言:</string>
+    <string name="order_commit">提交订单</string>
 </resources>

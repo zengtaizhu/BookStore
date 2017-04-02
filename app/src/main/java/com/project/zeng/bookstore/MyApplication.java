@@ -24,13 +24,15 @@ public class MyApplication extends Application {
     private String token;//token令牌------------待修改为用用户代替
     private String url;//网络地址
     private User user;//用户
-    private NetState receiver;
+    private NetState receiver;//网络监听器
+    private String APPID;//程序的Bmob的ID
 
     @Override
     public void onCreate() {
         super.onCreate();
         setUrl("http://192.168.191.1:5000/api/v1.0/");
         setToken("");
+        APPID = getResources().getString(R.string.APPID);
         //初始化短信验证
         SMSSDK.initSDK(this, getString(R.string.APPKEY), getString(R.string.APPSECRET));
         //初始化数据库
@@ -63,6 +65,10 @@ public class MyApplication extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getAPPID() {
+        return APPID;
     }
 
     /**
