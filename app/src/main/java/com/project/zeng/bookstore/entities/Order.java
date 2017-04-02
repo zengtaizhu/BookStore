@@ -1,5 +1,6 @@
 package com.project.zeng.bookstore.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * 订单的实体
  */
 
-public class Order {
+public class Order implements Serializable{
 
     /**
      * Order的域
@@ -24,6 +25,7 @@ public class Order {
     private String address;
     private double totalprice;
     private String comment;
+    private String sendWay;//发货方式
 
     public String getId() {
         return id;
@@ -119,5 +121,13 @@ public class Order {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getSendWay() {
+        return sendWay;
+    }
+
+    public void setSendWay(String sendWay) {
+        this.sendWay = sendWay;
     }
 }

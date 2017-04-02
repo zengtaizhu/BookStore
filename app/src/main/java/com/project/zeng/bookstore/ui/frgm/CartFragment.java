@@ -179,6 +179,8 @@ public class CartFragment extends Fragment implements OnClickListener,
         }
     }
 
+    private List<Product> products = new ArrayList<>();//购买的商品
+
     /**
      * 结算
      */
@@ -188,7 +190,6 @@ public class CartFragment extends Fragment implements OnClickListener,
             return;
         }
         int count = 0;//选择的购物车数量
-        List<Product> products = new ArrayList<>();
         for(Cart cart : mCarts){
             for(Product p : cart.getProducts()){
                 if(p.isSelected == true){
@@ -240,7 +241,7 @@ public class CartFragment extends Fragment implements OnClickListener,
             for(int j = 0; j < products.size(); j++){
                 if(products.get(j).equals(mProduct)){
                     if(products.size() == 1){//若Cart只有该商品，则删除Cart
-                        //删除数据库数据
+                        //删除服务器数据库数据
                         final int index = i;//当前的购物车
 //                        Log.e("CartFragment", "id=" + mCarts.get(i).getId());
                         mCartAPI.deleteCart(app.getToken(), mCarts.get(i).getId(), new DataListener<Result>() {
@@ -392,9 +393,16 @@ public class CartFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 0){//跳转到支付Activity
+        if(requestCode == 0){//跳转到OrderActivity
+            Log.e("CartFragment", "resultCode=" + resultCode);
             if(resultCode == 0){//支付成功，则更新购物车数据
+                for(Product p : products){
+                    mProduct = p;
+                    deDelete();//删除购物车中购买了的商品
+                }
                 fetchData(app.getToken());
+            }else{//resultCode=1，则代表支付失败
+                products.clear();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

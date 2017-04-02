@@ -87,4 +87,5 @@
     <string name="send_way">配送方式</string>
     <string name="buyer_comment">买家留言:</string>
     <string name="order_commit">提交订单</string>
+    <string name="order_done">完成</string>
 </resources>

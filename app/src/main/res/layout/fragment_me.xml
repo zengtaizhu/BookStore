@@ -80,12 +80,12 @@
             android:orientation="vertical"
             android:padding="10dp">
             <TextView
-                android:id="@+id/tv_me_all_order"
+                android:id="@+id/tv_me_delivering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/all_order"
+                android:text="@string/delivering"
                 android:textSize="18sp"
                 android:textColor="@color/text_red"/>
         </LinearLayout>
@@ -96,31 +96,15 @@
             android:orientation="vertical"
             android:padding="10dp">
             <TextView
-                android:id="@+id/tv_me_delivering"
+                android:id="@+id/tv_me_receiving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/delivering"
+                android:text="@string/receiving"
                 android:textSize="18sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="vertical"-->
-            <!--android:padding="10dp">-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_me_receiving"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="@string/receiving"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textColor="@color/text_black"/>-->
-        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -144,15 +128,31 @@
             android:orientation="vertical"
             android:padding="10dp">
             <TextView
-                android:id="@+id/tv_me_returning"
+                android:id="@+id/tv_me_done_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/returning"
+                android:text="@string/order_done"
                 android:textSize="18sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="10dp">-->
+            <!--<TextView-->
+                <!--android:id="@+id/tv_me_returning"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="@string/returning"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textColor="@color/text_black"/>-->
+        <!--</LinearLayout>-->
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_me_order_line"

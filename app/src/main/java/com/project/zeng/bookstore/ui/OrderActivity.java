@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -143,7 +144,7 @@ public class OrderActivity extends Activity implements OnClickListener{
         for(Product p : mProducts){
             totalPrice += p.getPrice() * p.getCount();
         }
-        DecimalFormat df = new DecimalFormat(".##");
+        DecimalFormat df = new DecimalFormat("#.##");
         return Double.parseDouble(df.format(totalPrice));
     }
 
@@ -164,6 +165,7 @@ public class OrderActivity extends Activity implements OnClickListener{
         switch (v.getId()){
             //返回按钮
             case R.id.iv_order_back:
+                setResult(1);//支付失败
                 finish();
                 break;
             //选择发货方式
@@ -176,6 +178,7 @@ public class OrderActivity extends Activity implements OnClickListener{
                 if(!isClickPay){
                     isClickPay = true;
                     pay();
+//                    submitOrder();//绕过支付
                 }
                 break;
         }
@@ -246,14 +249,17 @@ public class OrderActivity extends Activity implements OnClickListener{
      * 提交订单到购物车
      */
     private void submitOrder(){
+        newOrder.setPhone(mUser.getPhone());
+        newOrder.setTotalprice(getTotalPrice());
+        newOrder.setComment(mCommentEdtView.getText().toString());
+        newOrder.setSeller_id(mSellerId);
+        newOrder.setSendWay(mSendWayView.getText().toString());
         mOrderAPI.submitOrder(app.getToken(), newOrder, getProducts(), new DataListener<Result>() {
             @Override
             public void onComplete(Result result) {
                 if(result.getResult().contains("success")){
                     setResult(0);//支付成功，则返回0
                     finish();
-                }else{
-                    setResult(1);//支付失败，则返回1
                 }
                 //显示支付结果
                 Toast.makeText(OrderActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -372,5 +378,15 @@ public class OrderActivity extends Activity implements OnClickListener{
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            setResult(1);//支付失败
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

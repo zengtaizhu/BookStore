@@ -1,6 +1,12 @@
 package com.project.zeng.bookstore.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +14,18 @@ import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zeng.bookstore.R;
 import com.project.zeng.bookstore.entities.Order;
+import com.project.zeng.bookstore.entities.Result;
+import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.net.OrderAPI;
+import com.project.zeng.bookstore.net.impl.OrderAPIImpl;
 import com.project.zeng.bookstore.widgets.MyListView;
 import com.squareup.picasso.Picasso;
 
@@ -26,16 +38,21 @@ import java.util.List;
  * MeFragment的订单的Adapter
  */
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class OrderAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Order> mOrders;
+    private List<Order> mOrders;//订单列表
+    private String mToken;//令牌
 
-    private OrderProductAdapter mProductAdapter;
+    private OrderProductAdapter mProductAdapter;//订单商品的Adapter
+    //订单的网络请求API
+    private OrderAPI mOrderAPI = new OrderAPIImpl();
 
-    public OrderAdapter(Context context) {
+    public OrderAdapter(Context context, String token) {
         this.mContext = context;
         mOrders = new ArrayList<>();
+        mToken = token;
     }
 
     @Override
@@ -65,7 +82,6 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder.mProsListView = (MyListView) convertView.findViewById(R.id.lv_order_product);
             viewHolder.mProsCountView = (TextView) convertView.findViewById(R.id.tv_order_pro_total);
             viewHolder.mProsTotalPriceView = (TextView) convertView.findViewById(R.id.tv_order_pro_total_price);
-            viewHolder.mOrderDetailBtn = (Button) convertView.findViewById(R.id.btn_order_detail);
             viewHolder.mReceivedBtn = (Button) convertView.findViewById(R.id.btn_order_received);
             convertView.setTag(viewHolder);
         }else{
@@ -80,30 +96,36 @@ public class OrderAdapter extends BaseAdapter {
         viewHolder.mProsCountView.setText("共" + item.getProducts().size() + "件商品");
         viewHolder.mProsTotalPriceView.setText("￥" + decimalFormat.format(item.getTotalprice()));
         initReceivedButton(viewHolder, item);
-        viewHolder.mOrderDetailBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("OrderAdapter", "查看订单详情");
-            }
-        });
         return convertView;
     }
 
     //计算后，总价只保留小数点后两位
-    private DecimalFormat decimalFormat = new DecimalFormat(".##");
+    private DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     /**
      * 初始化“确认收货”按钮及其事件
      * @param viewHolder
      * @param item
      */
-    private void initReceivedButton(ViewHolder viewHolder, Order item){
-        if(item.getState().equals("待收货")){
+    private void initReceivedButton(final ViewHolder viewHolder, final Order item){
+        if(item.getState().equals("待发货")){
+            viewHolder.mReceivedBtn.setVisibility(View.INVISIBLE);//隐藏该按钮
+        }else if(item.getState().equals("待收货")){
             viewHolder.mReceivedBtn.setText("确认收货");
             viewHolder.mReceivedBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("OrderAdapter", "向服务器发送确认收货的信息");
+//                    Log.e("OrderAdapter", "向服务器发送确认收货的信息");
+                    mOrderAPI.modifyOrder(mToken, item.getId(), 3, new DataListener<Result>() {
+                        @Override
+                        public void onComplete(Result result) {
+                            if(result.getResult().contains("success")){
+                                mOrders.remove(item);
+                                notifyDataSetChanged();
+                            }
+                            Toast.makeText(mContext, result.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }else if(item.getState().equals("待评价")){
@@ -111,13 +133,25 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder.mReceivedBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("OrderAdapter", "向服务器发送确认收货的信息");
+                    mListener.comment(item);
                 }
             });
-        }else if(item.getState().equals("退款")){
+        }else{//已完成的订单
             viewHolder.mReceivedBtn.setVisibility(View.INVISIBLE);//隐藏该按钮
-            viewHolder.mOrderDetailBtn.setGravity(RelativeLayout.ALIGN_PARENT_LEFT);//将查看详情的按钮置右
         }
+    }
+
+    private OnCommentClick mListener;
+
+    public void setCommentListener(OnCommentClick listener) {
+        this.mListener = listener;
+    }
+
+    /**
+     * 评价的回调接口
+     */
+    public interface OnCommentClick{
+        void comment(Order item);
     }
 
     /**
@@ -125,7 +159,6 @@ public class OrderAdapter extends BaseAdapter {
      * @param orders
      */
     public void updateData(List<Order> orders){
-        mOrders.clear();
         mOrders = orders;
         notifyDataSetChanged();
     }
@@ -140,7 +173,6 @@ public class OrderAdapter extends BaseAdapter {
         private MyListView mProsListView;
         private TextView mProsCountView;
         private TextView mProsTotalPriceView;
-        private Button mOrderDetailBtn;
         private Button mReceivedBtn;
     }
 }

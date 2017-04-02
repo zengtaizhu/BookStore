@@ -33,7 +33,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
     }
 
     /**
-     * 通过令牌Token，获得订单列表
+     * 通过令牌Token，获得订单列表 ------------待删除
      * @param token
      * @param listener
      */
@@ -107,7 +107,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
             @Override
             public void onResponse(String response) {
                 if(listener != null){
-                    Log.e("OrderAPIImpl", "state:response=" + response);
+//                    Log.e("OrderAPIImpl", "response=" + response);
                     listener.onComplete(ResultHandler.getResult(response));
                 }
             }
@@ -125,7 +125,85 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("totalprice", newOrder.getTotalprice() + "");
                 params.put("comment", newOrder.getComment());
                 params.put("seller", newOrder.getSeller_id());
+                params.put("orderId", newOrder.getOrderId());
+                params.put("sendWay", newOrder.getSendWay());
 //                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，修改订单的状态
+     * @param token
+     * @param orderId
+     * @param state
+     * @param listener
+     */
+    @Override
+    public void modifyOrder(final String token, final String orderId, final int state, final DataListener<Result> listener) {
+        String realUrl = url + "orders/modify/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+                    Log.e("OrderAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", orderId);
+                params.put("state", ORDER_STATE[state]);
+                Log.e("OrderAPIImpl", "orderId=" + orderId + ",state=" + ORDER_STATE[state]);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，对订单进行评价
+     * @param token
+     * @param orderId
+     * @param comment
+     * @param listener
+     */
+    @Override
+    public void commentOrder(final String token, final String orderId, final String comment, final DataListener<Result> listener) {
+        String realUrl = url + "orders/comment/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+                    Log.e("OrderAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", orderId);
+                params.put("comment", comment);
+                Log.e("OrderAPIImpl", "orderId=" + orderId + ",comment=" + comment);
                 return params;
             }
         };

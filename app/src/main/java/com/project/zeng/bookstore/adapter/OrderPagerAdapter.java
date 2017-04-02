@@ -3,6 +3,8 @@ package com.project.zeng.bookstore.adapter;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.DataSetObserver;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -86,6 +88,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         container.removeView(mFragments.get(position).getView());//移除ViewPager两边的Page布局
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 //        Log.e("OrderPagerAdapter", "position=" + position);
@@ -137,23 +140,21 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         resetTextView();
         //将选中的页码对于的TextView设置为红色
         switch (position){
-            //全部订单
-            case 0:
-                mViewHolder.mAllOrderView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
-                break;
             //待发货订单
-            case 1:
+            case 0:
                 mViewHolder.mDeliverView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
+                break;
+            //待收货订单
+            case 1:
+                mViewHolder.mReceiveView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
                 break;
             //待评价订单
             case 2:
                 mViewHolder.mCommentView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
                 break;
-            //退款订单
+            //交易完成的订单
             case 3:
-                mViewHolder.mReturnView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
-                break;
-            default:
+                mViewHolder.mOrderDoneView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
                 break;
         }
         currentPageIndex = position;
@@ -168,10 +169,10 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
      * 初始化ViewPager的TabLine
      */
     private void resetTextView(){
-        mViewHolder.mAllOrderView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
         mViewHolder.mDeliverView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
+        mViewHolder.mReceiveView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
         mViewHolder.mCommentView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
-        mViewHolder.mReturnView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
+        mViewHolder.mOrderDoneView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
     }
 
     /**
@@ -179,18 +180,18 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
      */
     private static class ViewHolder{
 
-        private TextView mAllOrderView;
         private TextView mDeliverView;
         private TextView mCommentView;
-        private TextView mReturnView;
+        private TextView mReceiveView;
+        private TextView mOrderDoneView;
         private ImageView mTabLineView;
         private ViewPager mOrderPager;
 
         public ViewHolder(View view) {
-            mAllOrderView = (TextView)view.findViewById(R.id.tv_me_all_order);
             mDeliverView = (TextView)view.findViewById(R.id.tv_me_delivering);
+            mReceiveView = (TextView) view.findViewById(R.id.tv_me_receiving);
             mCommentView = (TextView)view.findViewById(R.id.tv_me_commenting);
-            mReturnView = (TextView)view.findViewById(R.id.tv_me_returning);
+            mOrderDoneView = (TextView)view.findViewById(R.id.tv_me_done_order);
             mTabLineView = (ImageView)view.findViewById(R.id.iv_me_order_line);
             mOrderPager = (ViewPager)view.findViewById(R.id.vp_me_order);
         }

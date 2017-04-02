@@ -26,8 +26,10 @@ import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.CommentAPI;
+import com.project.zeng.bookstore.net.ProductAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
 import com.project.zeng.bookstore.net.impl.CommentAPIImpl;
+import com.project.zeng.bookstore.net.impl.ProductAPIImpl;
 import com.project.zeng.bookstore.widgets.CartDialog;
 import com.project.zeng.bookstore.widgets.CartDialog.OnDialogClickListener;
 import com.squareup.picasso.Picasso;
@@ -71,7 +73,11 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
     //商品评论的网络请求API
     private CommentAPI mCommentAPI = new CommentAPIImpl();
     //购物车的网络请求API
-    CartAPI mCartAPI = new CartAPIImpl();
+    private CartAPI mCartAPI = new CartAPIImpl();
+    //商品网络请求API
+    private ProductAPI mProductAPI = new ProductAPIImpl();
+
+    private int mCount;//暂时保存商品的库存量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,12 +232,13 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
                 Log.e("ProductDetailActivity", "sellerId=" + mProduct.getSellerId());
                 ArrayList list = new ArrayList();
                 List<Product> products = new ArrayList<>();
+                mCount = mProduct.getCount();
                 mProduct.setCount(count);
                 products.add(mProduct);
                 list.add(products);
                 bundle.putParcelableArrayList("products", list);
                 payIntent.putExtras(bundle);
-                startActivity(payIntent);
+                startActivityForResult(payIntent, 0);
             }
         });
         dialog.show();
@@ -259,5 +266,24 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
         }else{
             mGoTopImgView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 0){//跳转到OrderActivity
+            if(resultCode == 0){//支付成功
+                mProductAPI.fetchProductByID(mProduct.getId(), new DataListener<Product>() {
+                    @Override
+                    public void onComplete(Product result) {
+                        if(result != null){
+                            mProduct = result;//更新Product，主要是库存数量的变化
+                        }
+                    }
+                });
+            }else{
+                mProduct.setCount(mCount);//还原原来的库存数
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

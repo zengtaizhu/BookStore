@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
      */
     private void testCase(){
         UserAPI userAPI = new UserAPIImpl();
-        userAPI.fetchUserById(new User("201330350312", "123"), new DataListener<User>() {
+        userAPI.fetchUserById(new User("201330350225", "123"), new DataListener<User>() {
             @Override
             public void onComplete(User result) {
                 if(result != null){
