@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     private Context mContext;
     private LayoutInflater mInflater;
     public MyItemClickListener mListener;
+    public MyItemLongClickListener mLongListener;
 
     public ProductRecyclerAdapter(Context mContext) {
         this.mContext = mContext;
@@ -40,11 +42,11 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         View rootView;
         if(0 == mType){
             rootView = mInflater.inflate(R.layout.item_pro_linearlayout, null, false);
-            LinearViewHolder linearViewHolder = new LinearViewHolder(rootView, mListener);
+            LinearViewHolder linearViewHolder = new LinearViewHolder(rootView, mListener, mLongListener);
             return linearViewHolder;
         }else{
             rootView = mInflater.inflate(R.layout.item_pro_gridlayout, null, false);
-            GridViewHolder gridViewHolder = new GridViewHolder(rootView, mListener);
+            GridViewHolder gridViewHolder = new GridViewHolder(rootView, mListener, mLongListener);
             return gridViewHolder;
         }
     }
@@ -88,6 +90,10 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         this.mListener = listener;
     }
 
+    public void setItemLongListener(MyItemLongClickListener longListener) {
+        this.mLongListener = longListener;
+    }
+
     /**
      * 更新数据
      * @param products
@@ -98,13 +104,24 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         notifyDataSetChanged();
     }
 
+    /**
+     * 单击的回调接口
+     */
     public interface MyItemClickListener{
         void onItemClick(View view, int position);
+    }
+
+    /**
+     * 长按的回调接口
+     */
+    public interface MyItemLongClickListener{
+        void onItemLongClick(View view, int position);
     }
 
     public static class BaseViewHolder extends RecyclerView.ViewHolder{
 
         public MyItemClickListener mListener;
+        public MyItemLongClickListener mLongListener;
         public BaseViewHolder(View itemView) {
             super(itemView);
         }
@@ -113,21 +130,23 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     /**
      * 商品线性布局的ViewHolder
      */
-    public static class LinearViewHolder extends BaseViewHolder implements OnClickListener{
+    public static class LinearViewHolder extends BaseViewHolder implements OnClickListener, OnLongClickListener{
 
         private ImageView mProImageView;
         private TextView mProTitleTv;
         private TextView mProAuthorTv;
         private TextView mProPriceTv;
 
-        public LinearViewHolder(View itemView, MyItemClickListener listener) {
+        public LinearViewHolder(View itemView, MyItemClickListener listener, MyItemLongClickListener longListener) {
             super(itemView);
             mProImageView = (ImageView) itemView.findViewById(R.id.iv_pro_img);
             mProTitleTv = (TextView) itemView.findViewById(R.id.tv_pro_title);
             mProAuthorTv = (TextView) itemView.findViewById(R.id.tv_pro_author);
             mProPriceTv = (TextView) itemView.findViewById(R.id.tv_pro_price);
             mListener = listener;
+            mLongListener = longListener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         /**
@@ -139,27 +158,42 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
             if(mListener != null){
                 mListener.onItemClick(v, getAdapterPosition());
             }
+        }
+
+        /**
+         * 长按监听
+         * @param v
+         * @return
+         */
+        @Override
+        public boolean onLongClick(View v) {
+            if(mLongListener != null){
+                mLongListener.onItemLongClick(v, getAdapterPosition());
+            }
+            return false;
         }
     }
 
     /**
      * 商品GridView布局的ViewHolder
      */
-    public static class GridViewHolder extends BaseViewHolder implements OnClickListener{
+    public static class GridViewHolder extends BaseViewHolder implements OnClickListener, OnLongClickListener{
 
         private ImageView mProImageView;
         private TextView mProTitleTv;
         private TextView mProAuthorTv;
         private TextView mProPriceTv;
 
-        public GridViewHolder(View itemView, MyItemClickListener listener) {
+        public GridViewHolder(View itemView, MyItemClickListener listener, MyItemLongClickListener longListener) {
             super(itemView);
             mProImageView = (ImageView) itemView.findViewById(R.id.iv_pro_img);
             mProTitleTv = (TextView) itemView.findViewById(R.id.tv_pro_title);
             mProAuthorTv = (TextView) itemView.findViewById(R.id.tv_pro_author);
             mProPriceTv = (TextView) itemView.findViewById(R.id.tv_pro_price);
             mListener = listener;
+            mLongListener = longListener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         /**
@@ -171,6 +205,19 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
             if(mListener != null){
                 mListener.onItemClick(v, getAdapterPosition());
             }
+        }
+
+        /**
+         * 长按监听
+         * @param v
+         * @return
+         */
+        @Override
+        public boolean onLongClick(View v) {
+            if(mLongListener != null){
+                mLongListener.onItemLongClick(v, getAdapterPosition());
+            }
+            return false;
         }
     }
 }

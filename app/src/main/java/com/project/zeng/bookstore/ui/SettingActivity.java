@@ -67,13 +67,15 @@ public class SettingActivity extends Activity implements OnClickListener{
      */
     private void initView(){
         if(null == mUser){//未登录
-            mViewHolder.mUserLayout.setVisibility(View.GONE);
+            mViewHolder.mUserLayout.setVisibility(GONE);
             mViewHolder.mLocationLayout.setVisibility(View.GONE);
             mViewHolder.mChangePswLayout.setVisibility(View.GONE);
+            mViewHolder.mStoreLayout.setVisibility(View.GONE);
         }else{//已登录
             mViewHolder.mUserLayout.setVisibility(View.VISIBLE);
             mViewHolder.mLocationLayout.setVisibility(View.VISIBLE);
             mViewHolder.mChangePswLayout.setVisibility(View.VISIBLE);
+            mViewHolder.mStoreLayout.setVisibility(View.VISIBLE);
             Picasso.with(this).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
             mViewHolder.mUserIdView.setText(mUser.getId());
             mViewHolder.mUserNameView.setText("会员名:" + mUser.getUsername());
@@ -88,6 +90,7 @@ public class SettingActivity extends Activity implements OnClickListener{
         mViewHolder.mUserLayout.setOnClickListener(this);
         mViewHolder.mLocationLayout.setOnClickListener(this);
         mViewHolder.mChangePswLayout.setOnClickListener(this);
+        mViewHolder.mStoreLayout.setOnClickListener(this);
         mViewHolder.mLogoutView.setOnClickListener(this);
     }
 
@@ -119,6 +122,11 @@ public class SettingActivity extends Activity implements OnClickListener{
 //                Toast.makeText(this, "重设密码", Toast.LENGTH_SHORT).show();
                 Intent resetPswIntent = new Intent(this, ResetPasswordActivity.class);
                 startActivity(resetPswIntent);
+                break;
+            //我的商店
+            case R.id.rl_setting_store:
+                Intent storeIntent = new Intent(this, StoreActivity.class);
+                startActivity(storeIntent);
                 break;
             //退出登录
             case R.id.tv_setting_logout:
@@ -194,6 +202,7 @@ public class SettingActivity extends Activity implements OnClickListener{
         private RelativeLayout mUserLayout;
         private RelativeLayout mLocationLayout;
         private RelativeLayout mChangePswLayout;
+        private RelativeLayout mStoreLayout;
         private TextView mLogoutView;
 
         public ViewHolder(Activity activity){
@@ -204,6 +213,7 @@ public class SettingActivity extends Activity implements OnClickListener{
             mUserLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_user);
             mLocationLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_location);
             mChangePswLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_change_psw);
+            mStoreLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_store);
             mLogoutView = (TextView) activity.findViewById(R.id.tv_setting_logout);
         }
     }

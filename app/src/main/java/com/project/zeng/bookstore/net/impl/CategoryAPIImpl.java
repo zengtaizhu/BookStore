@@ -26,10 +26,10 @@ public class CategoryAPIImpl extends AbsNetwork<List<Category>, String> implemen
         mRespHandler = new CategoryHandler();
     }
 
-    public static void setUrl(String url) {
-        CategoryAPIImpl.url = url;
-    }
-
+    /**
+     * 获取商品类型列表
+     * @param listener
+     */
     @Override
     public void fetchCategories(final DataListener<List<Category>> listener) {
         StringRequest request = new StringRequest(url,

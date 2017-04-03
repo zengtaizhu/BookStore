@@ -31,7 +31,7 @@ import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.listeners.OnItemLongClickListener;
 import com.project.zeng.bookstore.net.CartAPI;
 import com.project.zeng.bookstore.net.impl.CartAPIImpl;
-import com.project.zeng.bookstore.ui.OrderActivity;
+import com.project.zeng.bookstore.ui.PayActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -204,7 +204,7 @@ public class CartFragment extends Fragment implements OnClickListener,
             Toast.makeText(mContext, "对不起，本版本只支持同时购买同一卖家的商品，请重选", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(mContext, OrderActivity.class);
+        Intent intent = new Intent(mContext, PayActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("sellerId", products.get(0).getSellerId());
         ArrayList list = new ArrayList();

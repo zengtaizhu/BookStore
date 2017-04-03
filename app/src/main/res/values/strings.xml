@@ -8,7 +8,7 @@
     <string name="price">价格</string>
     <string name="describe">商品的描述</string>
     <string name="yuan">￥</string>
-    <string name="press">出版</string>
+    <string name="press">出版社</string>
     <string name="category">分类</string>
     <string name="comment">商品评论</string>
     <string name="account">账号</string>
@@ -88,4 +88,8 @@
     <string name="buyer_comment">买家留言:</string>
     <string name="order_commit">提交订单</string>
     <string name="order_done">完成</string>
+    <string name="mystore">我的商店</string>
+    <string name="my_store">我的商店</string>
+    <string name="pro_edit">商品信息编辑</string>
+    <string name="add_pro">添加商品</string>
 </resources>

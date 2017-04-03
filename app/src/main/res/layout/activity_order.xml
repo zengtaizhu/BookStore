@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/rl_pay"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_gray"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_order_back"
             android:layout_width="30dp"
@@ -21,203 +18,87 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_order_back"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:text="@string/pay_order"
+            android:layout_gravity="center"
+            android:text="@string/my_order"
             android:textSize="20sp"
             android:textColor="@color/text_black"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/rl_receiver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@id/rl_pay">
-        <TextView
-            android:id="@+id/tv_order_receiver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="@string/receiver"
-            android:textSize="20sp"
-            android:textColor="@color/text_black" />
-        <TextView
-            android:id="@+id/tv_order_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="40dp"
-            android:text="@string/phone"
-            android:textSize="18sp"
-            android:textColor="@color/text_black" />
-        <TextView
-            android:id="@+id/tv_order_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_below="@id/tv_order_receiver"
-            android:layout_marginTop="10dp"
-            android:text="@string/receiver_location"
-            android:textSize="18sp"
-            android:textColor="@color/text_black" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divide_color"
-        android:layout_below="@id/rl_receiver"></View>
+    </LinearLayout>
     <LinearLayout
-        android:id="@+id/ll_seller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_receiver"
-        android:layout_marginTop="2dp">
+        android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
             <TextView
-                android:id="@+id/tv_order_seller_id"
+                android:id="@+id/tv_order_delivering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:text="@string/user_id"
-                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/delivering"
+                android:textSize="18sp"
+                android:textColor="@color/text_red"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_order_receiving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/receiving"
+                android:textSize="18sp"
+                android:textColor="@color/text_black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_order_commenting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/commenting"
+                android:textSize="18sp"
+                android:textColor="@color/text_black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_order_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/order_done"
+                android:textSize="18sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
     </LinearLayout>
-    <com.project.zeng.bookstore.widgets.MyListView
-        android:id="@+id/lv_order_pros"
+    <ImageView
+        android:id="@+id/iv_order_line"
+        android:layout_width="100dp"
+        android:layout_height="3dp"
+        android:src="@color/background_red"></ImageView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_order_orders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_seller"></com.project.zeng.bookstore.widgets.MyListView>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divide_color"
-        android:layout_below="@id/lv_order_pros"></View>
-    <RelativeLayout
-        android:id="@+id/rl_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_below="@id/lv_order_pros">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/send_way"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"
-            />
-        <TextView
-            android:id="@+id/tv_order_send_way"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="30dp"
-            android:text="快递 到付"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"/>
-        <ImageView
-            android:id="@+id/iv_to_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/ic_right_arrow"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divide_color"
-        android:layout_below="@id/rl_send"
-        android:id="@+id/view"></View>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/divide_color"></View>
-        <TextView
-            android:id="@+id/tv_order_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@color/background_orange"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/order_commit"
-            android:textSize="18sp"
-            android:textColor="@color/text_while" />
-        <TextView
-            android:id="@+id/tv_order_pros_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/tv_order_commit"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:text="@string/price"
-            android:textSize="18sp"
-            android:textColor="@color/text_orange"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:layout_toLeftOf="@id/tv_order_pros_price"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:text="@string/total_price"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"/>
-        <TextView
-            android:id="@+id/tv_order_pros_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:text="@string/order_pro_total"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/view"
-        android:layout_alignParentStart="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/buyer_comment"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"
-            />
-        <EditText
-            android:id="@+id/et_order_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@null"
-            android:hint="选填:对本次交易的说明"
-            android:maxLines="3"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divide_color"
-        android:layout_below="@id/ll_comment"></View>
-</RelativeLayout>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+</LinearLayout>

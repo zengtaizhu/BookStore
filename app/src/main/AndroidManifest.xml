@@ -65,9 +65,17 @@
         <service android:name="com.project.zeng.bookstore.GetTokenService" />
         <receiver android:name="com.project.zeng.bookstore.NetState" />
         <activity android:name="cn.bmob.pay.v3.act.PayAct" />
-        <activity android:name="com.project.zeng.bookstore.ui.OrderActivity"
+        <activity android:name="com.project.zeng.bookstore.ui.PayActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="com.project.zeng.bookstore.ui.OrderActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.StoreActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.ProductEditActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.project.zeng.bookstore.ui.ProductAddActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

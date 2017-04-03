@@ -16,6 +16,7 @@ import com.project.zeng.bookstore.entities.User;
 import com.project.zeng.bookstore.listeners.DataListener;
 import com.project.zeng.bookstore.net.Handler.UserHandler;
 import com.project.zeng.bookstore.net.UserAPI;
+import com.project.zeng.bookstore.utils.ImageToString;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -257,28 +258,12 @@ public class UserAPIImpl extends AbsNetwork<User, String> implements UserAPI{
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
-                params.put("image", changeImageToString(userImg));
+                params.put("image", ImageToString.change(userImg));
                 return params;
             }
         };
         //将网络请求添加到网络请求队列
         performRequest(request);
-    }
-
-    /**
-     * 将图片转化为字符串
-     * @param bmp
-     * @return
-     */
-    private String changeImageToString(Bitmap bmp){
-        if(null == bmp){
-            return null;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();//转为Byte数组
-        String str = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return str;
     }
 
     /**

@@ -6,6 +6,5 @@
         android:id="@+id/lv_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
-    </ListView>
+        android:scrollbars="none"></ListView>
 </LinearLayout>

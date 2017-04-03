@@ -84,7 +84,7 @@ public class OrderFragment extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String comment = mCommentView.getText().toString().trim();
-                        Log.e("OrderFragment", "comment=" + comment);
+//                        Log.e("OrderFragment", "comment=" + comment);
                         if(comment.equals("")){
                             comment = "好评";//默认：好评
                         }

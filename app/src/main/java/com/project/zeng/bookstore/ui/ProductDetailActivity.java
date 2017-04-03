@@ -226,7 +226,7 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
         CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {
             @Override
             public void add(int count) {
-                Intent payIntent = new Intent(ProductDetailActivity.this, OrderActivity.class);
+                Intent payIntent = new Intent(ProductDetailActivity.this, PayActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("sellerId", mProduct.getSellerId());
                 Log.e("ProductDetailActivity", "sellerId=" + mProduct.getSellerId());
