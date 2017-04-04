@@ -33,18 +33,18 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
     }
 
     /**
-     * 通过令牌Token，获得订单列表 ------------待删除
+     * 通过令牌Token，获得订单列表
      * @param token
      * @param listener
      */
     @Override
     public void fetchOrders(String token, final DataListener<List<Order>> listener) {
-        String realUrl = url + "orders/user/" + token;
+        String realUrl = url + "orders/seller/" + token;
         StringRequest request = new StringRequest(realUrl, new Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if(listener != null){
-//                    Log.e("OrderAPIImpl", "token:response=" + response);
+//                    Log.e("OrderAPIImpl", "sellerAll:response=" + response);
                     listener.onComplete(mRespHandler.parse(response));
                 }
             }
@@ -59,7 +59,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
     }
 
     /**
-     * 通过Token令牌获取符合state订单状态的订单
+     * 通过Token令牌获取符合state状态的订单（对于买家）
      * @param token
      * @param state
      * @param listener
@@ -87,6 +87,42 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("state", ORDER_STATE[state]);
                 params.put("token", token);
 //                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 通过Token令牌，获取符合state状态的订单（对于卖家）
+     * @param token
+     * @param state
+     * @param listener
+     */
+    @Override
+    public void fetchOwnOrdersByState(final String token, final int state, final DataListener<List<Order>> listener) {
+        String realUrl = url + "orders/seller/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+//                    Log.e("OrderAPIImpl", "seller:response=" + response);
+                    listener.onComplete(mRespHandler.parse(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("state", ORDER_STATE[state]);
+                params.put("token", token);
+                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
                 return params;
             }
         };
@@ -124,7 +160,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("products", products);
                 params.put("totalprice", newOrder.getTotalprice() + "");
                 params.put("comment", newOrder.getComment());
-                params.put("seller", newOrder.getSeller_id());
+                params.put("seller", newOrder.getUser_id());
                 params.put("orderId", newOrder.getOrderId());
                 params.put("sendWay", newOrder.getSendWay());
 //                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
@@ -143,7 +179,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
      * @param listener
      */
     @Override
-    public void modifyOrder(final String token, final String orderId, final int state, final DataListener<Result> listener) {
+    public void modifyOrderState(final String token, final String orderId, final int state, final DataListener<Result> listener) {
         String realUrl = url + "orders/modify/";
         StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
             @Override
@@ -166,6 +202,45 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("id", orderId);
                 params.put("state", ORDER_STATE[state]);
                 Log.e("OrderAPIImpl", "orderId=" + orderId + ",state=" + ORDER_STATE[state]);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
+
+    /**
+     * 通过令牌，修改订单
+     * @param token
+     * @param order
+     * @param state
+     * @param listener
+     */
+    @Override
+    public void modifyOrder(final String token, final Order order, final int state, final DataListener<Result> listener) {
+        String realUrl = url + "orders/modifyOrder/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+                    Log.e("OrderAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", order.getId());
+                params.put("state", ORDER_STATE[state]);
+                params.put("courier", order.getCourier());
+                Log.e("OrderAPIImpl", "orderId=" + order.getId() + ",state=" + ORDER_STATE[state]);
                 return params;
             }
         };

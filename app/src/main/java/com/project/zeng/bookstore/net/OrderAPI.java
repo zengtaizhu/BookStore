@@ -15,19 +15,27 @@ public interface OrderAPI{
     String[] ORDER_STATE = new String[]{"DELIVERING", "RECEIVEING", "COMMENTING", "DONE"};//订单状态常量
 
     /**
-     * 通过Token令牌，获取订单------------待删除
+     * 通过Token令牌，获取所有订单
      * @param token
      * @param listener
      */
     void fetchOrders(String token, DataListener<List<Order>> listener);
 
     /**
-     * 通过Token令牌，获取符合state订单状态的订单
+     * 通过Token令牌，获取符合state状态的订单（对于买家）
      * @param token
      * @param state
      * @param listener
      */
     void fetchOrdersByState(String token, int state, DataListener<List<Order>> listener);
+
+    /**
+     * 通过Token令牌，获取符合state状态的订单（对于卖家）
+     * @param token
+     * @param state
+     * @param listener
+     */
+    void fetchOwnOrdersByState(String token, int state, DataListener<List<Order>> listener);
 
     /**
      * 提交订单
@@ -44,7 +52,16 @@ public interface OrderAPI{
      * @param state
      * @param listener
      */
-    void modifyOrder(String token, String orderId, int state, DataListener<Result> listener);
+    void modifyOrderState(String token, String orderId, int state, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，修改订单
+     * @param token
+     * @param order
+     * @param state
+     * @param listener
+     */
+    void modifyOrder(String token, Order order, int state, DataListener<Result> listener);
 
     /**
      * 通过令牌，对订单进行评价

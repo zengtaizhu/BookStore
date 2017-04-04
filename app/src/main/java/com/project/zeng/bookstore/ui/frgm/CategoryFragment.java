@@ -122,7 +122,7 @@ public class CategoryFragment extends Fragment implements OnItemClickListener, O
                             mCategories = result;
                             mCategoryAdapter.updateData(result);
                             //默认加载第一个商品类型
-                            mListView.performItemClick(mListView.getChildAt(mPosition), mPosition, mListView.getItemIdAtPosition(mPosition));
+                            mListView.performItemClick(mListView.getChildAt(0), 0, mListView.getItemIdAtPosition(0));
                             mCatgDbAPI.saveItems(result);//保存数据到数据库
                         }else{//若网络请求失败或无返回数据，则加载数据库数据
                             if(null != dbResult || !app.getReceiver().isAvailable){

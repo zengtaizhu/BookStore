@@ -250,7 +250,7 @@ public class PayActivity extends Activity implements OnClickListener{
         newOrder.setPhone(mUser.getPhone());
         newOrder.setTotalprice(getTotalPrice());
         newOrder.setComment(mCommentEdtView.getText().toString());
-        newOrder.setSeller_id(mSellerId);
+        newOrder.setUser_id(mSellerId);
         newOrder.setSendWay(mSendWayView.getText().toString());
         mOrderAPI.submitOrder(app.getToken(), newOrder, getProducts(), new DataListener<Result>() {
             @Override

@@ -60,7 +60,6 @@ public class CommentAdapter extends BaseAdapter{
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, parent, false);
             viewHolder.mUserImgView = (ImageView) convertView.findViewById(R.id.iv_comment_user_img);
             viewHolder.mUserIdView = (TextView)convertView.findViewById(R.id.tv_comment_user_id);
-            viewHolder.mCommentGradeView = (TextView)convertView.findViewById(R.id.tv_comment_grade);
             viewHolder.mCommentTimeView = (TextView)convertView.findViewById(R.id.tv_comment_time);
             viewHolder.mCommentView = (TextView)convertView.findViewById(R.id.tv_comment);
             convertView.setTag(viewHolder);
@@ -69,7 +68,6 @@ public class CommentAdapter extends BaseAdapter{
         }
         Picasso.with(mContext).load(mComments.get(position).getBuyer_img()).fit().into(viewHolder.mUserImgView );
         viewHolder.mUserIdView.setText(mComments.get(position).getBuyer_id());
-        viewHolder.mCommentGradeView.setText(mComments.get(position).getGrade());
         viewHolder.mCommentTimeView.setText(mComments.get(position).getComment_time());
         viewHolder.mCommentView.setText(mComments.get(position).getComment());
         return convertView;
@@ -88,7 +86,6 @@ public class CommentAdapter extends BaseAdapter{
     private static class ViewHolder{
         private ImageView mUserImgView;
         private TextView mUserIdView;
-        private TextView mCommentGradeView;
         private TextView mCommentTimeView;
         private TextView mCommentView;
     }

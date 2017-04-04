@@ -18,14 +18,15 @@ public class Order implements Serializable{
     private String orderId;//第三方订单ID
     private String submit_time;
     private String deliver_time;
-    private String seller_id;
-    private String seller_img;
+    private String user_id;
+    private String user_img;
     private String state;
     private String phone;
     private String address;
     private double totalprice;
     private String comment;
     private String sendWay;//发货方式
+    private String courier;//快递单号
 
     public String getId() {
         return id;
@@ -67,20 +68,20 @@ public class Order implements Serializable{
         this.deliver_time = deliver_time;
     }
 
-    public String getSeller_id() {
-        return seller_id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setSeller_id(String seller_id) {
-        this.seller_id = seller_id;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getSeller_img() {
-        return seller_img;
+    public String getUser_img() {
+        return user_img;
     }
 
-    public void setSeller_img(String seller_img) {
-        this.seller_img = seller_img;
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
     }
 
     public String getState() {
@@ -129,5 +130,13 @@ public class Order implements Serializable{
 
     public void setSendWay(String sendWay) {
         this.sendWay = sendWay;
+    }
+
+    public String getCourier() {
+        return courier;
+    }
+
+    public void setCourier(String courier) {
+        this.courier = courier;
     }
 }

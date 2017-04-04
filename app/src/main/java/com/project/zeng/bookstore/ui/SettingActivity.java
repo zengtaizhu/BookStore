@@ -71,11 +71,15 @@ public class SettingActivity extends Activity implements OnClickListener{
             mViewHolder.mLocationLayout.setVisibility(View.GONE);
             mViewHolder.mChangePswLayout.setVisibility(View.GONE);
             mViewHolder.mStoreLayout.setVisibility(View.GONE);
+            mViewHolder.mOrderLayout.setVisibility(View.GONE);
+            mViewHolder.mLogoutView.setVisibility(View.GONE);
         }else{//已登录
             mViewHolder.mUserLayout.setVisibility(View.VISIBLE);
             mViewHolder.mLocationLayout.setVisibility(View.VISIBLE);
             mViewHolder.mChangePswLayout.setVisibility(View.VISIBLE);
             mViewHolder.mStoreLayout.setVisibility(View.VISIBLE);
+            mViewHolder.mOrderLayout.setVisibility(View.VISIBLE);
+            mViewHolder.mLogoutView.setVisibility(View.VISIBLE);
             Picasso.with(this).load(mUser.getPictureUrl()).fit().into(mViewHolder.mUserImgView);
             mViewHolder.mUserIdView.setText(mUser.getId());
             mViewHolder.mUserNameView.setText("会员名:" + mUser.getUsername());
@@ -91,6 +95,7 @@ public class SettingActivity extends Activity implements OnClickListener{
         mViewHolder.mLocationLayout.setOnClickListener(this);
         mViewHolder.mChangePswLayout.setOnClickListener(this);
         mViewHolder.mStoreLayout.setOnClickListener(this);
+        mViewHolder.mOrderLayout.setOnClickListener(this);
         mViewHolder.mLogoutView.setOnClickListener(this);
     }
 
@@ -127,6 +132,11 @@ public class SettingActivity extends Activity implements OnClickListener{
             case R.id.rl_setting_store:
                 Intent storeIntent = new Intent(this, StoreActivity.class);
                 startActivity(storeIntent);
+                break;
+            //我的订单
+            case R.id.rl_setting_order:
+                Intent orderIntent = new Intent(this, OrderManageActivity.class);
+                startActivity(orderIntent);
                 break;
             //退出登录
             case R.id.tv_setting_logout:
@@ -203,6 +213,7 @@ public class SettingActivity extends Activity implements OnClickListener{
         private RelativeLayout mLocationLayout;
         private RelativeLayout mChangePswLayout;
         private RelativeLayout mStoreLayout;
+        private RelativeLayout mOrderLayout;
         private TextView mLogoutView;
 
         public ViewHolder(Activity activity){
@@ -214,6 +225,7 @@ public class SettingActivity extends Activity implements OnClickListener{
             mLocationLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_location);
             mChangePswLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_change_psw);
             mStoreLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_store);
+            mOrderLayout = (RelativeLayout) activity.findViewById(R.id.rl_setting_order);
             mLogoutView = (TextView) activity.findViewById(R.id.tv_setting_logout);
         }
     }

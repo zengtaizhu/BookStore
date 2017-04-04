@@ -149,7 +149,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mystore"
+            android:text="@string/my_store"
             android:textSize="20sp"
             android:textColor="@color/text_black"
             android:layout_centerVertical="true"
@@ -160,6 +160,34 @@
         android:layout_height="10dp"
         android:background="@color/background_gray"
         android:layout_below="@id/rl_setting_store"></View>
+    <RelativeLayout
+        android:id="@+id/rl_setting_order"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/rl_setting_store">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_right_arrow"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_order"
+            android:textSize="20sp"
+            android:textColor="@color/text_black"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/background_gray"
+        android:layout_below="@id/rl_setting_order"></View>
 
     <RelativeLayout
         android:id="@+id/rl_setting_problem"
@@ -167,7 +195,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/rl_setting_store">
+        android:layout_below="@id/rl_setting_order">
 
         <ImageView
             android:layout_width="wrap_content"

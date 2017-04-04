@@ -17,7 +17,6 @@ public class Comment {
     private String buyer_id;
     private String buyer_img;
     private String comment_time;
-    private String grade;
     private String comment;
 
     public String getId() {
@@ -50,14 +49,6 @@ public class Comment {
 
     public void setComment_time(String comment_time) {
         this.comment_time = comment_time;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
     }
 
     public String getComment() {

@@ -36,7 +36,6 @@ public class OrderFragment extends Fragment{
 
     //全局变量
     private MyApplication app;
-
     private Context mContext;
     //组件
     private ListView mOrdersView;
@@ -54,23 +53,15 @@ public class OrderFragment extends Fragment{
         mContext = getActivity().getApplication();
         app = (MyApplication) mContext;
 //        Log.e("OrderFragment", "token=" + app.getToken());
-        init(view);
-        initListener();
-        return view;
-    }
-
-    /**
-     * 初始化组件
-     * @param view
-     */
-    private void init(View view) {
         mOrdersView = (ListView) view.findViewById(R.id.lv_order);
+        init();
+        return view;
     }
 
     /**
      * 初始化事件及其适配器
      */
-    private void initListener() {
+    private void init() {
         mOrderAdapter = new OrderAdapter(mContext, app.getToken());
         mOrderAdapter.setCommentListener(new OrderAdapter.OnCommentClick() {
             @Override

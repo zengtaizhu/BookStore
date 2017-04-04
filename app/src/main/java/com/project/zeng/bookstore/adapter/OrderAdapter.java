@@ -1,22 +1,15 @@
 package com.project.zeng.bookstore.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,8 +81,8 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final Order item = mOrders.get(position);
-        Picasso.with(mContext).load(item.getSeller_img()).fit().into(viewHolder.mUserImgView);
-        viewHolder.mUserNameView.setText(item.getSeller_id());
+        Picasso.with(mContext).load(item.getUser_img()).fit().into(viewHolder.mUserImgView);
+        viewHolder.mUserNameView.setText(item.getUser_id());
         viewHolder.mOrderStateView.setText(item.getState());
         mProductAdapter = new OrderProductAdapter(mContext, item.getProducts());//为商品设置Adapter
         viewHolder.mProsListView.setAdapter(mProductAdapter);
@@ -116,7 +109,7 @@ public class OrderAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 //                    Log.e("OrderAdapter", "向服务器发送确认收货的信息");
-                    mOrderAPI.modifyOrder(mToken, item.getId(), 3, new DataListener<Result>() {
+                    mOrderAPI.modifyOrderState(mToken, item.getId(), 3, new DataListener<Result>() {
                         @Override
                         public void onComplete(Result result) {
                             if(result.getResult().contains("success")){

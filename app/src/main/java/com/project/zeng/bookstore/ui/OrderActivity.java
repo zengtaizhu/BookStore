@@ -1,15 +1,14 @@
 package com.project.zeng.bookstore.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.zeng.bookstore.R;
@@ -21,7 +20,7 @@ import java.util.List;
  * 订单的Activity
  */
 
-public class OrderActivity extends FragmentActivity{
+public class OrderActivity extends Activity {
 
     //组件
     private ImageView mBackView;
