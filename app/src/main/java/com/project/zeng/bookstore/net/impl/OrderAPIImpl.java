@@ -122,7 +122,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 Map<String, String> params = new HashMap<>();
                 params.put("state", ORDER_STATE[state]);
                 params.put("token", token);
-                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
+//                Log.e("OrderAPIImpl", "token=" + token + ",state=" + ORDER_STATE[state]);
                 return params;
             }
         };
@@ -185,7 +185,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
             @Override
             public void onResponse(String response) {
                 if(listener != null){
-                    Log.e("OrderAPIImpl", "response=" + response);
+//                    Log.e("OrderAPIImpl", "response=" + response);
                     listener.onComplete(ResultHandler.getResult(response));
                 }
             }
@@ -201,7 +201,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("token", token);
                 params.put("id", orderId);
                 params.put("state", ORDER_STATE[state]);
-                Log.e("OrderAPIImpl", "orderId=" + orderId + ",state=" + ORDER_STATE[state]);
+//                Log.e("OrderAPIImpl", "orderId=" + orderId + ",state=" + ORDER_STATE[state]);
                 return params;
             }
         };
@@ -223,7 +223,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
             @Override
             public void onResponse(String response) {
                 if(listener != null){
-                    Log.e("OrderAPIImpl", "response=" + response);
+//                    Log.e("OrderAPIImpl", "response=" + response);
                     listener.onComplete(ResultHandler.getResult(response));
                 }
             }
@@ -240,7 +240,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("id", order.getId());
                 params.put("state", ORDER_STATE[state]);
                 params.put("courier", order.getCourier());
-                Log.e("OrderAPIImpl", "orderId=" + order.getId() + ",state=" + ORDER_STATE[state]);
+//                Log.e("OrderAPIImpl", "orderId=" + order.getId() + ",state=" + ORDER_STATE[state]);
                 return params;
             }
         };
@@ -262,7 +262,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
             @Override
             public void onResponse(String response) {
                 if(listener != null){
-                    Log.e("OrderAPIImpl", "response=" + response);
+//                    Log.e("OrderAPIImpl", "response=" + response);
                     listener.onComplete(ResultHandler.getResult(response));
                 }
             }
@@ -278,7 +278,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 params.put("token", token);
                 params.put("id", orderId);
                 params.put("comment", comment);
-                Log.e("OrderAPIImpl", "orderId=" + orderId + ",comment=" + comment);
+//                Log.e("OrderAPIImpl", "orderId=" + orderId + ",comment=" + comment);
                 return params;
             }
         };

@@ -104,4 +104,5 @@
     <string name="input_order_buyer_comment">请输入卖家留言</string>
     <string name="commit_order_comment">提交评价</string>
     <string name="receive">收货</string>
+    <string name="buyer_order_request">买家留言</string>
 </resources>

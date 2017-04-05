@@ -3,6 +3,8 @@ package com.project.zeng.bookstore.ui;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import com.project.zeng.bookstore.adapter.OrderProductAdapter;
 import com.project.zeng.bookstore.entities.Order;
 import com.project.zeng.bookstore.entities.Result;
 import com.project.zeng.bookstore.listeners.DataListener;
+import com.project.zeng.bookstore.listeners.TextChangeListener;
 import com.project.zeng.bookstore.net.OrderAPI;
 import com.project.zeng.bookstore.net.impl.OrderAPIImpl;
 import com.project.zeng.bookstore.widgets.MyListView;
@@ -40,8 +43,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
     private TextView mOrderSendWayView;
     private RelativeLayout mOrderCourierLayout;
     private EditText mOrderCourierEdView;
-    private RelativeLayout mBuyerCommentLayout;
-    private EditText mBuyerCommentView;
+    private TextView mBuyerCommentView;
+    private EditText mBuyerCommentEdtView;
     private TextView mProsCountView;
     private TextView mOrderSubmitTimeView;
     private TextView mOrderProsPriceView;
@@ -82,8 +85,8 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         mOrderSendWayView = (TextView) findViewById(R.id.tv_order_detail_send_way);
         mOrderCourierLayout = (RelativeLayout) findViewById(R.id.rl_order_detail_courier);
         mOrderCourierEdView = (EditText) findViewById(R.id.et_order_detail_courier_id);
-        mBuyerCommentLayout = (RelativeLayout) findViewById(R.id.rl_order_detail_comment);
-        mBuyerCommentView = (EditText) findViewById(R.id.et_order_detail_comment);
+        mBuyerCommentView = (TextView) findViewById(R.id.tv_order_detail_comment);
+        mBuyerCommentEdtView = (EditText) findViewById(R.id.et_order_detail_comment);
         mProsCountView = (TextView) findViewById(R.id.tv_order_detail_pro_count);
         mOrderSubmitTimeView = (TextView) findViewById(R.id.tv_order_detail_submit_time);
         mOrderProsPriceView = (TextView) findViewById(R.id.tv_order_detail_pros_price);
@@ -114,28 +117,29 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
         mUserPhoneView.setText(mOrder.getPhone());
         mUserLocationView.setText("收货地址:" + mOrder.getAddress());
         mOrderSendWayView.setText(mOrder.getSendWay());
-        switch (mOrder.getState()){
-            case "待发货":
-                mOrderCourierLayout.setEnabled(true);//允许输入
-                break;
-            default:
-                if(mOrder.getSendWay().equals("快递 到付")){
-                    mOrderCourierLayout.setVisibility(View.GONE);//若不是快递，则隐藏快递单号
-                }else{//若是快递，则显示单号
+        if(mOrder.getSendWay().equals("上门取货")){
+            mOrderCourierLayout.setVisibility(View.GONE);//若不是快递，则隐藏快递单号
+        }else{
+            switch (mOrder.getState()){
+                case "待发货":
+                    mOrderCourierEdView.setEnabled(true);//允许输入
+                    break;
+                default:
                     mOrderCourierEdView.setText(mOrder.getCourier());//设置单号
-                    mOrderCourierLayout.setEnabled(false);//禁止输入
-                }
-                break;
+                    break;
+            }
         }
         switch (mOrder.getState()){
             case "待发货":
                 if(!isBuyer){
-                    mOrderDeliverBtn.setVisibility(View.VISIBLE);//买家显示收货按钮
+                    mOrderDeliverBtn.setVisibility(View.VISIBLE);//卖家显示发货按钮
+                }else{
+                    mBuyerCommentEdtView.setEnabled(true);//买家允许输入留言
                 }
                 break;
             case "待收货":
                 if(isBuyer){
-                    mOrderReceiveBtn.setVisibility(View.VISIBLE);//卖家显示发货按钮
+                    mOrderReceiveBtn.setVisibility(View.VISIBLE);//买家显示收货按钮
                 }
                 break;
             case "待评价":
@@ -145,8 +149,13 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 break;
             case "交易完成":
                 //交易完成，都不显示
+                mBuyerCommentView.setText("订单评价");
+                if(isBuyer){
+                    mBuyerCommentEdtView.setEnabled(true);//买家允许输入订单评价
+                }
                 break;
         }
+        mBuyerCommentEdtView.setText(mOrder.getComment());
         mProsCountView.setText("共" + mOrder.getProducts().size() + "件商品");
         mOrderSubmitTimeView.setText("下单时间:" + mOrder.getSubmit_time());
         mOrderProsPriceView.setText("合计:" + mOrder.getTotalprice());
@@ -161,7 +170,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 break;
             //评价按钮
             case R.id.tv_order_detail_to_comment:
-                String comment = mBuyerCommentView.getText().toString().trim();
+                String comment = mBuyerCommentEdtView.getText().toString().trim();
                 if(comment.equals("")){
                     Toast.makeText(OrderDetailActivity.this, "请输入订单的评价!", Toast.LENGTH_SHORT).show();
                 }else{

@@ -356,7 +356,7 @@ public class CartFragment extends Fragment implements OnClickListener,
     }
 
     //计算后，总价只保留小数点后两位
-    DecimalFormat df = new DecimalFormat(".##");
+    DecimalFormat df = new DecimalFormat("##.##");
 
     @Override
     public void doIncrease(int groupPosition, int childPosition, View showCountView, boolean isChecked) {

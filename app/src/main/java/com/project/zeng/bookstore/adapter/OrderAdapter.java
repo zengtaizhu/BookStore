@@ -109,7 +109,7 @@ public class OrderAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 //                    Log.e("OrderAdapter", "向服务器发送确认收货的信息");
-                    mOrderAPI.modifyOrderState(mToken, item.getId(), 3, new DataListener<Result>() {
+                    mOrderAPI.modifyOrderState(mToken, item.getId(), 2, new DataListener<Result>() {
                         @Override
                         public void onComplete(Result result) {
                             if(result.getResult().contains("success")){
