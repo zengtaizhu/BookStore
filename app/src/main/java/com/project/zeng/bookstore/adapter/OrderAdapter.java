@@ -76,6 +76,7 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder.mProsCountView = (TextView) convertView.findViewById(R.id.tv_order_pro_total);
             viewHolder.mProsTotalPriceView = (TextView) convertView.findViewById(R.id.tv_order_pro_total_price);
             viewHolder.mReceivedBtn = (Button) convertView.findViewById(R.id.btn_order_received);
+            viewHolder.mReturnBtn = (Button) convertView.findViewById(R.id.btn_order_return);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -129,8 +130,17 @@ public class OrderAdapter extends BaseAdapter {
                     mListener.comment(item);
                 }
             });
-        }else{//已完成的订单
-            viewHolder.mReceivedBtn.setVisibility(View.INVISIBLE);//隐藏该按钮
+            viewHolder.mReturnBtn.setVisibility(View.VISIBLE);//显示退货按钮
+            viewHolder.mReturnBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mReturnListener.returnReason(item);
+                }
+            });
+        }else if(item.getState().equals("交易完成")){//已完成的订单
+            viewHolder.mReceivedBtn.setVisibility(View.GONE);//隐藏该按钮
+        }else{//退款
+            viewHolder.mReceivedBtn.setVisibility(View.GONE);//隐藏该按钮
         }
     }
 
@@ -145,6 +155,19 @@ public class OrderAdapter extends BaseAdapter {
      */
     public interface OnCommentClick{
         void comment(Order item);
+    }
+
+    private OnReturnClick mReturnListener;
+
+    public void setReturnListener(OnReturnClick listener) {
+        this.mReturnListener = listener;
+    }
+
+    /**
+     * 退款的回调接口
+     */
+    public interface OnReturnClick{
+        void returnReason(Order item);
     }
 
     /**
@@ -167,5 +190,6 @@ public class OrderAdapter extends BaseAdapter {
         private TextView mProsCountView;
         private TextView mProsTotalPriceView;
         private Button mReceivedBtn;
+        private Button mReturnBtn;
     }
 }

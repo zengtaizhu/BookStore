@@ -206,6 +206,10 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(mProduct.getSellerId().equals(app.getUser().getId())){
+            Toast.makeText(ProductDetailActivity.this, "这是自己的商品!请不要添加到购物车!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {
             @Override
             public void add(int count) {
@@ -221,6 +225,10 @@ public class ProductDetailActivity extends Activity implements OnClickListener, 
     private void showBuyDialog(){
         if(app.getToken().equals("")){
             Toast.makeText(ProductDetailActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(mProduct.getSellerId().equals(app.getUser().getId())){
+            Toast.makeText(ProductDetailActivity.this, "这是自己的商品!请不要购买!", Toast.LENGTH_SHORT).show();
             return;
         }
         CartDialog dialog = new CartDialog(this, mProduct, new OnDialogClickListener() {

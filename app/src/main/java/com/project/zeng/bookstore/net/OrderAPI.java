@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public interface OrderAPI{
-    String[] ORDER_STATE = new String[]{"DELIVERING", "RECEIVEING", "COMMENTING", "DONE"};//订单状态常量
+    String[] ORDER_STATE = new String[]{"DELIVERING", "RECEIVEING", "COMMENTING", "DONE", "RETURNING"};//订单状态常量
 
     /**
      * 通过Token令牌，获取所有订单
@@ -67,8 +67,9 @@ public interface OrderAPI{
      * 通过令牌，对订单进行评价
      * @param token
      * @param orderId
+     * @param state
      * @param comment
      * @param listener
      */
-    void commentOrder(String token, String orderId, String comment, DataListener<Result> listener);
+    void commentOrder(String token, String orderId, int state, String comment, DataListener<Result> listener);
 }

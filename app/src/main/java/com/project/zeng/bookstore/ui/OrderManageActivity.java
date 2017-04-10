@@ -34,12 +34,13 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
     private TextView mAllOrderView;
     private TextView mDeliverOrderView;
     private TextView mDoneOrderView;
+    private TextView mReturnOrderView;
     private ImageView mTabLineView;
     private ViewPager mOrderPager;
 
     private FragmentPagerAdapter mAdapter;//适配器
     private List<OrderManageFragment> mOrderFragments;//订单Fragment列表
-    private int mScreenOneOfThree = 0;//屏幕的三分之一
+    private int mScreenOneOfFour = 0;//屏幕的三分之一
     private int currentPageIndex = 0;//当前的页面索引
 
     @Override
@@ -61,10 +62,11 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
         mAllOrderView = (TextView) findViewById(R.id.tv_order_all);
         mDeliverOrderView = (TextView) findViewById(R.id.tv_order_delivering);
         mDoneOrderView = (TextView) findViewById(R.id.tv_order_done);
+        mReturnOrderView = (TextView) findViewById(R.id.tv_order_return);
         mTabLineView = (ImageView) findViewById(R.id.iv_order_line);
         mOrderPager = (ViewPager) findViewById(R.id.vp_order_manage_order);
         mOrderFragments = new ArrayList<>();
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             mOrderFragments.add(new OrderManageFragment());
         }
     }
@@ -93,9 +95,9 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
      * 初始化界面
      */
     private void initView(){
-        mScreenOneOfThree = getWindowManager().getDefaultDisplay().getWidth() / 3;
+        mScreenOneOfFour = getWindowManager().getDefaultDisplay().getWidth() / 4;
         ViewGroup.LayoutParams lp = mTabLineView.getLayoutParams();
-        lp.width = mScreenOneOfThree;
+        lp.width = mScreenOneOfFour;
         mTabLineView.setLayoutParams(lp);
         mOrderPager.setCurrentItem(0);//设置当前的页面
         mOrderFragments.get(currentPageIndex).fetchData(app.getToken(), currentPageIndex);
@@ -115,7 +117,7 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLineView.getLayoutParams();
-        lp.leftMargin = (int)(currentPageIndex * mScreenOneOfThree + (positionOffset + position - currentPageIndex) * mScreenOneOfThree);
+        lp.leftMargin = (int)(currentPageIndex * mScreenOneOfFour + (positionOffset + position - currentPageIndex) * mScreenOneOfFour);
         mTabLineView.setLayoutParams(lp);//改变TabLine的位置
     }
 
@@ -136,6 +138,9 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
             case 2:
                 mDoneOrderView.setTextColor(getResources().getColor(R.color.text_red));
                 break;
+            //退款订单
+            case 3:
+                mReturnOrderView.setTextColor(getResources().getColor(R.color.text_red));
         }
         mOrderFragments.get(position).fetchData(app.getToken(), position);
     }
@@ -152,5 +157,6 @@ public class OrderManageActivity extends FragmentActivity implements OnClickList
         mAllOrderView.setTextColor(getResources().getColor(R.color.text_black));
         mDeliverOrderView.setTextColor(getResources().getColor(R.color.text_black));
         mDoneOrderView.setTextColor(getResources().getColor(R.color.text_black));
+        mReturnOrderView.setTextColor(getResources().getColor(R.color.text_black));
     }
 }

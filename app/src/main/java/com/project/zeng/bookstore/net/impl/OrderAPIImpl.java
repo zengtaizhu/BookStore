@@ -252,11 +252,12 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
      * 通过令牌，对订单进行评价
      * @param token
      * @param orderId
+     * @param state
      * @param comment
      * @param listener
      */
     @Override
-    public void commentOrder(final String token, final String orderId, final String comment, final DataListener<Result> listener) {
+    public void commentOrder(final String token, final String orderId, final int state, final String comment, final DataListener<Result> listener) {
         String realUrl = url + "orders/comment/";
         StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
             @Override
@@ -277,6 +278,7 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("id", orderId);
+                params.put("state", ORDER_STATE[state]);
                 params.put("comment", comment);
 //                Log.e("OrderAPIImpl", "orderId=" + orderId + ",comment=" + comment);
                 return params;

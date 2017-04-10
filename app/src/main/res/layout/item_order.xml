@@ -93,17 +93,18 @@
             android:text="@string/confirm_received"
             android:textSize="15sp"
             android:textColor="@color/text_orange" />
-        <!--<Button-->
-        <!--android:id="@+id/btn_order_detail"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/btn_gray_line"-->
-        <!--android:layout_toLeftOf="@id/btn_order_received"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="@string/order_detail"-->
-        <!--android:textSize="15sp"-->
-        <!--android:textColor="@color/text_gray" />-->
+        <Button
+        android:id="@+id/btn_order_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_red_line"
+        android:layout_toLeftOf="@id/btn_order_received"
+        android:layout_marginRight="10dp"
+            android:visibility="gone"
+        android:padding="10dp"
+        android:text="退货"
+        android:textSize="15sp"
+        android:textColor="@color/text_red" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

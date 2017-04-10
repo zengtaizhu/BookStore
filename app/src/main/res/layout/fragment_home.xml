@@ -7,7 +7,6 @@
     <include layout="@layout/toolbar_home"></include>
 
     <ScrollView
-        android:id="@+id/scrollview_home"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:scrollbars="none">

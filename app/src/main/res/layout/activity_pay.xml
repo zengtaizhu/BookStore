@@ -126,7 +126,6 @@
             android:textSize="18sp"
             android:textColor="@color/text_black"/>
         <ImageView
-            android:id="@+id/iv_to_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

@@ -174,7 +174,7 @@ public class OrderDetailActivity extends Activity implements View.OnClickListene
                 if(comment.equals("")){
                     Toast.makeText(OrderDetailActivity.this, "请输入订单的评价!", Toast.LENGTH_SHORT).show();
                 }else{
-                    mOrderAPI.commentOrder(app.getToken(), mOrder.getId(), comment, new DataListener<Result>() {
+                    mOrderAPI.commentOrder(app.getToken(), mOrder.getId(), 3,comment, new DataListener<Result>() {
                         @Override
                         public void onComplete(Result result) {
                             Toast.makeText(OrderDetailActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();

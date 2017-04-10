@@ -6,7 +6,6 @@
     android:background="@drawable/gradual_change_shape">
 
     <ImageView
-        android:id="@+id/iv_category_scan"
         android:layout_width="2dp"
         android:layout_height="25dp"
         android:layout_weight="1"

@@ -39,7 +39,7 @@ public class OrderManageFragment extends Fragment{
 
     private int mState;//当前的状态
     private String mToken;//令牌
-    private int[] states = new int[]{0, 0, 3};
+    private int[] states = new int[]{0, 0, 3, 4};
 
     @Nullable
     @Override
@@ -96,6 +96,7 @@ public class OrderManageFragment extends Fragment{
             case 1:
             case 2:
             case 3:
+            case 4:
                 mOrderAPI.fetchOwnOrdersByState(token, states[state], new DataListener<List<Order>>() {
                     @Override
                     public void onComplete(List<Order> result) {

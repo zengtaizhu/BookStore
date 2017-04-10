@@ -151,6 +151,7 @@ public class MeFragment extends Fragment implements OnClickListener{
         mViewHolder.mOrderPager.setCurrentItem(1);
         mViewHolder.mOrderPager.setCurrentItem(2);
         mViewHolder.mOrderPager.setCurrentItem(3);
+        mViewHolder.mOrderPager.setCurrentItem(4);
         mViewHolder.mOrderPager.setCurrentItem(OrderPagerAdapter.POSITION_NONE);
     }
 

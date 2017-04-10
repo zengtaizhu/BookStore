@@ -53,7 +53,6 @@
         android:layout_height="1dp"
         android:background="@color/divide_color"></View>
     <RelativeLayout
-        android:id="@+id/rl_me_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -86,7 +85,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/delivering"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_red"/>
         </LinearLayout>
         <LinearLayout
@@ -102,7 +101,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/receiving"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
         <LinearLayout
@@ -118,7 +117,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/commenting"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
         <LinearLayout
@@ -134,29 +133,29 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/order_done"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="vertical"-->
-            <!--android:padding="10dp">-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_me_returning"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="@string/returning"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textColor="@color/text_black"/>-->
-        <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_me_returning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/returning"
+                android:textSize="16sp"
+                android:textColor="@color/text_black"/>
+        </LinearLayout>
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_me_order_line"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="3dp"
         android:src="@color/background_red"></ImageView>
     <android.support.v4.view.ViewPager

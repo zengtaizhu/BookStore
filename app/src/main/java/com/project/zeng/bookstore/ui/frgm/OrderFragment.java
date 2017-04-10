@@ -79,8 +79,39 @@ public class OrderFragment extends Fragment{
                         if(comment.equals("")){
                             comment = "好评";//默认：好评
                         }
-                        item.setComment(comment);
-                        mOrderAPI.commentOrder(app.getToken(), item.getId(), comment, new DataListener<Result>() {
+                        mOrderAPI.commentOrder(app.getToken(), item.getId(), 3,comment, new DataListener<Result>() {
+                            @Override
+                            public void onComplete(Result result) {
+                                if(result.getResult().equals("success")){
+                                    fetchData(mState);
+                                }else{
+                                    Toast.makeText(mContext, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                builder.show();
+            }
+        });
+        mOrderAdapter.setReturnListener(new OrderAdapter.OnReturnClick() {
+            @Override
+            public void returnReason(final Order item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("退货原因");
+                View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_order_return, null);
+                final EditText mCommentView = (EditText) view.findViewById(R.id.et_order_return_dialog);
+                builder.setView(view);
+                builder.setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String comment = mCommentView.getText().toString().trim();
+//                        Log.e("OrderFragment", "comment=" + comment);
+                        if(comment.equals("")){
+                            Toast.makeText(mContext, "请输入退货原因!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        mOrderAPI.commentOrder(app.getToken(), item.getId(), 4, comment, new DataListener<Result>() {
                             @Override
                             public void onComplete(Result result) {
                                 if(result.getResult().equals("success")){

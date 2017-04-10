@@ -33,8 +33,13 @@
             android:src="@mipmap/ic_add_pro"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
-    <com.project.zeng.bookstore.widgets.MyRecyclerView
-        android:id="@+id/rv_store_pros"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.project.zeng.bookstore.widgets.MyRecyclerView>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <com.project.zeng.bookstore.widgets.MyRecyclerView
+            android:id="@+id/rv_store_pros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.project.zeng.bookstore.widgets.MyRecyclerView>
+    </ScrollView>
 </LinearLayout>

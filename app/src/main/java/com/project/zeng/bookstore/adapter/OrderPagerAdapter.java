@@ -34,7 +34,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
     private ViewHolder mViewHolder;//订单ViewPager的ViewHolder
     private List<OrderFragment> mFragments;
     private FragmentManager mFrgmManager;
-    private int mScreenOneOfFour = 0;
+    private int mScreenOneOfFive = 0;
     private int currentPageIndex = 0;//当前的页面索引
 
     public OrderPagerAdapter(MeFragment fragment, View view){
@@ -50,26 +50,26 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
     private void init(){
         initFragments();//初始化Fragment数组
         mViewHolder.mOrderPager.addOnPageChangeListener(this);//给ViewPager添加事件
-        mScreenOneOfFour = mParentFrgm.getScreenWidth() / 4;
+        mScreenOneOfFive = mParentFrgm.getScreenWidth() / 5;
         initTabLine();
     }
 
     /**
-     * 初始化Fragment数组，即四个ViewPager的页面
+     * 初始化Fragment数组，即五个ViewPager的页面
      */
     private void initFragments(){
         mFragments = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 5; i++){
             mFragments.add(new OrderFragment());
         }
     }
 
     /**
-     * 初始化TabLine，使其宽度为屏幕的四分之一
+     * 初始化TabLine，使其宽度为屏幕的五分之一
      */
     private void initTabLine(){
         ViewGroup.LayoutParams layoutParams = mViewHolder.mTabLineView.getLayoutParams();
-        layoutParams.width = mScreenOneOfFour;
+        layoutParams.width = mScreenOneOfFive;
         mViewHolder.mTabLineView.setLayoutParams(layoutParams);
     }
 
@@ -115,7 +115,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         return fragment.getView();
     }
 
-    private boolean[] fragmentChange = {false, false, false, false};
+    private boolean[] fragmentChange = {false, false, false, false, false};
 
     /**
      * 更新界面
@@ -130,7 +130,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mViewHolder.mTabLineView.getLayoutParams();
-        lp.leftMargin = (int)(currentPageIndex * mScreenOneOfFour + (positionOffset + position - currentPageIndex) * mScreenOneOfFour);
+        lp.leftMargin = (int)(currentPageIndex * mScreenOneOfFive + (positionOffset + position - currentPageIndex) * mScreenOneOfFive);
         mViewHolder.mTabLineView.setLayoutParams(lp);//设置TabLine的右偏移量
     }
 
@@ -156,6 +156,9 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
             case 3:
                 mViewHolder.mOrderDoneView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
                 break;
+            case 4:
+                mViewHolder.mReturnView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_red));
+                break;
         }
         currentPageIndex = position;
     }
@@ -173,6 +176,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         mViewHolder.mReceiveView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
         mViewHolder.mCommentView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
         mViewHolder.mOrderDoneView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
+        mViewHolder.mReturnView.setTextColor(mParentFrgm.getResources().getColor(R.color.text_black));
     }
 
     /**
@@ -184,6 +188,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
         private TextView mCommentView;
         private TextView mReceiveView;
         private TextView mOrderDoneView;
+        private TextView mReturnView;
         private ImageView mTabLineView;
         private ViewPager mOrderPager;
 
@@ -192,6 +197,7 @@ public class OrderPagerAdapter extends PagerAdapter implements OnPageChangeListe
             mReceiveView = (TextView) view.findViewById(R.id.tv_me_receiving);
             mCommentView = (TextView)view.findViewById(R.id.tv_me_commenting);
             mOrderDoneView = (TextView)view.findViewById(R.id.tv_me_done_order);
+            mReturnView = (TextView) view.findViewById(R.id.tv_me_returning);
             mTabLineView = (ImageView)view.findViewById(R.id.iv_me_order_line);
             mOrderPager = (ViewPager)view.findViewById(R.id.vp_me_order);
         }
