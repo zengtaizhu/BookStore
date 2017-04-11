@@ -78,7 +78,12 @@ public class CartAdapter extends BaseExpandableListAdapter{
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return Integer.valueOf(mCarts.get(groupPosition).getProducts().get(childPosition).getId());
+        int id = 0;
+        try{
+            id = Integer.valueOf(mCarts.get(groupPosition).getProducts().get(childPosition).getId());
+        }catch (NumberFormatException e){
+        }
+        return id;
     }
 
     @Override

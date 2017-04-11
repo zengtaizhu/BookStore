@@ -72,4 +72,12 @@ public interface OrderAPI{
      * @param listener
      */
     void commentOrder(String token, String orderId, int state, String comment, DataListener<Result> listener);
+
+    /**
+     * 通过令牌，删除订单
+     * @param token
+     * @param orderId
+     * @param listener
+     */
+    void deleteOrder(String token, String orderId, DataListener<Result> listener);
 }

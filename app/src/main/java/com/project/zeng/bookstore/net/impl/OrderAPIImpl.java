@@ -287,4 +287,40 @@ public class OrderAPIImpl extends AbsNetwork<List<Order> ,String> implements Ord
         //将网络请求添加到网络请求队列
         performRequest(request);
     }
+
+    /**
+     * 通过令牌，删除订单
+     * @param token
+     * @param orderId
+     * @param listener
+     */
+    @Override
+    public void deleteOrder(final String token, final String orderId, final DataListener<Result> listener) {
+        String realUrl = url + "orders/delete/";
+        StringRequest request = new StringRequest(Request.Method.POST, realUrl, new Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(listener != null){
+                    Log.e("OrderAPIImpl", "response=" + response);
+                    listener.onComplete(ResultHandler.getResult(response));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("OrderAPIImpl", error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                params.put("id", orderId);
+                Log.e("OrderAPIImpl", "orderId=" + orderId);
+                return params;
+            }
+        };
+        //将网络请求添加到网络请求队列
+        performRequest(request);
+    }
 }

@@ -77,6 +77,7 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder.mProsTotalPriceView = (TextView) convertView.findViewById(R.id.tv_order_pro_total_price);
             viewHolder.mReceivedBtn = (Button) convertView.findViewById(R.id.btn_order_received);
             viewHolder.mReturnBtn = (Button) convertView.findViewById(R.id.btn_order_return);
+            viewHolder.mDeleteBtn = (Button) convertView.findViewById(R.id.btn_order_delete);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -139,8 +140,24 @@ public class OrderAdapter extends BaseAdapter {
             });
         }else if(item.getState().equals("交易完成")){//已完成的订单
             viewHolder.mReceivedBtn.setVisibility(View.GONE);//隐藏该按钮
-        }else{//退款
+        }else{//退货
             viewHolder.mReceivedBtn.setVisibility(View.GONE);//隐藏该按钮
+            viewHolder.mDeleteBtn.setVisibility(View.VISIBLE);//显示删除订单的按钮
+            viewHolder.mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOrderAPI.deleteOrder(mToken, item.getId(), new DataListener<Result>() {
+                        @Override
+                        public void onComplete(Result result) {
+                            if(result.getResult().contains("success")){
+                                mOrders.remove(item);
+                                notifyDataSetChanged();
+                            }
+                            Toast.makeText(mContext, result.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -191,5 +208,6 @@ public class OrderAdapter extends BaseAdapter {
         private TextView mProsTotalPriceView;
         private Button mReceivedBtn;
         private Button mReturnBtn;
+        private Button mDeleteBtn;
     }
 }

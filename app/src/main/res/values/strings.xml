@@ -94,4 +94,6 @@
     <string name="receive">收货</string>
     <string name="buyer_order_request">买家留言</string>
     <string name="returning">退货</string>
+    <string name="order_delete">删除</string>
+    <string name="order_return">退货</string>
 </resources>
